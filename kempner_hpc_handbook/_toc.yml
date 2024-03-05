@@ -1,0 +1,87 @@
+format: jb-article
+root: intro
+title: Kempner HPC Handbook
+options:
+  numbered: true
+
+sections:
+- file: getting_started/README
+  sections:
+  - file: getting_started/introduction_and_cluster_basics
+    title: Introduction and Cluster Basics
+  - file: getting_started/overview_of_kempner_cluster
+    title: Overview of Kempner Institute HPC Cluster
+  - file: getting_started/accessing_and_navigating_the_cluster
+    title: Accessing and Navigating the Cluster
+- file: resource_management/README
+  sections:
+  - file: resource_management/understanding_slurm
+    title: Understanding SLURM
+  - file: resource_management/job_submission_basics
+    title: Job Submission Basics
+  - file: resource_management/interactive_jobs
+    title: Interactive Jobs
+  - file: resource_management/array_jobs
+    title: Array Jobs
+  - file: resource_management/job_dependencies
+    title: Job Dependencies
+  - file: resource_management/advanced_slurm_features
+    title: Advanced SLURM Features
+- file: development_and_runtime_envs/README
+  sections:
+  - file: development_and_runtime_envs/software_module_and_environment_management
+    title: Software Module and Environment Management
+  - file: development_and_runtime_envs/containerization
+    title: Containerization
+  - file: development_and_runtime_envs/using_vscode_for_remote_development
+    title: Using VSCode for Remote Development
+- file: scalability/README
+  sections:
+  - file: scalability/introduction_to_parallel_computing
+    title: Parallel Computing
+  - file: scalability/distributed_computing
+    title: Distributed Computing
+  - file: scalability/parallel_io
+    title: Parallel I/O
+  - file: scalability/gpu_computing
+    title: GPU Computing
+  - file: scalability/using_multiple_gpus
+    title: Using Multiple GPUs
+- file: storage_and_data_transfer/README
+  sections:
+  - file: storage_and_data_transfer/understanding_storage_options
+    title: Understanding Storage Options
+  - file: storage_and_data_transfer/data_transfer
+    title: Data Transfer
+- file: performance_monitoring/README
+  sections:
+  - file: performance_monitoring/intro_to_performance_monitoring
+    title: Introduction to Performance Monitoring
+  - file: performance_monitoring/monitoring_tools
+    title: Monitoring Tools
+  - file: performance_monitoring/performance_analysis_techniques
+    title: Performance Analysis Techniques
+  - file: performance_monitoring/benchmarking_your_application
+    title: Benchmarking Your Application
+  - file: performance_monitoring/optimizing_io_performance
+    title: Optimizing I/O Performance
+  - file: performance_monitoring/parallel_performance_tuning
+    title: Parallel Performance Tuning
+  - file: performance_monitoring/advanced_monitoring_and_tuning_tools
+    title: Advanced Monitoring and Tuning Tools
+- file: advanced_topics/README
+  sections:
+  - file: advanced_topics/gpu_libraries_and_frameworks
+    title: GPU Libraries and Frameworks
+- file: efficient_use_of_resources/README
+  sections:
+  - file: efficient_use_of_resources/best_practices_for_hpc_efficiency
+    title: Best Practices for HPC Efficiency
+  - file: efficient_use_of_resources/fair_use_and_prioritization_policies
+    title: Fair Use and Prioritization Policies
+- file: hpc_application_scenarios/README
+- file: support/README
+  sections:
+  - file: support/faq
+    title: FAQ
+
