@@ -9,4 +9,7 @@ Welcome to the Kempner Institute HPC User Guide, a comprehensive resource design
 jupyter-book build kempner_hpc_handbook
 ```
 
+## How to contribute to the handbook
+
+Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for instructions on how to contribute to the handbook.
 
