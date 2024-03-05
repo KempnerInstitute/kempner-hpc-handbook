@@ -82,8 +82,8 @@ sections:
 - file: hpc_application_scenarios/README
 - file: workshops_and_trainings/README
   sections:
-  - file: workshops_and_trainings/20240328_intro_to_hpc/content_file
-    title: 20240328 Intro to HPC
+  - file: workshops_and_trainings/intro_to_hpc/content_file
+    title: Intro to HPC
 - file: support/README
   sections:
   - file: support/faq
