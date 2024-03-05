@@ -80,8 +80,13 @@ sections:
   - file: efficient_use_of_resources/fair_use_and_prioritization_policies
     title: Fair Use and Prioritization Policies
 - file: hpc_application_scenarios/README
+- file: workshops_and_trainings/README
+  sections:
+  - file: workshops_and_trainings/intro_to_hpc/content_file
+    title: Intro to HPC
 - file: support/README
   sections:
   - file: support/faq
     title: FAQ
+
 
