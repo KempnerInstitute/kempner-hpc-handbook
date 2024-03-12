@@ -24,7 +24,9 @@ If you have already forked the repository, make sure that your fork is up to dat
 Once you have forked the repository, you can make changes to the handbook by editing the Markdown files in the `kempner_hpc_handbook` directory. You can use a text editor or a Markdown editor to make changes to the files. If you are not familiar with Markdown, you can refer to the [Markdown Guide](https://www.markdownguide.org/) for a quick introduction.
 
 
-## Step 4: Build the handbook locally
+## Step 4: Build the handbook
+
+- **Local build**:
 
 Before submitting your changes, it is recommended to build the handbook locally to ensure that your changes are displayed correctly. You can build the handbook (while being at the root) using the following command:
 
@@ -33,7 +35,17 @@ jupyter-book build kempner_hpc_handbook
 ```
 
 [TBD: Add details for windows users]
-[TBD: Add details for using Docker for rendering the book]
+
+- **Docker build**:
+
+The handbook can also be built using Docker. This is useful if you do not want to install the required dependencies on your local machine. To build the handbook using Docker, you can run the following command in the terminal:
+
+```bash
+docker run --rm -v $PWD:/usr/src/app kempnerinstitute/hpc_handbook_jb:<version> jupyter-book build kempner_hpc_handbook
+```
+
+__Note__: Replace `<version>` with the version of the Docker image you want to use. For example, `1.0-240312-d1189501`. You can find the available versions on the [Docker Hub](https://hub.docker.com/r/kempnerinstitute/hpc_handbook_jb/tags).
+
 
 After building the handbook, you can view the changes by opening the `kempner_hpc_handbook/_build/html/index.html` file in a web browser.
 
@@ -119,3 +131,15 @@ If you are contributing figures to the handbook, please make sure to follow thes
     - [TBD figure caption format]
     - [TBD background color]
 
+# Notes on Docker images
+
+The handbook has one Docker image for building the handbook. We are not deploying any other Docker images through this repository. If you are contributing to the handbook and you need to use other libraries or tools, and you want to update the docker image based on those tools, please follow these steps:
+
+- Discuss this with the maintainers (by opening an issue)
+- Create a new branch for your changes
+- Update the `Dockerfile` and the `requirements.txt` file to include the new libraries or tools
+- Build the Docker image locally to ensure that it works as expected
+- Push the changes to your forked repository
+- Submit a pull request to merge your changes with the main repository 
+
+The maintainers will review your changes and provide feedback. If your changes are accepted, the maintainers will merge your pull request and an updated Docker image will be deployed on the Docker Hub.
