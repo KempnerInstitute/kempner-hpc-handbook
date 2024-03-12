@@ -1,7 +1,7 @@
 title: Kempner Institute HPC Handbook
 copyright: " 2024, Kempner Institute"
 author: Kempner Institute
-logo: figures/png/logo_place_holder.png
+logo: figures/png/logo_kempner_hpc.png
 execute:
   execute_notebooks: force
 
