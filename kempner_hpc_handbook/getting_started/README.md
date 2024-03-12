@@ -1,3 +1,3 @@
 # Getting Started
 
-[This section introduces new users to the basics of HPC at the Kempner Institute, covering how to get started, navigate the cluster, and understand its architecture.]
+This section provides an introduction for new users to the fundamentals of HPC at the Kempner Institute, including guidance on getting started, navigating the cluster, and comprehending its architecture.

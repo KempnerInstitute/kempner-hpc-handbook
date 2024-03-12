@@ -35,6 +35,8 @@ sections:
     title: Containerization
   - file: development_and_runtime_envs/using_vscode_for_remote_development
     title: Using VSCode for Remote Development
+  - file: development_and_runtime_envs/customizing_bashrc
+    title: Customizing ~/.bashrc
 - file: scalability/README
   sections:
   - file: scalability/introduction_to_parallel_computing
@@ -71,6 +73,8 @@ sections:
     title: Advanced Monitoring and Tuning Tools
 - file: advanced_topics/README
   sections:
+  - file: advanced_topics/gpu_interconnect
+    title: GPU Architecture and Interconnect
   - file: advanced_topics/gpu_libraries_and_frameworks
     title: GPU Libraries and Frameworks
 - file: efficient_use_of_resources/README
