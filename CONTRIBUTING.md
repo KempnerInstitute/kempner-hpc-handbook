@@ -5,12 +5,12 @@ We welcome contributions to the Kempner Institute HPC User Guide! Whether you ar
 To contribute to the handbook, please follow these steps:
 
 
-## Step 1: Decide what to contribute
+### Step 1: Decide what to contribute
 
 Before making any changes to the handbook, it is important to decide what you would like to contribute. One way to contribute is picking an existing issue from the [issue tracker](https://github.com/KempnerInstitute/kempner-hpc-handbook/issues) and working on it. If you have an idea for a new section or topic that is not covered in the handbook, you can create a new issue to discuss it with the maintainers. Please note that random contributions without discussing them with the maintainers may not be accepted or may take longer to be reviewed.
 
 
-## Step 2: Fork the repository
+### Step 2: Fork the repository
 
 To contribute to the Kempner Institute's handbook, membership in the Institute is not a prerequisite. Anyone with a GitHub account can participate in the documentation process. This is done by forking the handbook's repository, applying your modifications to this fork, and then submitting a pull request to merge your contributions with the main repository.
 
@@ -19,12 +19,12 @@ To contribute to the Kempner Institute's handbook, membership in the Institute i
 If you have already forked the repository, make sure that your fork is up to date with the main repository before making any changes. You can do this by following the instructions in the [GitHub documentation](https://docs.github.com/en/get-started/quickstart/fork-a-repo#keep-your-fork-synced).
 
 
-## Step 3: Make changes to the handbook
+### Step 3: Make changes to the handbook
 
 Once you have forked the repository, you can make changes to the handbook by editing the Markdown files in the `kempner_hpc_handbook` directory. You can use a text editor or a Markdown editor to make changes to the files. If you are not familiar with Markdown, you can refer to the [Markdown Guide](https://www.markdownguide.org/) for a quick introduction.
 
 
-## Step 4: Build the handbook
+### Step 4: Build the handbook
 
 - **Local build**:
 
@@ -49,7 +49,7 @@ __Note__: Replace `<version>` with the version of the Docker image you want to u
 
 After building the handbook, you can view the changes by opening the `kempner_hpc_handbook/_build/html/index.html` file in a web browser.
 
-## Step 5: Stage, commit, and push your changes
+### Step 5: Stage, commit, and push your changes
 
 After making changes to the handbook, you can add and commit your changes to your forked repository. You can do this by running the following commands in the terminal:
 
@@ -69,7 +69,7 @@ git commit -m "Add a short description of the changes you made"
 git push origin main[or any other branch you are working on]
 ```
 
-## Step 6: Merge kempner-hpc-handbook/main branch into your current branch
+### Step 6: Merge kempner-hpc-handbook/main branch into your current branch
 
 Before submitting a pull request, it is recommended to merge the `main` branch of the main repository into your current branch to ensure that your changes are compatible with the latest version of the handbook. You can do this by running the following commands in the terminal:
 
@@ -91,7 +91,7 @@ git merge kempner-hpc-handbook/main
 git push origin main[or any other branch you are working on]
 ```
 
-## Step 7: Submit a pull request
+### Step 7: Submit a pull request
 
 After pushing the changes to your forked repository, you can submit a pull request to merge your changes with the main repository. You can do this by following these steps:
 
@@ -113,7 +113,7 @@ Notes:
 Done!
 
 
-# Notes on contributing figures
+## Notes on contributing figures
 
 If you are contributing figures to the handbook, please make sure to follow these guidelines:
 
@@ -131,7 +131,7 @@ If you are contributing figures to the handbook, please make sure to follow thes
     - [TBD figure caption format]
     - [TBD background color]
 
-# Notes on Docker images
+## Notes on Docker images
 
 The handbook has one Docker image for building the handbook. We are not deploying any other Docker images through this repository. If you are contributing to the handbook and you need to use other libraries or tools, and you want to update the docker image based on those tools, please follow these steps:
 
