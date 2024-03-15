@@ -2,6 +2,9 @@ FROM python:3.10-slim-buster
 
 ENV VERSION=1.0
 
+RUN apt-get update && apt-get install -y \
+    build-essential 
+
 WORKDIR /usr/src/app
 
 COPY Docker/requirements.txt ./
