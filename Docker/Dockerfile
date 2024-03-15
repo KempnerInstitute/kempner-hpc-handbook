@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM python:3.13.0a5-alpine3.19
 
 ENV VERSION=1.0
 
