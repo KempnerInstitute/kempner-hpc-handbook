@@ -21,7 +21,17 @@ For details on how to connect this interactive session to VSCode, plese see the 
 
 ## Batch Jobs
 
-Submitting a batch job in SLURM involves creating a job script that specifies the resources required for the job and the commands to be executed. The job script is essentially a shell script that, in addition to the shell commands to run your job, includes Slurm directives provided as comments starting with `#SBATCH`. These directives specify the job requirements and settings, such as the number of nodes, CPUs per task, the expected runtime, and the job partition. 
+Submitting a batch job in SLURM involves creating a job script that specifies the resources required for the job and the commands to be executed. The job script is essentially a shell script that includes 3 sections:
+
+- Resource and job specifications, 
+- Loading modules, setting environment variables, other pre-job tasks, and
+- Running the job.
+
+
+
+
+
+
 
 
 
