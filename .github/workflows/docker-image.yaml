@@ -42,3 +42,4 @@ jobs:
         file: ./Docker/Dockerfile
         push: true
         tags: kempnerinstitute/hpc_handbook_jb:${{ steps.docker_version.outputs.VERSION }}-${{ steps.commit_date.outputs.COMMIT_DATE }}-${{ steps.short_sha.outputs.SHORT_SHA }}
+        platforms: linux/amd64, linux/arm64
