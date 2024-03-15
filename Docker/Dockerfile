@@ -4,6 +4,7 @@ ENV VERSION=1.0
 
 WORKDIR /usr/src/app
 
+
 COPY Docker/requirements.txt ./
 
 RUN pip install --upgrade pip && \
