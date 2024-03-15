@@ -1,9 +1,8 @@
-FROM python:3.13.0a5-alpine3.19
+FROM python:3.10-slim-buster
 
 ENV VERSION=1.0
 
 WORKDIR /usr/src/app
-
 
 COPY Docker/requirements.txt ./
 
