@@ -35,6 +35,10 @@ sections:
     title: Containerization
   - file: development_and_runtime_envs/using_vscode_for_remote_development
     title: Using VSCode for Remote Development
+  - file: development_and_runtime_envs/using_conda_env
+    title: Using Conda Environment
+  - file: development_and_runtime_envs/handling_dependencies_with_spack
+    title: Handling Dependencies with Spack
   - file: development_and_runtime_envs/customizing_bashrc
     title: Customizing ~/.bashrc
 - file: scalability/README

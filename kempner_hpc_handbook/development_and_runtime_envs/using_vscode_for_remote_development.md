@@ -66,6 +66,7 @@ height: 500 px
 name: VSCode SSH Login 4
 ```
 
+(development_and_runtime_envs:using_vscode_for_remote_development:compute_node)=
 ## Connecting to the FASRC cluster (Compute node)
 
 Connecting to the compute nodes requries two additional configurations:
