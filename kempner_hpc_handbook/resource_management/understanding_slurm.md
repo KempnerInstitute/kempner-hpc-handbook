@@ -16,6 +16,7 @@ SLURM commands can be divided into 4 categories:
     | `sinfo` | View information about the cluster and its resources. |
     | `scontrol` | Control the SLURM daemons and the cluster. |
     | `sview` | View the cluster in a graphical interface. |
+    | `spart` | View the partitions and their status. |
 
 3. **Account/Group/User Commands**: These commands are used to manage and view accounts, groups, and users. The following table lists some of the commonly used account/group/user commands:
 
@@ -65,7 +66,44 @@ The accounts are used to track the usage of resources on the cluster. You need t
 
 When SLURM allocates resources to a job, it sets several environment variables that can be used in the job script. The following table lists some of the commonly used SLURM environment variables:
 
-[TBD]
+| Variable | Description |
+|----------|-------------|
+| `SLURM_JOB_ID` | The job ID. |
+| `SLURM_JOB_NAME` | The job name. |
+| `SLURM_JOB_NODELIST` | The list of nodes allocated to the job. |
+| `SLURM_JOB_NUM_NODES` | The number of nodes allocated to the job. |
+| `SLURM_JOB_CPUS_PER_NODE` | The number of CPUs per node allocated to the job. |
+| `SLURM_MEM_PER_NODE` | The memory per node allocated to the job. |
+| `SLURM_JOB_PARTITION` | The partition to which the job was submitted. |
+| `SLURM_JOB_ACCOUNT` | The account to which the resources will be charged. |
+
+One can use the following code to print all the SLURM environment variables:
+
+````{tab-set-code}
+
+```{code-block} shell
+for var in $(env | grep '^SLURM_'); do
+  echo "${var}"
+done
+```
+
+```{code-block} python
+import os
+
+for key, value in os.environ.items():
+    if key.startswith("SLURM_"):
+        print(f"{key}: {value}")
+```
+
+````
+
+
+
+
+
+
+
+
 
 
 
