@@ -19,8 +19,8 @@ sections:
     title: Understanding SLURM
   - file: resource_management/job_submission_basics
     title: Job Submission Basics
-  - file: resource_management/interactive_jobs
-    title: Interactive Jobs
+  - file: resource_management/open_ondemand
+    title: Open OnDemand
   - file: resource_management/array_jobs
     title: Array Jobs
   - file: resource_management/job_dependencies

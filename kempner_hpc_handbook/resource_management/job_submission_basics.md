@@ -27,6 +27,55 @@ Submitting a batch job in SLURM involves creating a job script that specifies th
 - Loading modules, setting environment variables, other pre-job tasks, and
 - Running the job.
 
+The following is an example of a very simple job script.
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=my_job
+#SBATCH --account=kempner_dev
+#SBATCH --partition=kempner
+#SBATCH --nodes=1
+#SBATCH --ntasks_per_node=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus_per_node=1
+#SBATCH --time=0-01:00
+#SBATCH --mem=128G
+
+
+# Load modules
+module load python/3.10.9-fasrc01 
+
+
+# Run the job
+python my_script.py
+```
+In the following table we provide a brief description of the SLURM directives used in the job script.
+
+| Directive | Description |
+|-----------|-------------|
+| `--job-name` | The name of the job. |
+| `--account` | The account to which the resources will be charged. |
+| `--partition` | The partition to which the job will be submitted. |
+| `--nodes` | The number of nodes required for the job. |
+| `--ntasks_per_node` | The number of tasks to be launched on each node. |
+| `--cpus-per-task` | The number of CPUs per task. |
+| `--gpus_per_node` | The number of GPUs required for the job. |
+| `--time` | The time limit for the job. |
+| `--mem` | The memory required for the job. |
+
+You can submit the job script using the `sbatch` command:
+
+```bash
+sbatch my_job_script.sh
+```
+
+```{seealso}
+For more details on the SLURM directives run `sbatch  --help` and the [SLURM documentation](https://slurm.schedmd.com/sbatch.html).
+```
+
+
+
+
 
 
 
