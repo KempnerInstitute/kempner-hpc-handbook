@@ -134,7 +134,7 @@ In this example, we will transfer an entire directory called results on the clus
 
 ```{figure} figures/png/globus_data_transfer_1.png
 ---
-<!-- height: 500 px -->
+height: 500 px
 name: Globus Data Transfer 1
 ```
 
@@ -142,7 +142,7 @@ name: Globus Data Transfer 1
 
 ```{figure} figures/png/globus_data_transfer_2.png
 ---
-<!-- height: 500 px -->
+height: 500 px
 name: Globus Data Transfer 2
 ```
 
@@ -150,7 +150,7 @@ name: Globus Data Transfer 2
 
 ```{figure} figures/png/globus_data_transfer_3.png
 ---
-<!-- height: 500 px -->
+height: 500 px
 name: Globus Data Transfer 3
 ```
 
@@ -158,7 +158,7 @@ name: Globus Data Transfer 3
 
 ```{figure} figures/png/globus_data_transfer_4.png
 ---
-<!-- height: 500 px -->
+height: 500 px
 name: Globus Data Transfer 4
 ```
 
