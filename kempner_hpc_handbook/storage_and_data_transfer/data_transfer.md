@@ -106,4 +106,63 @@ This behaves differently. Now, the files that were in the results directory on t
 
 (globus_section)=
 ## Globus
-TO DO
+
+Globus is a file sharing service designed for the secure and efficient transfer of large datasets. Unlike the methods above, you can transfer data through a user-friendly web interface. While we cover transfer between the cluster and a local machine below, Globus can also be useful for [sharing data with external collaborators](https://docs.globus.org/guides/tutorials/manage-files/share-files/) even if they do not hae access to the FAS RC cluster. 
+
+
+### Set-up
+
+**Set up general globus account**
+1. Click on "Log in" on the [Globus website](https://www.globus.org/)
+2. Select Harvard University as your organization and log in using Harvard Key.
+
+**Set up Kempner cluster as an endpoint**
+1. After logging in, you should be on the File Manager page. In the "Collection" field, search for "Harvard FAS RC Holyoke".
+2. Select "Harvard FAS RC Holyoke" in the search results. It will ask you to authenticate your FASRC account, using your username and verfication code (code from your 2-factor authentication, not your password)
+3. You should now be able to see files and folders on the Kempner cluster. You will have the same permissions as if you were accessing the cluster via traditional log in. You can type a path into the "Path" field to go directly to a particular directory. 
+
+**Set up your local machine as an endpoint**
+1. Download and install [Globus Connect Personal](https://www.globus.org/globus-connect-personal) for your operating machine 
+2. Open Globus Connect Personal (on a mac, find it in the Applications folder). Log in, consent to the terms, and enter the details for your Globus Connect Personal Collection. 
+3. If you run into any problems, Globus has tutorials on installation for each platform [here](https://docs.globus.org/globus-connect-personal/install/). 
+3. If you navigate back to the [Globus File Manager](https://www.globus.org), you should now be able to search for your personal collection in the Collection field.
+
+### Data Transfer Example
+In this example, we will transfer an entire directory called results on the cluster to the Documents folder on Ella Batty's local machine.
+
+1. First, set up the collection you are transferring data from and navigate to the correct directory. In this case, the collection is Harvard FAS RC Holyoke and the path to the results directory is `/n/holyscratch01/sham_lab/Users/ebatty`.
+
+```{figure} figures/png/globus_data_transfer_1.png
+---
+<!-- height: 500 px -->
+name: Globus Data Transfer 1
+```
+
+2. Select the directories or files you would like to transfer and click "Transfer or Sync to..."
+
+```{figure} figures/png/globus_data_transfer_2.png
+---
+<!-- height: 500 px -->
+name: Globus Data Transfer 2
+```
+
+3. On the right hand side, connect to the collection where you would like to transfer data to. In this case, it is "Ella Batty Work Laptop" (a Globus Connect Personal collection). Navigate to and click the destination directory for your transfer.
+
+```{figure} figures/png/globus_data_transfer_3.png
+---
+<!-- height: 500 px -->
+name: Globus Data Transfer 3
+```
+
+4. Click the "Start" button below the collection containing the source data. You should see a green notification pop up when the transfer request is successfully completed.  You can also navigate to the Activity tab on the left-hand panel to see details about the transfer.
+
+```{figure} figures/png/globus_data_transfer_4.png
+---
+<!-- height: 500 px -->
+name: Globus Data Transfer 4
+```
+
+
+```{warning}
+Note that which "Start" button you press matters. In this scenario, pressing the "Start" button on the right hand side would have resulted in the entire Documents directory from the laptop being transferred to the cluster!
+```
