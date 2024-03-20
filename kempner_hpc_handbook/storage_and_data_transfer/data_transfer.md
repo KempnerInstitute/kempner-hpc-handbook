@@ -107,7 +107,7 @@ This behaves differently. Now, the files that were in the results directory on t
 (globus_section)=
 ## Globus
 
-Globus is a file sharing service designed for the secure and efficient transfer of large datasets. Unlike the methods above, you can transfer data through a user-friendly web interface. While we cover transfer between the cluster and a local machine below, Globus can also be useful for [sharing data with external collaborators](https://docs.globus.org/guides/tutorials/manage-files/share-files/) even if they do not hae access to the FAS RC cluster. 
+Globus is a file sharing service designed for the secure and efficient transfer of large datasets. Unlike the methods above, you can transfer data through a user-friendly web interface. While we cover transfer between the cluster and a local machine below, Globus can also be useful for [sharing data with external collaborators](https://docs.globus.org/guides/tutorials/manage-files/share-files/) even if they do not have access to the FAS RC cluster. 
 
 
 ### Set-up
