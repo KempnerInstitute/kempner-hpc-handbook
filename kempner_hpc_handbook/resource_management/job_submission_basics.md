@@ -40,6 +40,10 @@ The following is an example of a very simple job script.
 #SBATCH --gpus_per_node=1
 #SBATCH --time=0-01:00
 #SBATCH --mem=128G
+#SBATCH --output=my_job_output.out
+#SBATCH --error=my_job_error.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=<username>@harvard.edu
 
 
 # Load modules
@@ -62,6 +66,11 @@ In the following table we provide a brief description of the SLURM directives us
 | `--gpus_per_node` | The number of GPUs required for the job. |
 | `--time` | The time limit for the job. |
 | `--mem` | The memory required for the job. |
+| `--output` | The file to which the standard output will be written. |
+| `--error` | The file to which the standard error will be written. |
+| `--mail-type` | The type of email notification to be sent. |
+| `--mail-user` | The email address to which the notifications will be sent. |
+
 
 You can submit the job script using the `sbatch` command:
 
