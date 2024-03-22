@@ -16,7 +16,7 @@ To set up a VPN connection, follow these steps:
     - **2FA code**: your 2FA code (Set up 2FA [here](https://docs.rc.fas.harvard.edu/kb/openauth/))
 
 ```{note}
-For detailed instructions and additional information, please read more about the VPN [VPN setup guide](https://docs.rc.fas.harvard.edu/kb/vpn-setup/).
+For detailed instructions and additional information, please read more about the VPN at [VPN setup guide](https://docs.rc.fas.harvard.edu/kb/vpn-setup/).
 ```
 
 ## SSH Access 

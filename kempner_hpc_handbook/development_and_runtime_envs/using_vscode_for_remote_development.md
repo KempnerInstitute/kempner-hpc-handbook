@@ -104,7 +104,7 @@ It will prompt you to enter your FASRC password. Once you enter the password, th
 After completing the above steps, you can connect to the compute nodes. First connect to the login node and allocate an interactive session. For example:
 
 ```bash
-salloc -p kempner_requeue --account=kempner_dev -N 1 -n 16 --mem=16G --gres=gpu:1 -t 00-03:00:00
+salloc --partition=kempner_requeue --account=kempner_dev --ntasks=1 --cpus-per-task=16 --mem=16G --gres=gpu:1 --time=00-03:00:00
 ```
 This will allocate an interactive session on the `kempner_requeue` partition with 16 cores, 16GB of memory, and 1 GPU for 3 hours. Then node name is displayed int the terminal. 
 

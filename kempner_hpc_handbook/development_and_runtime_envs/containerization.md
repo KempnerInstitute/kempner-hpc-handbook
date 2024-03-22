@@ -19,7 +19,7 @@ ssh <username>@login.rc.fas.harvard.edu
 2. Allocate a light interactive session:
 
 ```bash
-salloc -p test --nodes=1 --ntasks-per-node=4 --mem-per-cpu=3200M --time=8:00:00
+salloc --partition=test --account=kempner_grads --nodes=1 --ntasks-per-node=4 --mem-per-cpu=3200M --time=8:00:00
 ```
 
 Notes:   
@@ -47,7 +47,7 @@ You can run the Singularity image on the HPC cluster using batch or interactive 
 - First allocate an interactive session with a GPU:
 
 ```bash
-salloc -p kempner --nodes=1 --ntasks-per-node=1 --gres=gpu:1 --mem=32000M --time=8:00:00  --account=kempner_dev
+salloc --partition=kempner --nodes=1 --ntasks-per-node=1 --gres=gpu:1 --mem=32000M --time=8:00:00  --account=kempner_dev
 ```
 
 - Second, run the Singularity image:

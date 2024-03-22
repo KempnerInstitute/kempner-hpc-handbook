@@ -12,7 +12,7 @@ Below are the steps to allocate 1 TB of RAM, 64 CPU cores, and 4 GPUs for an int
 - step 3: Allocate resources using the `salloc` command:
 
 ```bash
-salloc -p kempner --account kempner_grads -t 0-01:00 --mem 1000G --gres=gpu:4 -c 64
+salloc --partition=kempner --account=kempner_grads --time=0-01:00 --mem=1000G --gres=gpu:4 --cpus-per-task=64
 ```
 
 ```{seealso}
