@@ -19,5 +19,5 @@ Please do not use the login node for computationally intensive tasks, as these o
 To access the cluster using Open OnDemand, follow these steps:
 
 - Connect to the Harvard VPN using the [VPN setup guide](https://docs.rc.fas.harvard.edu/kb/vpn-setup/).
-- Open a web browser and navigate to the following URL: [http://rcood.rc.fas.harvard.edu/](http://rcood.rc.fas.harvard.edu/).
+- Open a web browser and navigate to the following URL: [http://vdi.rc.fas.harvard.edu/](http://vdi.rc.fas.harvard.edu/).
 - Enter your username and password to log in to the Open OnDemand interface.
