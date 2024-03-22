@@ -17,6 +17,9 @@ In order to use a conda environment on the cluster, you will need to create a co
     ```bash
     conda create --name myenv python=3.12 pip numpy
     ```
+    ```{note}
+    You can also create the environment from a `yaml` file. Please see the [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)'s official documentation for more information.
+    ```
 - Step 6: Check the location of the conda environment using the `conda info --envs` command. This will show the list of conda environments and their locations. 
 
     ```bash
@@ -35,5 +38,10 @@ In order to use a conda environment on the cluster, you will need to create a co
     ```bash
     mamba activate myenv
     ```
+
+
+```{warning}
+Be aware that the size of the new conda environment can occupy several gigabytes, depending on the number of packages being installed. To conserve disk space, it is advisable to delete any outdated environments. Read more [here](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#removing-an-environment).
+```
 
 

@@ -17,7 +17,7 @@ The following table provides an overview of the Kempner Institute HPC cluster:
 
 | Specification             | A100 40GB                                      | H100 80GB                                             |
 |---------------------------|------------------------------------------------|-------------------------------------------------------|
-| **Total GPUs**            | 144                                            | 96 (available), 384 (after adding 4 more racks)       |
+| **Total GPUs**            | 144                                            | 96 (available), 384 (after adding 3 more racks)       |
 | **Servers (per rack)**    | 36                                             | 24                                                    |
 | **GPUs per Server**       | 4                                              | 4                                                     |
 | **CPU Cores per Server**  | 64                                             | 96                                                    |
