@@ -27,8 +27,7 @@ Host cannon
 ```
 Please make sure that you use your FASRC username in place of `<username>`.
 
-- Step 2: Make sure you have the VPN running on your local machine.
-- Step 3: Open the VSCode and click on the Remote Explorer icon on the left-hand (or the right-hand) side of the window.
+- Step 2: Open the VSCode and click on the Remote Explorer icon on the left-hand (or the right-hand) side of the window.
 
 ```{figure} figures/png/vscode_ssh_login_1.png
 ---
@@ -36,7 +35,7 @@ height: 500 px
 name: VSCode SSH Login 1
 ```
 
-- Step 4: Hover the mouse on your username or on `cannon` and click on the `->` button to connect to the FASRC cluster.
+- Step 3: Hover the mouse on your username or on `cannon` and click on the `->` button to connect to the FASRC cluster.
 
 ```{figure} figures/png/vscode_ssh_login_2.png
 ---
@@ -44,7 +43,7 @@ height: 500 px
 name: VSCode SSH Login 2
 ```
 
-- Step 5: Enter your FASRC password (and MFA code) when prompted.
+- Step 4: Enter your FASRC password (and MFA code) when prompted.
 
 ```{figure} figures/png/vscode_ssh_login_3.png
 ---
