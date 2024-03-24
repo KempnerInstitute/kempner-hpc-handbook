@@ -1,6 +1,6 @@
 # Array Jobs
 
-Array jobs in SLURM are particularly useful for machine learning (ML) research due to their abbility to run multiple instances of the same job with different parameters. A couple of use cases for array jobs are:
+Array jobs in SLURM are particularly useful for machine learning (ML) research because they enable the running of multiple instances of the same job, allowing users to map them to different parameters, datasets, etc. A couple of use cases for array jobs include:
 
 - **Parameter Sweeps**: Automate hyperparameter testing with array jobs, running multiple configurations in parallel for faster tuning.
 - **Cross-Validation**: Parallelize cross-validation by treating each fold as a separate array job, accelerating model training.
@@ -35,7 +35,7 @@ The following is an example of a simple array job script that runs 12 tasks (max
 
 Here is the content of each file:
 
-*hyperparameters.csv*
+*`hyperparameters.csv`*
 ```bash
 learning_rate,batch_size,num_epochs
 0.01,32,10
@@ -51,7 +51,7 @@ learning_rate,batch_size,num_epochs
 0.02,28,40
 0.003,80,50
 ```
-hyperparameter_tuning.py
+*`hyperparameter_tuning.py`*
 ```python
 import csv
 import argparse
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     main()
 ```
 
-*run.sh*
+*`run.sh`*
 ```bash
 #!/bin/bash
 #SBATCH --job-name=job-array
