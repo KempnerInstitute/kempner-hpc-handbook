@@ -1,9 +1,11 @@
 # Open OnDemand
 
-Open OnDemand is a user-friendly, web-based platform designed to facilitate access to high-performance computing (HPC) resources. It streamlines the process of using HPC by providing a no-install, browser-based interface through which users can submit and manage jobs, upload and download data, and run a wide array of applications without any complex command-line instructions. Among the many applications it supports, Open OnDemand offers direct access to RStudio Server, Jupyter Notebook, and Remote Desktop. 
+Open OnDemand is a user-friendly, web-based platform designed to facilitate access to high-performance computing (HPC) resources. It streamlines the process of using HPC by providing a no-install, browser-based interface through which users can submit and manage jobs, upload and download data, and run a wide array of applications without any complex command-line instructions. Among the many applications it supports, Open OnDemand offers direct access to RStudio Server, Jupyter Notebook / JupyterLab, and Remote Desktop. 
+
+## Interactive Jobs on Open OnDemand
 
 ```{note}
-Use this link to access Open OnDemand: https://rcood.rc.fas.harvard.edu/.    
+Use this link to access Open OnDemand: https://vdi.rc.fas.harvard.edu/.    
 A pop up window will appear asking for your 
 
 - FASRC username 
@@ -29,6 +31,10 @@ name: Open OnDemand Allocate Resources
 ```
 
 Fill out the form and click on the `Launch` button at the end of the page. This will put you in a queue. 
+
+```{note}
+You need to specify the `Slurm Account (Optional)` field if you wish to use the Kempner cluster or target a specific SLURM account in case of multiple lab memberships.
+```
 
 ```{figure} figures/png/open_ondemand_example-03.png
 ---
@@ -61,7 +67,8 @@ name: Run Jupyter Notebook
 
 Done!
 
+## Conda Environment in Jupyter Notebook
 
+To access a user-defined Conda environment in Jupyter Notebook/JupyterLab, you need to create a Conda environment on the cluster (either by SSH through a shell or by accessing the web-based cluster shell through the Open OnDemand application) and install `ipykernel` in your Conda environment.
 
-
-
+{*Add more details here*}
