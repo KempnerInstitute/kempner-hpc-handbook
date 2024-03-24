@@ -27,17 +27,18 @@ The following table provides an overview of the Kempner Institute HPC cluster:
 ---
 height: 500 px
 name: Diagram of HPC Cluster
+---
+This is a diagram of the Kempner HPC cluster within the FASRC infrastructure showing the arrangement of nodes, networking, and storage systems.
 ```
-*Figure: This is a diagram of the Kempner HPC cluster within the FASRC infrastructure showing the arrangement of nodes, networking, and storage systems.*
-
 Currently, there are two GPU racks in production at the Massachusetts Green High Performance Computing Center (MGHPCC): one A100 GPU rack and one H100 GPU rack, with three more H100 GPU racks coming soon. In the following diagram, both the current and upcoming racks are shown, in addition to the network core designed for non-blocking communication between GPUs.
 
 ```{figure} figures/svg/racks.svg
 ---
 height: 500 px
 name: Current and Upcoming GPU Racks and Network Core
+---
+This is a diagram of the GPU racks (in production and upcoming ones) and network core.
 ```
-*Figure: This is a diagram of the GPU racks (in production and upcoming ones) and network core.*
 
 
 ## Can I buy into the Kempner Institute HPC Cluster?
