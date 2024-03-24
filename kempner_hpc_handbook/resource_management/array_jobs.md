@@ -98,7 +98,7 @@ if __name__ == "__main__":
     main()
 ```
 
-run.sh
+*run.sh*
 ```bash
 #!/bin/bash
 #SBATCH --job-name=job-array
