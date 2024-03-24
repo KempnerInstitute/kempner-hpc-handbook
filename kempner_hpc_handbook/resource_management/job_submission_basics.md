@@ -90,7 +90,7 @@ Please note that some of the following combinations may not work on Kempner part
 | `--ntasks=6 --cpus-per-task=4 --mem-per-cpu=8G` | Allocates 6 tasks, each with 4 CPU cores and 8GB of memory per CPU. This setup is beneficial for CPU-intensive applications requiring significant memory per core. |
 | `--nodes=2 --gpus_per_node=2 --mem-per-node=48G` | Allocates 2 nodes, each with 2 GPUs and 48GB of memory. Targets GPU-based computations needing substantial memory but with a clear node division. |
 | `--ntasks=10 --cpus-per-task=1 --gres=gpu:2 --mem=128G` | Allocates 10 tasks with 1 CPU each, 2 GPUs shared among tasks, and 128GB of memory. This combination is tailored for lightweight tasks in a GPU-enhanced environment. |
-| `--ntasks-per-node=2 --nodes=4 --mem-per-cpu=4G --gres=gpu:1` | Uses 4 nodes with 2 tasks each, 4GB memory per CPU, and 1 GPU per node. Designed for tasks that are both memory and GPU intensive, spread evenly across multiple nodes. |
+| `--ntasks-per-node=2 --nodes=4 --mem-per-cpu=4G --gres=gpu:1` | Uses 4 nodes with 2 tasks each, 4GB memory per CPU, and 1 GPU per node. Designed for tasks that are GPU intensive, spread evenly across multiple nodes. |
 | `--nodes=1 --cpus-per-task=8 --mem=64G --gres=gpu:2` | Single-node job with tasks that require 8 CPUs each, a total of 64GB memory, and 2 GPUs. Fits high-performance computing tasks on a single node with substantial GPU requirements. |
 | `--ntasks=5 --cpus-per-task=2 --mem-per-cpu=16G --gpus_per_node=1` | Allocates 5 tasks, each with 2 CPU cores and 16GB memory per CPU, with at least 1 GPU per node. This setup is optimal for moderately demanding tasks, ensuring enough memory and GPU access. |
 
