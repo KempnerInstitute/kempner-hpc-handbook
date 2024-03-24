@@ -15,19 +15,19 @@ In order to access the Kempner Institute HPC cluster, you will need to have an a
 
 For account approver please follow these instructions:
 
-- If you are in a Kempner-affiliated lab: Select PI as approver
-- If you are a graduate fellow:
+- If you are in a **Kempner-affiliated lab**: Select PI as approver
+- If you are a **graduate fellow**:
   - FAS or SEAS Graduate Programs: Select your PI as approver
   - HMS Graduate Programs: Select your PI as approver, or if your PI isn’t listed or you do not yet have a PI select `Spencer Pruitt`
-- If you are an undergraduate student in a Kempner research program (KURE/KRANIUM):
+- If you are an **undergraduate student** in a Kempner research program (KURE/KRANIUM):
   - If you are working with a mentor who is a co-director, institute investigator, or associate faculty:
     - Select your PI as approver
   - If you are working with a mentor who is an affiliate faculty member and you have been approved for Kempner cluster access (via email notification):
     - Select your PI as approver if they have an FASRC lab account (i.e. if they show up as option for approver) 
-    - Otherwise, request Ella Batty or Max Shad as approver
-- If you are a research fellow: Select `Elise Porter` as approver	
-- If you are a PI: Email [Elise Porter](mailto:elise_porter@harvard.edu) to get access to the cluster after you have submitted the request. 
-- If none of the above: if you believe you are qualified to access the Kempner cluster, email [Elise Porter](mailto:elise_porter@harvard.edu).
+    - Otherwise, request `Ella Batty` or `Max Shad` as approver
+- If you are a **research fellow**: Select `Elise Porter` as approver	
+- If you are a **PI**: Email [Elise Porter](mailto:elise_porter@harvard.edu) to get access to the cluster after you have submitted the request. 
+- If **none** of the above: if you believe you are qualified to access the Kempner cluster, email [Elise Porter](mailto:elise_porter@harvard.edu).
 
 Your approver will need to log in to the FASRC portal and approve your account creation request.
 
