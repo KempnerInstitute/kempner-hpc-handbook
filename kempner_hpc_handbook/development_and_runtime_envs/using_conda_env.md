@@ -1,6 +1,6 @@
 # Using Conda Environment
 
-In order to use a conda environment on the cluster, you will need to create a conda environment and then activate it on the compute node. FASRC uses `mamba` as a replacement for `conda` to manage conda environments.
+In order to use a conda environment on the cluster, you will need to create a conda environment and then activate it on the compute node. FASRC uses `mamba` as a replacement for `conda` to manage conda environments. `mamba` is a drop-in replacement for `conda` that is generally much faster. 
 
 ## Creating a Conda Environment
 
@@ -15,12 +15,12 @@ In order to use a conda environment on the cluster, you will need to create a co
 - Step 5: Create a conda environment using the `mamba create` command. For example, to create a conda environment named `myenv` with Python 3.12 and installing pip and numpy, you can use the following command:
 
     ```bash
-    conda create --name myenv python=3.12 pip numpy
+    mamba create --name myenv python=3.12 pip numpy
     ```
     ```{note}
     You can also create the environment from a `yaml` file. Please see the [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)'s official documentation for more information.
     ```
-- Step 6: Check the location of the conda environment using the `conda info --envs` command. This will show the list of conda environments and their locations. 
+- Step 6: Check the location of the conda environment using the `mamba info --envs` command. This will show the list of conda environments and their locations. 
 
     ```bash
     $ mamba info --envs
