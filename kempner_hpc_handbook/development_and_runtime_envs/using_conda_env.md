@@ -1,6 +1,6 @@
 # Using Conda Environment
 
-In order to use a conda environment on the cluster, you will need to create a conda environment and then activate it on the compute node. FASRC uses `mamba` as a replacement for `conda` to manage conda environments. `mamba` is a wrapper on `conda` that makes it faster. 
+In order to use a conda environment on the cluster, you will need to create a conda environment and then activate it on the compute node. FASRC uses `mamba` as a replacement for `conda` to manage conda environments. `mamba` is a drop-in replacement for `conda` that is generally much faster. 
 
 ## Creating a Conda Environment
 
