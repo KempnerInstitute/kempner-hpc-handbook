@@ -2,6 +2,7 @@
 
 In order to use a conda environment on the cluster, you will need to create a conda environment and then activate it on the compute node. FASRC uses `mamba` as a replacement for `conda` to manage conda environments. `mamba` is a drop-in replacement for `conda` that is generally much faster. 
 
+(development_and_runtime_envs:using_conda_env:creation)=
 ## Creating a Conda Environment
 
 - Step 1: See a list of load modules using the `module list` command.
@@ -44,4 +45,21 @@ In order to use a conda environment on the cluster, you will need to create a co
 Be aware that the size of the new conda environment can occupy several gigabytes, depending on the number of packages being installed. To conserve disk space, it is advisable to delete any outdated environments. Read more [here](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#removing-an-environment).
 ```
 
+
+(development_and_runtime_envs:using_conda_env:jupyter)=
+## Using a Conda Environment with Jupyter
+If you plan to use Jupyter notebooks or JupyterLab on the cluster, and would like to use a conda environment, you need to install `ipykernel` within that conda environment:
+
+
+```bash
+mamba activate myenv
+pip install ipykernel
+```
+
+
+You should now be able to change the kernel of the notebook to your conda environment. 
+
+```{seealso}
+For details on how select a kernel when running a jupyter notebook in VSCode,  please see the section {ref}`development_and_runtime_envs:using_vscode_for_remote_development:jupyter`.
+```
 

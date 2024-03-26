@@ -131,3 +131,38 @@ This will open a new window on the compute node. You can now use it to run your 
 height: 500 px
 name: VSCode SSH Login 7
 ```
+
+(development_and_runtime_envs:using_vscode_for_remote_development:jupyter)=
+## Using Jupyter notebooks within VSCode
+
+
+You can open, edit, and run Jupyter notebooks within VSCode. To do so, you need to first install the [Jupyter extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter).
+
+
+The interface for notebooks within VSCode is similar to other methods of accessing them - there are tools for running individual cells, all cells, clearing all outputs, etc. See the [VSCode jupyter notebook documention](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) for a detailed overview of these options.
+
+
+If you follow the instructions above, you will be able to open and run jupyter notebooks within an interactive session on the cluster. Open the notebook within VSCode and click on `Select Kernel` (in the top right corner):
+
+
+```{figure} figures/png/vscode_jupyter_notebook_1.png
+---
+height: 300 px
+name: VSCode Jupyter Notebook 1
+```
+
+
+If you click `Select Another Kernel` and then `Python environments`, you should see a list of possible kernels, including any [user-defined conda environments](development_and_runtime_envs:using_conda_env:creation) (if you installed ipykernel within them):
+
+
+```{figure} figures/png/vscode_jupyter_notebook_2.png
+---
+height: 300 px
+name: VSCode Jupyter Notebook 2
+```
+
+
+You can click on your preferred environment to use it within the jupyter notebook.
+
+
+If you recently created the conda environment, you may need to reload before it shows up. To do this, open the command palette using `Ctrl + Shift + P` (Windows)/`Shift + Command + P` (Mac) and type and select `Reload Window`.
