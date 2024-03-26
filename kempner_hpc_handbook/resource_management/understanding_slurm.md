@@ -57,6 +57,7 @@ The following partitions are available for Kempner affliates on the FASRC cluste
 Run `spart | awk 'NR==1 || /kempner/'` to see the list of kempner partition.
 ```
 
+(resource_management:understanding_slurm:slurm_accounts)=
 ## SLURM Accounts
 
 The accounts are used to track the usage of resources on the cluster. You need to specify the account to which the resources will be charged when submitting a job. You can run `sshare -U -u <username>` to see which accounts you have access to and the fairshare information for each account. If you cannot see the account you need, and you think should be a part of that account, please add a grant on [FASRC portal](https://portal.rc.fas.harvard.edu/request/grants/add) or feel free to contact [Max Shad](mailto:max_shad@harvard.edu) if you need additional help.
