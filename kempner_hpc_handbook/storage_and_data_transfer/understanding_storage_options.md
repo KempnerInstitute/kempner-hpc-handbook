@@ -65,3 +65,11 @@ There is __no charge__ for scratch storage.
 ```{note}
 In the `scratch` storage space under the `Users` directory, you can have private directory with your username. This will not exist by default. You need to file a ticket with FASRC on the [portal](https://portal.rc.fas.harvard.edu/) to as for a private directory in the `scratch` storage space.
 ```
+
+The following table summarizes the storage options available on the cluster, visit [data storage](https://www.rc.fas.harvard.edu/services/data-storage/) for more information.
+
+```{figure} figures/png/storage_table_20240324.png
+---
+height: 350 px
+name: Storage Options
+```
