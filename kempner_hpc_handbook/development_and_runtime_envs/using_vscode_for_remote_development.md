@@ -148,7 +148,7 @@ If you follow the instructions above, you will be able to open and run jupyter n
 
 ```{figure} figures/png/vscode_jupyter_notebook_1.png
 ---
-height: 500 px
+height: 300 px
 name: VSCode Jupyter Notebook 1
 ```
 
@@ -158,7 +158,7 @@ If you click `Select Another Kernel` and then `Python environments`, you should 
 
 ```{figure} figures/png/vscode_jupyter_notebook_2.png
 ---
-height: 500 px
+height: 300 px
 name: VSCode Jupyter Notebook 2
 ```
 
