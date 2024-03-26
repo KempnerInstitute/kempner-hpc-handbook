@@ -69,6 +69,6 @@ Done!
 
 ## Conda Environment in Jupyter Notebook
 
-To access a user-defined Conda environment in Jupyter Notebook/JupyterLab, you need to create a Conda environment on the cluster (either by SSH through a shell or by accessing the web-based cluster shell through the Open OnDemand application) and install `ipykernel` in your Conda environment.
+To access a user-defined Conda environment in Jupyter Notebook/JupyterLab, you need to first create a Conda environment on the cluster. Follow the instructions in {ref}`development_and_runtime_envs:using_conda_env:creation` and {ref}`development_and_runtime_envs:using_conda_env:jupyter`. 
 
-{*Add more details here*}
+ You can then select the correct kernel 
