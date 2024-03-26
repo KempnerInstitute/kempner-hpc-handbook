@@ -153,7 +153,7 @@ name: VSCode Jupyter Notebook 1
 ```
 
 
-If you click `Select Another Kernel` and then `Python environments`, you should see a list of possible kernels, including any user-defined conda environments (if you installed ipykernel within them):
+If you click `Select Another Kernel` and then `Python environments`, you should see a list of possible kernels, including any [user-defined conda environments](development_and_runtime_envs:using_conda_env:creation) (if you installed ipykernel within them):
 
 
 ```{figure} figures/png/vscode_jupyter_notebook_2.png

@@ -71,4 +71,4 @@ Done!
 
 To access a user-defined Conda environment in Jupyter Notebook/JupyterLab, you need to first create a Conda environment on the cluster. Follow the instructions in {ref}`development_and_runtime_envs:using_conda_env:creation` and {ref}`development_and_runtime_envs:using_conda_env:jupyter`. 
 
- You can then select the correct kernel 
+When creating a new notebook, you can select the kernel - you should see any conda environments as part of that list. In existing notebooks, you can change the kernel by clicking `Kernel` -> `Change Kernel` at the top of the notebook.
