@@ -11,6 +11,8 @@ sections:
     title: Introduction and Cluster Basics
   - file: getting_started/overview_of_kempner_cluster
     title: Overview of Kempner Institute HPC Cluster
+  - file: getting_started/kempner_policies_for_responsible_use
+    title: Kempner Policies for Responsible Use of the Cluster
   - file: getting_started/accessing_and_navigating_the_cluster
     title: Accessing and Navigating the Cluster
 - file: resource_management/README
