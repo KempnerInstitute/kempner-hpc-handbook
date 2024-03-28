@@ -370,7 +370,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -386,6 +388,19 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallelizing-computations-in-high-performance-computing-hpc">4.1.1. Parallelizing Computations in High-Performance Computing (HPC)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loosely-vs-tightly-coupled-parallelism">4.1.1.1. Loosely vs. Tightly Coupled Parallelism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shared-vs-distributed-memory">4.1.1.2. Shared vs. Distributed Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-programming-models">4.1.1.3. Parallel Programming Models</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -397,7 +412,45 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="introduction-for-parallel-computing">
 <h1><span class="section-number">4.1. </span>Introduction for Parallel Computing<a class="headerlink" href="#introduction-for-parallel-computing" title="Link to this heading">#</a></h1>
-<p>[Basic concepts and techniques for parallelizing computations. This includes loosely and tightly coupled parallelism, shared and distributed memory, and parallel programming models.]</p>
+<section id="parallelizing-computations-in-high-performance-computing-hpc">
+<h2><span class="section-number">4.1.1. </span>Parallelizing Computations in High-Performance Computing (HPC)<a class="headerlink" href="#parallelizing-computations-in-high-performance-computing-hpc" title="Link to this heading">#</a></h2>
+<p>Parallel computing is a technique used to enhance computational speeds by dividing tasks across multiple processors or computers/servers. This section introduces the basic concepts and techniques necessary for parallelizing computations effectively within a High-Performance Computing (HPC) environment.</p>
+<section id="loosely-vs-tightly-coupled-parallelism">
+<h3><span class="section-number">4.1.1.1. </span>Loosely vs. Tightly Coupled Parallelism<a class="headerlink" href="#loosely-vs-tightly-coupled-parallelism" title="Link to this heading">#</a></h3>
+<p><strong>Loosely Coupled Parallelism</strong>: In this model, each processor operates independently, with minimal need for communication. This is often used in distributed computing environments where tasks do not require constant interaction.</p>
+<p><strong>Tightly Coupled Parallelism</strong>: Contrasts with loosely coupled parallelism by featuring processors that work in close coordination, often requiring frequent data exchanges. This model is typical in systems with shared memory.</p>
+</section>
+<section id="shared-vs-distributed-memory">
+<h3><span class="section-number">4.1.1.2. </span>Shared vs. Distributed Memory<a class="headerlink" href="#shared-vs-distributed-memory" title="Link to this heading">#</a></h3>
+<p><strong>Shared Memory</strong>: In a shared memory model, multiple processors access the same memory space. This allows for efficient communication but requires careful management to avoid conflicts.</p>
+<p><strong>Distributed Memory</strong>: Each processor has its own private memory in distributed memory models. Processors communicate by passing messages, which suits large, distributed systems.</p>
+</section>
+<section id="parallel-programming-models">
+<h3><span class="section-number">4.1.1.3. </span>Parallel Programming Models<a class="headerlink" href="#parallel-programming-models" title="Link to this heading">#</a></h3>
+<p>Parallel programming models are frameworks or paradigms that guide the development of parallel software.</p>
+<p><strong>Message Passing Interface (MPI)</strong>: A standard for passing messages between processes in a distributed memory system. Ideal for high scalability across multiple nodes.</p>
+<figure class="align-default" id="mpi-workflow-diagram">
+<a class="reference internal image-reference" href="../_images/mpi.png"><img alt="../_images/mpi.png" src="../_images/mpi.png" style="height: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">MPI Workflow Diagram (<em>Credit: <a class="reference external" href="https://hpc.nmsu.edu/discovery/mpi/introduction/">hpc.nmsu.edu</a></em>)</span><a class="headerlink" href="#mpi-workflow-diagram" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>OpenMP (Open Multi-Processing)</strong>: A model for shared-memory parallelism, suitable for multi-threading within a single node. It simplifies parallelism by allowing the addition of parallel directives into existing code.</p>
+<figure class="align-default" id="openmp-architecture-diagram">
+<a class="reference internal image-reference" href="../_images/openmp.png"><img alt="../_images/openmp.png" src="../_images/openmp.png" style="height: 200px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.2 </span><span class="caption-text">OpenMP Architecture Diagram (<em>Credit: <a class="reference external" href="https://docs.nersc.gov/development/programming-models/openmp/">nersc.gov</a></em>)</span><a class="headerlink" href="#openmp-architecture-diagram" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><strong>CUDA (Compute Unified Device Architecture)</strong>: A parallel computing platform and application programming interface (API) model created by NVIDIA. It allows software developers to use a CUDA-enabled graphics processing unit (GPU) for general purpose processing.</p>
+<figure class="align-default" id="cuda-programming-model-diagram">
+<a class="reference internal image-reference" href="../_images/gpu.png"><img alt="../_images/gpu.png" src="../_images/gpu.png" style="height: 450px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.3 </span><span class="caption-text">CUDA Programming Model Diagram (<em>Credit: <a class="reference external" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">nvidia.com</a></em>)</span><a class="headerlink" href="#cuda-programming-model-diagram" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -455,7 +508,25 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"></div>
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallelizing-computations-in-high-performance-computing-hpc">4.1.1. Parallelizing Computations in High-Performance Computing (HPC)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loosely-vs-tightly-coupled-parallelism">4.1.1.1. Loosely vs. Tightly Coupled Parallelism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shared-vs-distributed-memory">4.1.1.2. Shared vs. Distributed Memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-programming-models">4.1.1.3. Parallel Programming Models</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
