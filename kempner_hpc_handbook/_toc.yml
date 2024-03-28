@@ -40,7 +40,7 @@ sections:
   - file: development_and_runtime_envs/handling_dependencies_with_spack
     title: Handling Dependencies with Spack
   - file: development_and_runtime_envs/customizing_bashrc
-    title: Customizing ~/.bashrc
+    title: Customizing Shell Configuration File
 - file: scalability/README
   sections:
   - file: scalability/introduction_to_parallel_computing
