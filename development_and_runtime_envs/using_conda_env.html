@@ -393,8 +393,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">3.4.1. Creating a Conda Environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-conda-environment-with-jupyter">3.4.2. Using a Conda Environment with Jupyter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-conda-environment-and-why-should-you-use-it">3.4.1. What is a conda environment and why should you use it?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">3.4.2. Creating a Conda Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-conda-environment-with-jupyter">3.4.3. Using a Conda Environment with Jupyter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-a-conda-environment">3.4.4. Exporting a Conda Environment</a></li>
 </ul>
             </nav>
         </div>
@@ -409,8 +411,13 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="using-conda-environment">
 <h1><span class="section-number">3.4. </span>Using Conda Environment<a class="headerlink" href="#using-conda-environment" title="Link to this heading">#</a></h1>
 <p>In order to use a conda environment on the cluster, you will need to create a conda environment and then activate it on the compute node. FASRC uses <code class="docutils literal notranslate"><span class="pre">mamba</span></code> as a replacement for <code class="docutils literal notranslate"><span class="pre">conda</span></code> to manage conda environments. <code class="docutils literal notranslate"><span class="pre">mamba</span></code> is a drop-in replacement for <code class="docutils literal notranslate"><span class="pre">conda</span></code> that is generally much faster.</p>
+<section id="what-is-a-conda-environment-and-why-should-you-use-it">
+<h2><span class="section-number">3.4.1. </span>What is a conda environment and why should you use it?<a class="headerlink" href="#what-is-a-conda-environment-and-why-should-you-use-it" title="Link to this heading">#</a></h2>
+<p>A conda environment is a directory that contains a self-contained instance of Python along with a specific set of packages. For instance, you can create a conda environment called <code class="docutils literal notranslate"><span class="pre">myenv</span></code> with numpy version 1.26.4 installed. When executing Python code within that environment, numpy version 1.26.4 will be used. If you need to run code from a different project requiring an older version of numpy, you can use a different conda environment with that older version of numpy installed.</p>
+<p>Overall, conda environments allow you to isolate package versions for different projects or repositories, which reduces conflicts and dependency issues. The use of conda environments also ensures reproducibility; you can export your conda environment, allowing others to run your code in precisely the same environment.</p>
+</section>
 <section id="creating-a-conda-environment">
-<span id="development-and-runtime-envs-using-conda-env-creation"></span><h2><span class="section-number">3.4.1. </span>Creating a Conda Environment<a class="headerlink" href="#creating-a-conda-environment" title="Link to this heading">#</a></h2>
+<span id="development-and-runtime-envs-using-conda-env-creation"></span><h2><span class="section-number">3.4.2. </span>Creating a Conda Environment<a class="headerlink" href="#creating-a-conda-environment" title="Link to this heading">#</a></h2>
 <ul>
 <li><p>Step 1: See a list of load modules using the <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">list</span></code> command.</p>
 <div class="admonition tip">
@@ -452,7 +459,7 @@ base<span class="w">                     </span>/n/sw/Mambaforge-23.11.0-0
 </div>
 </section>
 <section id="using-a-conda-environment-with-jupyter">
-<span id="development-and-runtime-envs-using-conda-env-jupyter"></span><h2><span class="section-number">3.4.2. </span>Using a Conda Environment with Jupyter<a class="headerlink" href="#using-a-conda-environment-with-jupyter" title="Link to this heading">#</a></h2>
+<span id="development-and-runtime-envs-using-conda-env-jupyter"></span><h2><span class="section-number">3.4.3. </span>Using a Conda Environment with Jupyter<a class="headerlink" href="#using-a-conda-environment-with-jupyter" title="Link to this heading">#</a></h2>
 <p>If you plan to use Jupyter notebooks or JupyterLab on the cluster, and would like to use a conda environment, you need to install <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code> within that conda environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>activate<span class="w"> </span>myenv
 pip<span class="w"> </span>install<span class="w"> </span>ipykernel
@@ -462,6 +469,41 @@ pip<span class="w"> </span>install<span class="w"> </span>ipykernel
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>For details on how select a kernel when running a jupyter notebook in VSCode,  please see the section <a class="reference internal" href="using_vscode_for_remote_development.html#development-and-runtime-envs-using-vscode-for-remote-development-jupyter"><span class="std std-ref">Using Jupyter notebooks within VSCode</span></a>.</p>
+</div>
+</section>
+<section id="exporting-a-conda-environment">
+<h2><span class="section-number">3.4.4. </span>Exporting a Conda Environment<a class="headerlink" href="#exporting-a-conda-environment" title="Link to this heading">#</a></h2>
+<p>You can export your conda environment into a <code class="docutils literal notranslate"><span class="pre">yml</span></code> file. This means that other users can recreate your exact conda environment using the <code class="docutils literal notranslate"><span class="pre">yml</span></code> file.</p>
+<p>To export your conda environment, run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>activate<span class="w"> </span>&lt;environment<span class="w"> </span>name&gt;
+mamba<span class="w"> </span>env<span class="w"> </span><span class="nb">export</span><span class="w"> </span>&gt;<span class="w"> </span>environment.yml
+</pre></div>
+</div>
+<p>With this command, the <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file will contain information about every single package in your environment, including low-level ones you did not explicitly install. Since some of these may be operating system-specific, this could mean that the conda environment is not reproducible across operating systems (Mac OS, Windows, Linux).</p>
+<p>To help ensure your environment is reproducible across operating systems, you can instead run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>activate<span class="w"> </span>&lt;environment<span class="w"> </span>name&gt;
+mamba<span class="w"> </span>env<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--from-history<span class="w"> </span>&gt;<span class="w"> </span>environment.yml
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--from-history</span></code> argument ensures that only packages you specifically chose to install are exported. Note however, that if you did not specify the versions of packages when installing them, the versions will not be included in the <code class="docutils literal notranslate"><span class="pre">yml</span></code> file when using the <code class="docutils literal notranslate"><span class="pre">from-history</span></code> flag.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--from-history</span></code> flag will also result in a <code class="docutils literal notranslate"><span class="pre">yml</span></code> file that does not include information on packages you installed with pip. To include packages you installed using pip, you can run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Then manually add the following lines to your <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>-<span class="w"> </span>pip
+<span class="w"> </span>-<span class="w"> </span>pip:
+<span class="w">   </span>-<span class="w"> </span>-r<span class="w"> </span>file:requirements.txt
+</pre></div>
+</div>
+<p>A user can recreate your conda this <code class="docutils literal notranslate"><span class="pre">yml</span></code> file can recreate your conda environment by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>--file<span class="w"> </span>environment.yml
+</pre></div>
+</div>
+<p>They will need both the <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file and the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html">Conda documentation</a> may be useful for further information.</p>
 </div>
 </section>
 </section>
@@ -530,8 +572,10 @@ pip<span class="w"> </span>install<span class="w"> </span>ipykernel
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">3.4.1. Creating a Conda Environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-conda-environment-with-jupyter">3.4.2. Using a Conda Environment with Jupyter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-conda-environment-and-why-should-you-use-it">3.4.1. What is a conda environment and why should you use it?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">3.4.2. Creating a Conda Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-conda-environment-with-jupyter">3.4.3. Using a Conda Environment with Jupyter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-a-conda-environment">3.4.4. Exporting a Conda Environment</a></li>
 </ul>
   </nav></div>
 
