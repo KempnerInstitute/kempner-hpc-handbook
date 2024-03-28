@@ -84,9 +84,9 @@ See {ref}`development_and_runtime_envs:handling_dependencies_with_spack` for ful
 
    Step 2: Clone the repository: Clone the repository.
 
-    ```bash
-    git clone https://github.com/KempnerInstitute/intro-compute-march-2024.git
-    ```
+   ```bash
+   git clone https://github.com/KempnerInstitute/intro-compute-march-2024.git
+   ```
 
    **VSCode**
    ```{admonition} Try it yourself
