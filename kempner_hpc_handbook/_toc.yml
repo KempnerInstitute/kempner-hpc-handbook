@@ -61,6 +61,8 @@ sections:
     title: Understanding Storage Options
   - file: storage_and_data_transfer/data_transfer
     title: Data Transfer
+  - file: storage_and_data_transfer/shared_data_repository
+    title: Shared Data Repository    
 - file: performance_monitoring/README
   sections:
   - file: performance_monitoring/intro_to_performance_monitoring
