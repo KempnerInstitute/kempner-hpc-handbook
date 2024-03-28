@@ -73,19 +73,46 @@ See {ref}`getting_started:accessing_and_navigating_the_cluster` for full details
 3. **Spack**
 
 See {ref}`development_and_runtime_envs:handling_dependencies_with_spack` for full details. 
-See {ref}`development_and_runtime_envs:handling_dependencies_with_spack` for full details. 
 
 ````
 
 ````{dropdown} Code Synchronization
+
+   **Using Git**:
+
+   Step 1: Change directories to your lab's scratch space with cd $SCRATCH and create a folder for the workshop excercise and navigate to it.
+
+   Step 2: Clone the repository: Clone the repository.
+
+    ```bash
+    git clone https://github.com/KempnerInstitute/intro-compute-march-2024.git
+    ```
+
+   **VSCode**
    ```{admonition} Try it yourself
     Set up remote development using VSCode by following [these steps](development_and_runtime_envs:using_vscode_for_remote_development). 
    ```
-````
 
-````{dropdown} Data Transfer
 
 ````
+
+`````{dropdown} Data Transfer
+
+**Scp/rsync**: See {ref}`storage_and_data_trnasfer:data_transfer` for full details. 
+
+````{admonition} Try it yourself
+
+1. Navigate to the Data_transfer_example folder [here](https://github.com/KempnerInstitute/intro-compute-march-2024) and download `data.npy` to your computer.
+
+2. Use scp or rsync to transfer this data to your home directory on the cluster. 
+
+
+````
+
+**Globus**: Follow the steps in {ref}`globus_section` to set up endpoints on the cluster and your laptop. 
+
+
+`````
 
 ## Job Management and Monitoring
 
@@ -145,8 +172,115 @@ lsload | head -n 1 & lsload | grep "8a17"
 ```
 ````
 
-- SLURM Interactive Jobs via Open OnDemand 
-- SLURM Batch Job Submission
+````{dropdown} SLURM Interactive Jobs via Open OnDemand and VSCode
+
+**Open OnDemand**: See {ref}`resource_management:open_ondemand`.
+
+
+**VSCode**: See {ref}`development_and_runtime_envs:using_vscode_for_remote_development:compute_node`.
+
+````
+
+`````{dropdown} SLURM Batch Job Submission Basics
+
+See {ref}`resource_management:job_submission_basics:batch_jobs`.
+
+````{admonition} Try it yourself
+
+1. Navigate to the `SLURM_example_1` directory.
+
+Here we have a python script that is simply occupying the CPU and Memory for a certain amount of time. Take a look at the job submission script `run.sh` and the python script `cpu_mem_occupy.py`.
+
+2. **Test the job submission script**: 
+
+You can test the job submission by adding the following command to the `run.sh` script:
+
+```bash
+#SBATCH --test-only
+```
+
+This will tell you what would happen if you submit the job without actually submitting it. (Try it!)
+
+3. **Submit the job**: 
+
+Drop the `--test-only` flag and set the duration to 300 seconds and submit the job using the following command:
+
+```bash
+sbatch run.sh
+```
+
+4. **Check the job status**:
+
+You can check the status of the job using the following command:
+
+```bash
+squeue -u <username> 
+```
+or 
+
+```bash
+squeue -u $USER
+```
+or 
+
+```bash
+squeue --me
+```
+
+Note that the wrapper squeue command has some delay in updating the status of the job.
+
+5. **Cancel the job**:
+
+Resubmit the job and try to cancel the job using the following commands.
+
+- Cancel the job using the job id:
+
+    ```bash
+    scancel <job_id>
+    ```
+- Cancel all jobs of the user:
+
+    ```bash
+    scancel -u <username>
+    ```
+- Cancel only pending jobs:
+
+    ```bash
+    scancel --state=pending -u <username>
+    ```
+````
+
+
+`````
+
+`````{dropdown} SLURM Batch Job Submission Advanced
+
+**Array Jobs**
+
+See {ref}`resource_management:array_jobs`.
+
+````{admonition} Try it yourself
+
+1. Navigate to the `SLURM_example_2` directory.
+
+
+2. Take a look at the job submission script `run_array_job.sh`, the python script `hyperparameter_tuning.py`, and the csv file `hyperparemters.csv`. Can you figure out what would happen if you run this job?
+
+
+3. Submit the array job
+
+```bash
+sbatch run_array_job.sh
+```
+
+
+4. Check the status of the job. Look at the output files created (once it runs). Do they match what you would expect?
+
+
+````
+
+
+`````
 - Useful Slurm commands
 - Monitoring Job Status and Utilization
 - What happens when a SLURM job executes
