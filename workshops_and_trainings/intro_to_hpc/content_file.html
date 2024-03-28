@@ -426,6 +426,7 @@ document.write(`
 <li><p>Overview of the Kempner Institute Cluster Architecture (<a href="../../getting_started/overview_of_kempner_cluster.html#what-are-the-specifications-of-the-kempner-institute-hpc-cluster" target="_blank">Click Here</a>)</p></li>
 <li><p>Understanding Storage Tiers (<a href="../../storage_and_data_transfer/understanding_storage_options.html" target="_blank">Click Here</a>)</p></li>
 <li><p>Shared Open-Source Data Repositories on Cluster (<a href="../../storage_and_data_transfer/shared_data_repository.html" target="_blank">Click Here</a>)</p></li>
+<li><p>Good Citizenship on the Cluster (<a href="../../getting_started/kempner_policies_for_responsible_use.html" target="_blank">Click Here</a>)</p></li>
 </ul>
 </section>
 <section id="development">
@@ -440,7 +441,102 @@ document.write(`
 <section id="job-management-and-monitoring">
 <h2><span class="section-number">10.1.3. </span>Job Management and Monitoring<a class="headerlink" href="#job-management-and-monitoring" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Fairshare Policy and Job Priority Basics</p></li>
+<li><p>Fairshare Policy and Job Priority Basics (Max) (<a href="../../efficient_use_of_resources/fair_use_and_prioritization_policies.html" target="_blank">Click Here</a>)</p></li>
+</ul>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Example: Check your lab Fairshare score<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sshare<span class="w"> </span>--account<span class="o">=</span>kempner_grads<span class="w"> </span>--all
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Example: Check your jobs fairshare in the queue<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sprio<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w">  </span>sprio<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="nv">$USER</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Example: Check all jobs running on kempner partitions<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>squeue<span class="w"> </span>-p<span class="w"> </span>kempner<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;%.18i %.9P %.20u %.50j %.8T %.10M %.5D %.20R&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-n<span class="w"> </span>-k<span class="w"> </span><span class="m">7</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>squeue<span class="w"> </span>-p<span class="w"> </span>kempner_requeue<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;%.18i %.9P %.20u %.50j %.8T %.10M %.5D %.20R&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-n<span class="w"> </span>-k<span class="w"> </span><span class="m">7</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Example: Fairshare score calculations<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scalc
+</pre></div>
+</div>
+</div>
+</details><ul class="simple">
+<li><p>SLURM Partitions (<a href="../../resource_management/understanding_slurm.html#slurm-partitions" target="_blank">Click Here</a>)</p>
+<ul>
+<li><p>FASRC SLURM Partitions (<a href="https://docs.rc.fas.harvard.edu/kb/running-jobs/" target="_blank">Click Here</a>)</p></li>
+</ul>
+</li>
+</ul>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Example: Check SLURM partition settings<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scontrol<span class="w"> </span>show<span class="w"> </span>partition<span class="w"> </span>kempner
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scontrol<span class="w"> </span>show<span class="w"> </span>partition<span class="w"> </span>kempner_requeue
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Example: Check status of all Kempner partitions<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spart<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;NR==1 || /kempner/&#39;</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Example: Check status of nodes within a Kempner partition<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsload<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span>lsload<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;8a19&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lsload<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span>lsload<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;8a17&quot;</span>
+</pre></div>
+</div>
+</div>
+</details><ul class="simple">
 <li><p>SLURM Interactive Jobs via Open OnDemand</p></li>
 <li><p>SLURM Batch Job Submission</p></li>
 <li><p>Useful Slurm commands</p></li>
@@ -461,7 +557,11 @@ document.write(`
 <h2><span class="section-number">10.1.5. </span>Support and Troubleshooting<a class="headerlink" href="#support-and-troubleshooting" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Troubleshooting Common Issues</p></li>
-<li><p>Support Framework: FASRC and Kempner Engineering Team</p></li>
+<li><p>Support Framework: FASRC and Kempner Engineering Team (<a href="https://www.rc.fas.harvard.edu/training/office-hours/" target="_blank">Click Here</a>)</p>
+<ul>
+<li><p>Send a ticket to FASRC (<code class="docutils literal notranslate"><span class="pre">rchelp</span> <span class="pre">[at]</span> <span class="pre">rc.fas.harvard.edu</span></code>)</p></li>
+</ul>
+</li>
 <li><p>Closing Remarks and Q&amp;A Session</p></li>
 </ul>
 </section>
