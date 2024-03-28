@@ -13,9 +13,12 @@ _Presenters: Ella Batty, Naeem Khoshnevis, Max Shad_
 ## Infrastructure Orientation
 
 - Welcome and Introduction
-- Overview of the Kempner Institute Cluster Architecture
-- Understanding Storage Tiers
-- Shared Open-Source Data Repositories on Cluster
+- Cluster Access  (<a href="../../getting_started/introduction_and_cluster_basics.html#getting-access-to-the-cluster" target="_blank">Click Here</a>)
+- Overview of the Kempner Institute Cluster Architecture (<a href="../../getting_started/overview_of_kempner_cluster.html#what-are-the-specifications-of-the-kempner-institute-hpc-cluster" target="_blank">Click Here</a>)
+- Understanding Storage Tiers (<a href="../../storage_and_data_transfer/understanding_storage_options.html" target="_blank">Click Here</a>)
+- Shared Open-Source Data Repositories on Cluster (<a href="../../storage_and_data_transfer/shared_data_repository.html" target="_blank">Click Here</a>)
+- Good Citizenship on the Cluster (<a href="../../getting_started/kempner_policies_for_responsible_use.html" target="_blank">Click Here</a>)
+
 
 ## Development
 ````{dropdown} Cluster Access
@@ -86,8 +89,63 @@ See {ref}`getting_started:accessing_and_navigating_the_cluster` for full details
 
 ## Job Management and Monitoring
 
-- Fairshare Policy and Job Priority Basics
-- SLURM Interactive Jobs via Open OnDemand
+- Fairshare Policy and Job Priority Basics (Max) (<a href="../../efficient_use_of_resources/fair_use_and_prioritization_policies.html" target="_blank">Click Here</a>)
+
+````{dropdown} Example: Check your lab Fairshare score 
+```bash
+sshare --account=kempner_grads --all
+```
+````
+
+````{dropdown} Example: Check your jobs fairshare in the queue
+```bash
+sprio -l | head -1 &&  sprio -l | grep $USER
+```
+````
+
+````{dropdown} Example: Check all jobs running on kempner partitions
+```bash
+squeue -p kempner -o "%.18i %.9P %.20u %.50j %.8T %.10M %.5D %.20R" | sort -n -k 7
+```
+```bash
+squeue -p kempner_requeue -o "%.18i %.9P %.20u %.50j %.8T %.10M %.5D %.20R" | sort -n -k 7
+```
+````
+
+````{dropdown} Example: Fairshare score calculations 
+```bash
+scalc
+```
+````
+
+
+- SLURM Partitions (<a href="../../resource_management/understanding_slurm.html#slurm-partitions" target="_blank">Click Here</a>)
+    - FASRC SLURM Partitions (<a href="https://docs.rc.fas.harvard.edu/kb/running-jobs/" target="_blank">Click Here</a>)
+````{dropdown} Example: Check SLURM partition settings
+```bash
+scontrol show partition kempner
+```
+```bash
+scontrol show partition kempner_requeue
+```
+````
+
+````{dropdown} Example: Check status of all Kempner partitions 
+```bash
+spart | awk 'NR==1 || /kempner/'
+```
+````
+
+````{dropdown} Example: Check status of nodes within a Kempner partition
+```bash
+lsload | head -n 1 & lsload | grep "8a19"
+```
+```bash
+lsload | head -n 1 & lsload | grep "8a17"
+```
+````
+
+- SLURM Interactive Jobs via Open OnDemand 
 - SLURM Batch Job Submission
 - Useful Slurm commands
 - Monitoring Job Status and Utilization
@@ -103,5 +161,6 @@ See {ref}`getting_started:accessing_and_navigating_the_cluster` for full details
 ## Support and Troubleshooting
 
 - Troubleshooting Common Issues
-- Support Framework: FASRC and Kempner Engineering Team
+- Support Framework: FASRC and Kempner Engineering Team (<a href="https://www.rc.fas.harvard.edu/training/office-hours/" target="_blank">Click Here</a>)
+    - Send a ticket to FASRC (`rchelp [at] rc.fas.harvard.edu`)
 - Closing Remarks and Q&A Session
