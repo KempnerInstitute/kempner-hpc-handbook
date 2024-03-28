@@ -9,10 +9,10 @@ Involves splitting the dataset into smaller batches that are processed in parall
 
 ```{figure} figures/png/data_parallel.PNG
 ---
-Data Parallelism Diagram: 250 px
-TITLE
+height: 450 px
+name: Data Parallelism Diagram
 ---
-Data Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
+(*Credit: [nvidia.com](https://nvidia.com)*)
 ```
 
 ### Model Parallelism
@@ -21,24 +21,24 @@ The model's parameters are divided across multiple GPUs. This approach is useful
 
 ```{figure} figures/png/tensor_parallel_1.PNG
 ---
-height: 250 px
-Model Parallelism Diagram
+height: 300px
+name: Model Parallelism Diagram 1
 ---
 Model Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
 ```
 
 ```{figure} figures/png/tensor_parallel_2.PNG
 ---
-height: 250 px
-Model Parallelism Diagram
+height: 350px
+name: Model Parallelism Diagram 2
 ---
 Model Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
 ```
 
 ```{figure} figures/png/tensor_parallel_3.PNG
 ---
-height: 250 px
-Model Parallelism Diagram
+height: 350px
+name: Model Parallelism Diagram 3
 ---
 Model Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
 ```
@@ -48,8 +48,8 @@ Combines aspects of data and model parallelism by splitting the model into stage
 
 ```{figure} figures/png/pipeline_parallel.PNG
 ---
-height: 250 px
-Pipeline Parallelism Diagram
+height: 350px
+name: Pipeline Parallelism Diagram
 ---
 Pipeline Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
 ```
@@ -59,16 +59,16 @@ The hybrid model is a combination of data, model, and pipeline parallelism. It c
 
 ```{figure} figures/png/hybrid_parallel_1.PNG
 ---
-height: 250 px
-Hybrid Parallelism Diagram
+height: 350px
+name: Hybrid Parallelism Diagram 1
 ---
 Hybrid Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
 ```
 
 ```{figure} figures/png/hybrid_parallel_2.PNG
 ---
-height: 250 px
-Hybrid Parallelism Diagram
+height: 350px
+name: Hybrid Parallelism Diagram 2
 ---
 Hybrid Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
 ```

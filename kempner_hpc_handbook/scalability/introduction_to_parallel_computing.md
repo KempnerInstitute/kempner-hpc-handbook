@@ -22,7 +22,7 @@ Parallel programming models are frameworks or paradigms that guide the developme
 
 ```{figure} figures/png/mpi.png
 ---
-height: 250 px
+height: 250px
 name: MPI Workflow Diagram
 ---
 MPI Workflow Diagram (*Credit: [hpc.nmsu.edu](https://hpc.nmsu.edu/discovery/mpi/introduction/)*)
@@ -33,8 +33,8 @@ MPI Workflow Diagram (*Credit: [hpc.nmsu.edu](https://hpc.nmsu.edu/discovery/mpi
 
 ```{figure} figures/png/openmp.png
 ---
-height: 250 px
-OpenMP Architecture Diagram
+height: 200px
+name: OpenMP Architecture Diagram
 ---
 OpenMP Architecture Diagram (*Credit: [nersc.gov](https://docs.nersc.gov/development/programming-models/openmp/)*)
 ```
@@ -43,8 +43,8 @@ OpenMP Architecture Diagram (*Credit: [nersc.gov](https://docs.nersc.gov/develop
 
 ```{figure} figures/png/gpu.png
 ---
-height: 250 px
-CUDA Programming Model Diagram
+height: 450px
+name: CUDA Programming Model Diagram
 ---
 CUDA Programming Model Diagram (*Credit: [nvidia.com](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html)*)
 ```
