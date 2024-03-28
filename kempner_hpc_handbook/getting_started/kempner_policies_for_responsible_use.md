@@ -43,5 +43,5 @@ For more information about efficient use of the cluster, please see the section 
 
 ## Communication
 
-Please ensure you are in the cluster-users channel in the Kempner slack space. Make use of this channel if you run into any issues. 
+Please ensure you are in the `#cluster-users` slack channel in the Kempner slack space. Make use of this channel if you run into any issues. 
 
