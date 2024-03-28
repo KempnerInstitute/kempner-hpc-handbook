@@ -80,7 +80,7 @@ See {ref}`development_and_runtime_envs:handling_dependencies_with_spack` for ful
 
    **Using Git**:
 
-   Step 1: Change directories to your lab's scratch space with cd $SCRATCH and create a folder for the workshop excercise and navigate to it.
+   Step 1: Create a folder for the workshop excercise and navigate to it.
 
    Step 2: Clone the repository: Clone the repository.
 
