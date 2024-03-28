@@ -1,3 +1,4 @@
+(getting_started:accessing_and_navigating_the_cluster)=
 # Accessing and Navigating the Cluster
 
 There are two methods for accessing the Kempner Institute HPC cluster. To utilize the resources, one may need to connect via a [VPN](https://docs.rc.fas.harvard.edu/kb/vpn-setup/) (Virtual Private Network). The VPN is not required for Secure Shell (SSH) access, but it is necessary for Open OnDemand access.

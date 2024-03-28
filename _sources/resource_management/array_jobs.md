@@ -1,3 +1,4 @@
+(resource_management:array_jobs)=
 # Array Jobs
 
 Array jobs in SLURM are particularly useful for machine learning (ML) research because they enable the running of multiple instances of the same job, allowing users to map them to different parameters, datasets, etc. A couple of use cases for array jobs include:

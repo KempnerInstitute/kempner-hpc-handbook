@@ -431,13 +431,96 @@ document.write(`
 </section>
 <section id="development">
 <h2><span class="section-number">10.1.2. </span>Development<a class="headerlink" href="#development" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Data Transfer Methods To/From Cluster (Ella)</p></li>
-<li><p>Code Synchronization To/From Cluster (Ella)</p></li>
-<li><p>VSCode Remote Development (Ella)</p></li>
-<li><p>Software Modules in HPC cluster</p></li>
-</ul>
-</section>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Cluster Access<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<ol class="arabic">
+<li><p class="sd-card-text">SSH Access</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>&lt;username&gt;@login.rc.fas.harvard.edu
+</pre></div>
+</div>
+</li>
+<li><p class="sd-card-text">Open OnDemand (demo)</p></li>
+</ol>
+<p class="sd-card-text">See <a class="reference internal" href="../../getting_started/accessing_and_navigating_the_cluster.html#getting-started-accessing-and-navigating-the-cluster"><span class="std std-ref">Accessing and Navigating the Cluster</span></a> for full details.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Software Modules in HPC cluster<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<ol class="arabic">
+<li><p class="sd-card-text"><strong>Software modules via module load</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>avail
+module<span class="w"> </span>load<span class="w"> </span>python
+</pre></div>
+</div>
+<p class="sd-card-text">See <a class="reference internal" href="../../development_and_runtime_envs/software_module_and_environment_management.html#development-and-runtime-envs-software-module-and-environment-management"><span class="std std-ref">Software Module and Environment Management</span></a> for full details.</p>
+</li>
+<li><p class="sd-card-text"><strong>Conda/mamba environments</strong></p>
+<p class="sd-card-text"><em>Why use conda environments?</em></p>
+<figure class="align-default" id="why-conda-env-1">
+<a class="reference internal image-reference" href="../../_images/why_conda_env_1.png"><img alt="../../_images/why_conda_env_1.png" src="../../_images/why_conda_env_1.png" style="height: 300px;" /></a>
+</figure>
+<figure class="align-default" id="why-conda-env-2">
+<a class="reference internal image-reference" href="../../_images/why_conda_env_2.png"><img alt="../../_images/why_conda_env_2.png" src="../../_images/why_conda_env_2.png" style="height: 300px;" /></a>
+</figure>
+<p class="sd-card-text"><em>What is mamba?</em></p>
+<p class="sd-card-text">FASRC uses <code class="docutils literal notranslate"><span class="pre">mamba</span></code>,  a drop-in replacement for <code class="docutils literal notranslate"><span class="pre">conda</span></code> that is generally much faster.</p>
+<div class="admonition-try-it-yourself admonition">
+<p class="admonition-title">Try it yourself</p>
+<p class="sd-card-text">Try creating a conda environment called <code class="docutils literal notranslate"><span class="pre">myenv</span></code> in your home directory by following <a class="reference internal" href="../../development_and_runtime_envs/using_conda_env.html#development-and-runtime-envs-using-conda-env-creation"><span class="std std-ref">these steps</span></a>. Make it usable in jupyter notebooks with <a class="reference internal" href="../../development_and_runtime_envs/using_conda_env.html#development-and-runtime-envs-using-conda-env-jupyter"><span class="std std-ref">one additional step</span></a>.</p>
+</div>
+</li>
+<li><p class="sd-card-text"><strong>Spack</strong></p></li>
+</ol>
+<p class="sd-card-text">See <a class="reference internal" href="../../development_and_runtime_envs/handling_dependencies_with_spack.html#development-and-runtime-envs-handling-dependencies-with-spack"><span class="std std-ref">Streamlining Dependencies with Spack: A Guide to Software Management</span></a> for full details.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Code Synchronization<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><strong>Using Git</strong>:</p>
+<p class="sd-card-text">Step 1: Change directories to your lab’s scratch space with cd $SCRATCH and create a folder for the workshop excercise and navigate to it.</p>
+<p class="sd-card-text">Step 2: Clone the repository: Clone the repository.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>```bash
+git clone https://github.com/KempnerInstitute/intro-compute-march-2024.git
+```
+</pre></div>
+</div>
+<p class="sd-card-text"><strong>VSCode</strong></p>
+<div class="admonition-try-it-yourself admonition">
+<p class="admonition-title">Try it yourself</p>
+<p class="sd-card-text">Set up remote development using VSCode by following <a class="reference internal" href="../../development_and_runtime_envs/using_vscode_for_remote_development.html#development-and-runtime-envs-using-vscode-for-remote-development"><span class="std std-ref">these steps</span></a>.</p>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+Data Transfer<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><strong>Scp/rsync</strong>: See <a class="reference internal" href="../../storage_and_data_transfer/data_transfer.html#storage-and-data-trnasfer-data-transfer"><span class="std std-ref">Data Transfer</span></a> for full details.</p>
+<div class="admonition-try-it-yourself admonition">
+<p class="admonition-title">Try it yourself</p>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Navigate to the Data_transfer_example folder <a class="reference external" href="https://github.com/KempnerInstitute/intro-compute-march-2024">here</a> and download <code class="docutils literal notranslate"><span class="pre">data.npy</span></code> to your computer.</p></li>
+<li><p class="sd-card-text">Use scp or rsync to transfer this data to your home directory on the cluster.</p></li>
+</ol>
+</div>
+<p class="sd-card-text"><strong>Globus</strong>: Follow the steps in <a class="reference internal" href="../../storage_and_data_transfer/data_transfer.html#globus-section"><span class="std std-ref">Globus</span></a> to set up endpoints on the cluster and your laptop.</p>
+</div>
+</details></section>
 <section id="job-management-and-monitoring">
 <h2><span class="section-number">10.1.3. </span>Job Management and Monitoring<a class="headerlink" href="#job-management-and-monitoring" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -536,9 +619,109 @@ Example: Check status of nodes within a Kempner partition<div class="sd-summary-
 </pre></div>
 </div>
 </div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+SLURM Interactive Jobs via Open OnDemand and VSCode<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><strong>Open OnDemand</strong>: See <a class="reference internal" href="../../resource_management/open_ondemand.html#resource-management-open-ondemand"><span class="std std-ref">Open OnDemand</span></a>.</p>
+<p class="sd-card-text"><strong>VSCode</strong>: See <a class="reference internal" href="../../development_and_runtime_envs/using_vscode_for_remote_development.html#development-and-runtime-envs-using-vscode-for-remote-development-compute-node"><span class="std std-ref">Connecting to the FASRC cluster (Compute node)</span></a>.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+SLURM Batch Job Submission Basics<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">See <a class="reference internal" href="../../resource_management/job_submission_basics.html#resource-management-job-submission-basics-batch-jobs"><span class="std std-ref">Batch Jobs</span></a>.</p>
+<div class="admonition-try-it-yourself admonition">
+<p class="admonition-title">Try it yourself</p>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Navigate to the <code class="docutils literal notranslate"><span class="pre">SLURM_example_1</span></code> directory.</p></li>
+</ol>
+<p class="sd-card-text">Here we have a python script that is simply occupying the CPU and Memory for a certain amount of time. Take a look at the job submission script <code class="docutils literal notranslate"><span class="pre">run.sh</span></code> and the python script <code class="docutils literal notranslate"><span class="pre">cpu_mem_occupy.py</span></code>.</p>
+<ol class="arabic simple" start="2">
+<li><p class="sd-card-text"><strong>Test the job submission script</strong>:</p></li>
+</ol>
+<p class="sd-card-text">You can test the job submission by adding the following command to the <code class="docutils literal notranslate"><span class="pre">run.sh</span></code> script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --test-only</span>
+</pre></div>
+</div>
+<p class="sd-card-text">This will tell you what would happen if you submit the job without actually submitting it. (Try it!)</p>
+<ol class="arabic simple" start="3">
+<li><p class="sd-card-text"><strong>Submit the job</strong>:</p></li>
+</ol>
+<p class="sd-card-text">Drop the <code class="docutils literal notranslate"><span class="pre">--test-only</span></code> flag and set the duration to 300 seconds and submit the job using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>run.sh
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p class="sd-card-text"><strong>Check the job status</strong>:</p></li>
+</ol>
+<p class="sd-card-text">You can check the status of the job using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>squeue<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>
+</pre></div>
+</div>
+<p class="sd-card-text">or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>squeue<span class="w"> </span>-u<span class="w"> </span><span class="nv">$USER</span>
+</pre></div>
+</div>
+<p class="sd-card-text">or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>squeue<span class="w"> </span>--me
+</pre></div>
+</div>
+<p class="sd-card-text">Note that the wrapper squeue command has some delay in updating the status of the job.</p>
+<ol class="arabic simple" start="5">
+<li><p class="sd-card-text"><strong>Cancel the job</strong>:</p></li>
+</ol>
+<p class="sd-card-text">Resubmit the job and try to cancel the job using the following commands.</p>
+<ul>
+<li><p class="sd-card-text">Cancel the job using the job id:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scancel<span class="w"> </span>&lt;job_id&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="sd-card-text">Cancel all jobs of the user:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scancel<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="sd-card-text">Cancel only pending jobs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scancel<span class="w"> </span>--state<span class="o">=</span>pending<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+SLURM Batch Job Submission Advanced<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><strong>Array Jobs</strong></p>
+<p class="sd-card-text">See <a class="reference internal" href="../../resource_management/array_jobs.html#resource-management-array-jobs"><span class="std std-ref">Array Jobs</span></a>.</p>
+<div class="admonition-try-it-yourself admonition">
+<p class="admonition-title">Try it yourself</p>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Navigate to the <code class="docutils literal notranslate"><span class="pre">SLURM_example_2</span></code> directory.</p></li>
+<li><p class="sd-card-text">Take a look at the job submission script <code class="docutils literal notranslate"><span class="pre">run_array_job.sh</span></code>, the python script <code class="docutils literal notranslate"><span class="pre">hyperparameter_tuning.py</span></code>, and the csv file <code class="docutils literal notranslate"><span class="pre">hyperparemters.csv</span></code>. Can you figure out what would happen if you run this job?</p></li>
+<li><p class="sd-card-text">Submit the array job</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>run_array_job.sh
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p class="sd-card-text">Check the status of the job. Look at the output files created (once it runs). Do they match what you would expect?</p></li>
+</ol>
+</div>
+</div>
 </details><ul class="simple">
-<li><p>SLURM Interactive Jobs via Open OnDemand</p></li>
-<li><p>SLURM Batch Job Submission</p></li>
 <li><p>Useful Slurm commands</p></li>
 <li><p>Monitoring Job Status and Utilization</p></li>
 <li><p>What happens when a SLURM job executes</p></li>
