@@ -149,14 +149,14 @@ lsload | head -n 1 & lsload | grep "8a17"
 - SLURM Batch Job Submission
 - Useful Slurm commands
 - Monitoring Job Status and Utilization
-- What happens when a SLURM job executes
+
 
 ## Advanced Computing Techniques
 
 - Best practices for HPC efficiency
 - Introduction to parallel computing
-- *Distributed Computing and Training
-- *Containerization with Singularity
+- Containerization with Singularity (<a href="../../development_and_runtime_envs/containerization.md#containerization" target="_blank">Click Here</a>)
+- Distributed Computing and Training ([Click Here](https://github.com/KempnerInstitute/intro-compute-march-2024))
 
 ## Support and Troubleshooting
 
