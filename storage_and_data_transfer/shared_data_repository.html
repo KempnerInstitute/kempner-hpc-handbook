@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>7. Advanced Topics &#8212; Kempner Institute HPC Handbook</title>
+    <title>5.3. Shared Data/Model Repository &#8212; Kempner Institute HPC Handbook</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'advanced_topics/README';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'storage_and_data_transfer/shared_data_repository';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7.1. GPU Architecture and Interconnects" href="gpu_interconnect.html" />
-    <link rel="prev" title="6.7. Advanced Monitoring and Tuning Tools" href="../performance_monitoring/advanced_monitoring_and_tuning_tools.html" />
+    <link rel="next" title="6. Performance Monitoring" href="../performance_monitoring/README.html" />
+    <link rel="prev" title="5.2. Data Transfer" href="data_transfer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -210,10 +210,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../scalability/using_multiple_gpus.html">4.5. Using Multiple GPUs</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../storage_and_data_transfer/README.html">5. Storage and Data Transfer</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/understanding_storage_options.html">5.1. Understanding Storage Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/data_transfer.html">5.2. Data Transfer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/shared_data_repository.html">5.3. Shared Data Repository</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">5. Storage and Data Transfer</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="understanding_storage_options.html">5.1. Understanding Storage Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">5.2. Data Transfer</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.3. Shared Data Repository</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../performance_monitoring/README.html">6. Performance Monitoring</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -226,9 +226,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/advanced_monitoring_and_tuning_tools.html">6.7. Advanced Monitoring and Tuning Tools</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">7. Advanced Topics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="gpu_interconnect.html">7.1. GPU Architecture and Interconnect</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gpu_libraries_and_frameworks.html">7.2. GPU Libraries and Frameworks</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/README.html">7. Advanced Topics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_interconnect.html">7.1. GPU Architecture and Interconnect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_libraries_and_frameworks.html">7.2. GPU Libraries and Frameworks</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../efficient_use_of_resources/README.html">8. Efficient Use of Resources</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -299,7 +299,7 @@
       
       
       
-      <li><a href="../_sources/advanced_topics/README.md" target="_blank"
+      <li><a href="../_sources/storage_and_data_transfer/shared_data_repository.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -381,7 +381,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Advanced Topics</h1>
+    <h1>Shared Data/Model Repository</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -395,11 +395,60 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="advanced-topics">
-<h1><span class="section-number">7. </span>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Link to this heading">#</a></h1>
-<p>[Delves into specialized areas such as GPU programming and the use of specific libraries and frameworks for advanced computing tasks.]</p>
-<div class="toctree-wrapper compound">
+  <section class="tex2jax_ignore mathjax_ignore" id="shared-data-model-repository">
+<h1><span class="section-number">5.3. </span>Shared Data/Model Repository<a class="headerlink" href="#shared-data-model-repository" title="Link to this heading">#</a></h1>
+<p>We host several popular ML datasets and models on the Kempner HPC cluster. This approach reduces the need for multiple transfers of the same data/model by researchers and provides a central, read-only repository for all Kempner Institute users to access for their ML workflows. Only the admin team has write access, but users can submit requests for popular data/models. After a careful review, we may place a copy in the shared data/model repository. The current path on the cluster is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/n/kempner_shared/Everyone
+</pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We will develop a web interface later for data and model discovery.</p>
+</div>
+<p>The current list of ML models,</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Organization</p></th>
+<th class="head"><p>Model Name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CodeLlama</p></td>
+<td><p>CodeLlama-7b-hf</p></td>
+</tr>
+<tr class="row-odd"><td><p>EleutherAI</p></td>
+<td><p>pythia-160m-deduped</p></td>
+</tr>
+<tr class="row-even"><td><p>EleutherAI</p></td>
+<td><p>pythia-70m-deduped</p></td>
+</tr>
+<tr class="row-odd"><td><p>OpenAI</p></td>
+<td><p>gpt2</p></td>
+</tr>
+<tr class="row-even"><td><p>Google</p></td>
+<td><p>t5-base</p></td>
+</tr>
+</tbody>
+</table>
+<p>The current list of ML datasets,</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dataset Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>c4_original</p></td>
+<td><p>The original version of the “Colossal Clean Crawled Corpus” (C4) dataset, designed for training natural language processing models.</p></td>
+</tr>
+<tr class="row-odd"><td><p>dolma</p></td>
+<td><p>Dolma is a dataset of 3 trillion tokens from a diverse mix of web content, academic publications, code, books, and encyclopedic materials.</p></td>
+</tr>
+<tr class="row-even"><td><p>imagenet_winter21_whole</p></td>
+<td><p>An updated version of the ImageNet dataset, containing a wide variety of annotated images for visual object recognition, collected during the winter of 2021.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
     <script type="text/x-thebe-config">
@@ -415,7 +464,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./advanced_topics"
+            path: "./storage_and_data_transfer"
         },
         predefinedOutput: true
     }
@@ -433,20 +482,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../performance_monitoring/advanced_monitoring_and_tuning_tools.html"
+       href="data_transfer.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">6.7. </span>Advanced Monitoring and Tuning Tools</p>
+        <p class="prev-next-title"><span class="section-number">5.2. </span>Data Transfer</p>
       </div>
     </a>
     <a class="right-next"
-       href="gpu_interconnect.html"
+       href="../performance_monitoring/README.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">7.1. </span>GPU Architecture and Interconnects</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Performance Monitoring</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
