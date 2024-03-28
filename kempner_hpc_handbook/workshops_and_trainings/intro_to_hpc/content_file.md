@@ -57,6 +57,10 @@ scalc
 ```
 ````
 
+````{dropdown} Example: Monitor Fairshare progress through Grafana 
+<a href="https://dash.rc.fas.harvard.edu/d/qpgIs957z/lab-fairshare?orgId=1&refresh=5m" target="_blank">Check Grafana Dashboard</a>
+````
+
 
 - SLURM Partitions (<a href="../../resource_management/understanding_slurm.html#slurm-partitions" target="_blank">Click Here</a>)
     - FASRC SLURM Partitions (<a href="https://docs.rc.fas.harvard.edu/kb/running-jobs/" target="_blank">Click Here</a>)
