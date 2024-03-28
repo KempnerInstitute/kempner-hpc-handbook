@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.2. Distributed Computing &#8212; Kempner Institute HPC Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'scalability/distributed_computing';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.3. Parallel I/O" href="parallel_io.html" />
+    <link rel="prev" title="4.1. Introduction for Parallel Computing" href="introduction_to_parallel_computing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Kempner-logo_Full-Color-Full-Name-Harvard.svg" class="logo__image only-light" alt="Kempner Institute HPC Handbook - Home"/>
+    <script>document.write(`<img src="../_static/Kempner-logo_Full-Color-Full-Name-Harvard.svg" class="logo__image only-dark" alt="Kempner Institute HPC Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Kempner HPC Handbook
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/README.html">1. Getting Started</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/introduction_and_cluster_basics.html">1.1. Introduction and Cluster Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/overview_of_kempner_cluster.html">1.2. Overview of Kempner Institute HPC Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/kempner_policies_for_responsible_use.html">1.3. Kempner Policies for Responsible Use of the Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/accessing_and_navigating_the_cluster.html">1.4. Accessing and Navigating the Cluster</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../resource_management/README.html">2. Resource Management</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/understanding_slurm.html">2.1. Understanding SLURM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/job_submission_basics.html">2.2. Job Submission Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/open_ondemand.html">2.3. Open OnDemand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/array_jobs.html">2.4. Array Jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/job_dependencies.html">2.5. Job Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/advanced_slurm_features.html">2.6. Advanced SLURM Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development_and_runtime_envs/README.html">3. Dev and Runtime Environments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/software_module_and_environment_management.html">3.1. Software Module and Environment Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/containerization.html">3.2. Containerization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/using_vscode_for_remote_development.html">3.3. Using VSCode for Remote Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/using_conda_env.html">3.4. Using Conda Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/handling_dependencies_with_spack.html">3.5. Handling Dependencies with Spack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/customizing_bashrc.html">3.6. Customizing ~/.bashrc</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">4. Scalability</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction_to_parallel_computing.html">4.1. Parallel Computing</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2. Distributed Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel_io.html">4.3. Parallel I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu_computing.html">4.4. GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_multiple_gpus.html">4.5. Using Multiple GPUs</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../storage_and_data_transfer/README.html">5. Storage and Data Transfer</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/understanding_storage_options.html">5.1. Understanding Storage Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/data_transfer.html">5.2. Data Transfer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../performance_monitoring/README.html">6. Performance Monitoring</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/intro_to_performance_monitoring.html">6.1. Introduction to Performance Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/monitoring_tools.html">6.2. Monitoring Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/performance_analysis_techniques.html">6.3. Performance Analysis Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/benchmarking_your_application.html">6.4. Benchmarking Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/optimizing_io_performance.html">6.5. Optimizing I/O Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/parallel_performance_tuning.html">6.6. Parallel Performance Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/advanced_monitoring_and_tuning_tools.html">6.7. Advanced Monitoring and Tuning Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/README.html">7. Advanced Topics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_interconnect.html">7.1. GPU Architecture and Interconnect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_libraries_and_frameworks.html">7.2. GPU Libraries and Frameworks</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../efficient_use_of_resources/README.html">8. Efficient Use of Resources</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../efficient_use_of_resources/best_practices_for_hpc_efficiency.html">8.1. Best Practices for HPC Efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../efficient_use_of_resources/fair_use_and_prioritization_policies.html">8.2. Fair Use and Prioritization Policies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc_application_scenarios/README.html">9. HPC Application Scenarios</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../workshops_and_trainings/README.html">10. Workshops and Trainings</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workshops_and_trainings/intro_to_hpc/content_file.html">10.1. Intro to HPC</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../support/README.html">11. Support and Troubleshooting</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/faq.html">11.1. FAQ</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/scalability/distributed_computing.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Distributed Computing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-one-computer-is-not-enough">4.2.1. When One Computer is Not Enough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-slurm-handles-multinode-jobs">4.2.2. How Slurm Handles Multinode Jobs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-task">4.2.2.1. What is a “Task”?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-multinode-job-patterns">4.2.3. Typical Multinode Job Patterns</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#head-and-worker-nodes">4.2.3.1. Head and Worker Nodes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-frameworks-for-multinode-jobs">4.2.4. Common Frameworks for Multinode Jobs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch">4.2.4.1. Pytorch</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pytoch-lighting">4.2.4.1.1. Pytoch Lighting</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ray">4.2.4.2. Ray</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dask">4.2.4.3. Dask</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpi">4.2.4.4. MPI</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="distributed-computing">
+<h1><span class="section-number">4.2. </span>Distributed Computing<a class="headerlink" href="#distributed-computing" title="Link to this heading">#</a></h1>
+<section id="when-one-computer-is-not-enough">
+<h2><span class="section-number">4.2.1. </span>When One Computer is Not Enough<a class="headerlink" href="#when-one-computer-is-not-enough" title="Link to this heading">#</a></h2>
+<p>Often times the computational resources of a single node are not enough to solve a problem in a reasonable amount of time. This can be due to data size or limitations of compute, where more CPUs or GPUs are required than are available on a single node. In these cases, it is necessary to distribute the computation across multiple nodes on a shared network. In HPC and ML contexts, there is also typically shared storage and a scheduler that manages the allocation of resources to ease the work of coordinating distributed jobs. Distributed computing provides a means to massively scale up computation but also introduces a number of complexities and challenges. Distributed computing is a broad topic and an entire field of research in its own right. This chapter will provide an overview of the basic concepts and tools for distributed computing in the context of HPC and ML, with a particular focus on working on a SLURM managed cluster.</p>
+</section>
+<section id="how-slurm-handles-multinode-jobs">
+<h2><span class="section-number">4.2.2. </span>How Slurm Handles Multinode Jobs<a class="headerlink" href="#how-slurm-handles-multinode-jobs" title="Link to this heading">#</a></h2>
+<p>To request a multinode job, there a number of <code class="docutils literal notranslate"><span class="pre">sbatch</span></code>/<code class="docutils literal notranslate"><span class="pre">salloc</span></code> flags available to the user. Read more about <a class="reference external" href="https://slurm.schedmd.com/sbatch.html"><code class="docutils literal notranslate"><span class="pre">sbatch</span></code></a> and <a class="reference external" href="https://slurm.schedmd.com/salloc.html"><code class="docutils literal notranslate"><span class="pre">salloc</span></code></a> on SLURM official documentation. When requesting resources it is also important to consider whether the resources
+being requested are allocated on a per node or per task basis. The key flags for multinode jobs are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-N</span></code> or <code class="docutils literal notranslate"><span class="pre">--nodes</span></code>: The number of nodes to request for the job. This cannot be greater than the number of tasks requested.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-n</span></code> or <code class="docutils literal notranslate"><span class="pre">--ntasks</span></code>: The number of tasks to request for the job. This can be greater than the number of nodes requested, in which case multiple tasks will be run on each node. This can also be made to vary with the number of nodes using the <code class="docutils literal notranslate"><span class="pre">--ntasks-per-node</span></code> flag.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-c</span></code>: This is the number of CPUs per task. This is a per task resource, and the total number of CPUs requested for the job is <code class="docutils literal notranslate"><span class="pre">--ntasks</span></code> <span class="math notranslate nohighlight">\(\times\)</span> <code class="docutils literal notranslate"><span class="pre">-c</span></code>. If the task per node description is uneven then the total number of CPUs will be different on each node. Note that all allocated CPUs on the job headnode will be available to the batch script and that task resource limitation will only be enforced on tasks initialized with <code class="docutils literal notranslate"><span class="pre">srun</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--mem</span></code>: The amount of memory to request per node. Note that this is per node and not per task. Therefore the memory  allocated on each node will be shared by all tasks</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--gres</span></code>: This flag can be used to request GPUs or other specialized resources. The resources requested with this flag are per node, and the number of resources requested will be shared by all tasks on the node. When there are multiple tasks on a node trying to divide GPUs, GPU selection will typically be done based on the local rank of the task. Frameworks like Pytorch handle this automatically.</p></li>
+</ul>
+<p>When a multinode job is submitted, slurm will allocate the requested resources and then run the job script on the head node. The other nodes will be allocated
+but will be unused unless a task is started on them by using <code class="docutils literal notranslate"><span class="pre">srun</span></code>. In theory tasks can also be started on other nodes through directly sshing into the node and running the task, but this is not recommended as it bypasses the slurm scheduler and can lead to resource contention and other issues. The head node is the node with a rank of 0, and the other nodes are numbered sequentially. The tasks are also numbered sequentially within each node. The environment variables <code class="docutils literal notranslate"><span class="pre">SLURM_NODEID</span></code> and <code class="docutils literal notranslate"><span class="pre">SLURM_PROCID</span></code> can be used to determine the node and task rank of a given task.</p>
+<section id="what-is-a-task">
+<h3><span class="section-number">4.2.2.1. </span>What is a “Task”?<a class="headerlink" href="#what-is-a-task" title="Link to this heading">#</a></h3>
+<p>A task is a single unit of work that can be executed on a single node wihtin a slurm job. Tasks are initialized by calling <code class="docutils literal notranslate"><span class="pre">srun</span></code> within a slurm allocation. Each task has its resources restricted using Cgroups (in a similar manner  to how slurm controls the resources visible to an entire allocation), and the resource for each task can be specified using many of the same flags available to the user when requesting resources for an entire allocation. Slurm automatically handles the placement of tasks on nodes within the allocation, and the user can specify the number of tasks to be run on each node using the <code class="docutils literal notranslate"><span class="pre">--ntasks-per-node</span></code> flag at job submission time. Slurm also sets environment variables within each task process indicating the Node rank and Task rank wihin the allocation. These can be used to coordinate work between tasks within a single allocation. Most distributed computing frameworks use these environment variables to coordinate work between tasks within a single allocation automatically.</p>
+</section>
+</section>
+<section id="typical-multinode-job-patterns">
+<h2><span class="section-number">4.2.3. </span>Typical Multinode Job Patterns<a class="headerlink" href="#typical-multinode-job-patterns" title="Link to this heading">#</a></h2>
+<section id="head-and-worker-nodes">
+<h3><span class="section-number">4.2.3.1. </span>Head and Worker Nodes<a class="headerlink" href="#head-and-worker-nodes" title="Link to this heading">#</a></h3>
+<p>The typical pattern for multinode worker jobs is having a process running on one node that coordinates the work of other processes running on other nodes. This is often referred to as a head and worker pattern. The head node is responsible for coordinating the work of the worker nodes, and the worker nodes are responsible for doing the actual computation. The head node is typically responsible for distributing work to the worker nodes, collecting results from the worker nodes, and aggregating the results into a final result. The worker nodes are typically responsible for doing the actual computation, and they may also be responsible for collecting and sending results back to the head node. The head and worker nodes may communicate with each other using a variety of different communication patterns, typically over the network, but where shared file systems exist we also observe a pattern of writing intermediate results to shared storage.</p>
+<p>This pattern can be used both for distributed training jobs or embarassingly parallel tasks that don’t require the level of communication of distributed training. By handling the scheduling of tasks within a single job rather than outsource the scheduling and distribution of small pieces of work to slurm, we can avoid the overhead of scheduling and launching many small jobs and instead use a single job to manage the distribution of work across many nodes and improve the performance of both our job and of the  cluster as a whole. The frameworks described below all support this pattern, and it is the most common pattern for distributed computing on HPC clusters.</p>
+</section>
+</section>
+<section id="common-frameworks-for-multinode-jobs">
+<h2><span class="section-number">4.2.4. </span>Common Frameworks for Multinode Jobs<a class="headerlink" href="#common-frameworks-for-multinode-jobs" title="Link to this heading">#</a></h2>
+<section id="pytorch">
+<h3><span class="section-number">4.2.4.1. </span>Pytorch<a class="headerlink" href="#pytorch" title="Link to this heading">#</a></h3>
+<p>Pytorch is typically thought of as a library for writing ML training pipelines, but its ecosystem also includes a number of utilities and libraries that
+support multinode training.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">torch.distributed</span></code> package provides a number of tools for coordinating distributed training, including a <code class="docutils literal notranslate"><span class="pre">DistributedDataParallel</span></code> module that wraps a model and handles the distribution of data and gradients across multiple nodes.</p></li>
+<li><p>Pytorch also includes a <code class="docutils literal notranslate"><span class="pre">torch.multiprocessing</span></code> package that can be used to spawn multiple processes on a single node, which can be used to create a worker pool for distributed training.</p></li>
+<li><p>Pytorch also includes a <code class="docutils literal notranslate"><span class="pre">torch.distributed.rpc</span></code> package that can be used to create distributed RPC services, which can be used to coordinate distributed training or to create distributed parameter servers.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please see the <a class="reference external" href="https://pytorch.org/docs/stable/index.html">pytorch documentation</a> for more information on how to use these packages.</p>
+</div>
+<section id="pytoch-lighting">
+<h4><span class="section-number">4.2.4.1.1. </span>Pytoch Lighting<a class="headerlink" href="#pytoch-lighting" title="Link to this heading">#</a></h4>
+<p><a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">Pytorch Lighting</a> is a highly recommended library, although it is not officially part of the pytorch distribution is. It includes a number of utilities and has built in easy integration with slurm to support multi GPU training. In experiments on the kempner cluster, we have seen pytorch lightning provide near linear scaling as the number of nodes is increased.</p>
+<p>Pytorch and Pytorch lightning support multiple communicatoin backends including both MPI and NCCL. This enables users to make backend changes and optimizations while keeping their model definition and training pipeline the same.</p>
+</section>
+</section>
+<section id="ray">
+<h3><span class="section-number">4.2.4.2. </span>Ray<a class="headerlink" href="#ray" title="Link to this heading">#</a></h3>
+<p>[TODO]</p>
+</section>
+<section id="dask">
+<h3><span class="section-number">4.2.4.3. </span>Dask<a class="headerlink" href="#dask" title="Link to this heading">#</a></h3>
+<p>[TODO]</p>
+</section>
+<section id="mpi">
+<h3><span class="section-number">4.2.4.4. </span>MPI<a class="headerlink" href="#mpi" title="Link to this heading">#</a></h3>
+<p>[TODO]</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./scalability"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction_to_parallel_computing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4.1. </span>Introduction for Parallel Computing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="parallel_io.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.3. </span>Parallel I/O</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-one-computer-is-not-enough">4.2.1. When One Computer is Not Enough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-slurm-handles-multinode-jobs">4.2.2. How Slurm Handles Multinode Jobs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-task">4.2.2.1. What is a “Task”?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-multinode-job-patterns">4.2.3. Typical Multinode Job Patterns</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#head-and-worker-nodes">4.2.3.1. Head and Worker Nodes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-frameworks-for-multinode-jobs">4.2.4. Common Frameworks for Multinode Jobs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch">4.2.4.1. Pytorch</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pytoch-lighting">4.2.4.1.1. Pytoch Lighting</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ray">4.2.4.2. Ray</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dask">4.2.4.3. Dask</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mpi">4.2.4.4. MPI</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kempner Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright  2024, The President and Fellows of Harvard College.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

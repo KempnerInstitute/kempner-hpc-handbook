@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.3. Using VSCode for Remote Development &#8212; Kempner Institute HPC Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'development_and_runtime_envs/using_vscode_for_remote_development';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.4. Using Conda Environment" href="using_conda_env.html" />
+    <link rel="prev" title="3.2. Containerization" href="containerization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Kempner-logo_Full-Color-Full-Name-Harvard.svg" class="logo__image only-light" alt="Kempner Institute HPC Handbook - Home"/>
+    <script>document.write(`<img src="../_static/Kempner-logo_Full-Color-Full-Name-Harvard.svg" class="logo__image only-dark" alt="Kempner Institute HPC Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Kempner HPC Handbook
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/README.html">1. Getting Started</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/introduction_and_cluster_basics.html">1.1. Introduction and Cluster Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/overview_of_kempner_cluster.html">1.2. Overview of Kempner Institute HPC Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/kempner_policies_for_responsible_use.html">1.3. Kempner Policies for Responsible Use of the Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/accessing_and_navigating_the_cluster.html">1.4. Accessing and Navigating the Cluster</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../resource_management/README.html">2. Resource Management</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/understanding_slurm.html">2.1. Understanding SLURM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/job_submission_basics.html">2.2. Job Submission Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/open_ondemand.html">2.3. Open OnDemand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/array_jobs.html">2.4. Array Jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/job_dependencies.html">2.5. Job Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/advanced_slurm_features.html">2.6. Advanced SLURM Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">3. Dev and Runtime Environments</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="software_module_and_environment_management.html">3.1. Software Module and Environment Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="containerization.html">3.2. Containerization</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.3. Using VSCode for Remote Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using_conda_env.html">3.4. Using Conda Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="handling_dependencies_with_spack.html">3.5. Handling Dependencies with Spack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customizing_bashrc.html">3.6. Customizing ~/.bashrc</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../scalability/README.html">4. Scalability</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../scalability/introduction_to_parallel_computing.html">4.1. Parallel Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scalability/distributed_computing.html">4.2. Distributed Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scalability/parallel_io.html">4.3. Parallel I/O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scalability/gpu_computing.html">4.4. GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scalability/using_multiple_gpus.html">4.5. Using Multiple GPUs</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../storage_and_data_transfer/README.html">5. Storage and Data Transfer</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/understanding_storage_options.html">5.1. Understanding Storage Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/data_transfer.html">5.2. Data Transfer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../performance_monitoring/README.html">6. Performance Monitoring</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/intro_to_performance_monitoring.html">6.1. Introduction to Performance Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/monitoring_tools.html">6.2. Monitoring Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/performance_analysis_techniques.html">6.3. Performance Analysis Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/benchmarking_your_application.html">6.4. Benchmarking Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/optimizing_io_performance.html">6.5. Optimizing I/O Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/parallel_performance_tuning.html">6.6. Parallel Performance Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/advanced_monitoring_and_tuning_tools.html">6.7. Advanced Monitoring and Tuning Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/README.html">7. Advanced Topics</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_interconnect.html">7.1. GPU Architecture and Interconnect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_libraries_and_frameworks.html">7.2. GPU Libraries and Frameworks</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../efficient_use_of_resources/README.html">8. Efficient Use of Resources</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../efficient_use_of_resources/best_practices_for_hpc_efficiency.html">8.1. Best Practices for HPC Efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../efficient_use_of_resources/fair_use_and_prioritization_policies.html">8.2. Fair Use and Prioritization Policies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc_application_scenarios/README.html">9. HPC Application Scenarios</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../workshops_and_trainings/README.html">10. Workshops and Trainings</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workshops_and_trainings/intro_to_hpc/content_file.html">10.1. Intro to HPC</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../support/README.html">11. Support and Troubleshooting</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/faq.html">11.1. FAQ</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/development_and_runtime_envs/using_vscode_for_remote_development.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Using VSCode for Remote Development</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">3.3.1. Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-the-fasrc-cluster-login-node">3.3.2. Connecting to the FASRC cluster (login node)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-the-fasrc-cluster-compute-node">3.3.3. Connecting to the FASRC cluster (Compute node)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-jupyter-notebooks-within-vscode">3.3.4. Using Jupyter notebooks within VSCode</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="using-vscode-for-remote-development">
+<h1><span class="section-number">3.3. </span>Using VSCode for Remote Development<a class="headerlink" href="#using-vscode-for-remote-development" title="Link to this heading">#</a></h1>
+<p>For remote development, we recommend using Visual Studio Code (VSCode) with the Remote - SSH extension. This extension allows you to open any folder and file on the FASRC cluster and take full advantage of VSCode’s feature set.</p>
+<section id="prerequisites">
+<h2><span class="section-number">3.3.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<p>You must install VSCode on your local machine and also ensure the Remote - SSH extension is installed.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://code.visualstudio.com/">Visual Studio Code</a></p></li>
+<li><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH extension</a></p></li>
+<li><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer">Remote Explorer extension</a></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please see <a class="reference external" href="https://code.visualstudio.com/learn/get-started/extensions">Install Visual Studio Code extensions</a> for installing the extensions.</p>
+</div>
+</section>
+<section id="connecting-to-the-fasrc-cluster-login-node">
+<h2><span class="section-number">3.3.2. </span>Connecting to the FASRC cluster (login node)<a class="headerlink" href="#connecting-to-the-fasrc-cluster-login-node" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Step 1: The ssh configuration file on your local machine should have an entry for the FASRC cluster.</p></li>
+</ul>
+<p>For mac and linux users, the file is located at <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code>. For Windows users, the file is located at <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;username&gt;\.ssh\config</span></code>. Add the following entry to the <code class="docutils literal notranslate"><span class="pre">config</span></code> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Host<span class="w"> </span>cannon
+<span class="w">  </span>HostName<span class="w"> </span>holylogin01.rc.fas.harvard.edu
+<span class="w">  </span>User<span class="w"> </span>&lt;username&gt;
+</pre></div>
+</div>
+<p>Please make sure that you use your FASRC username in place of <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;</span></code>.</p>
+<ul class="simple">
+<li><p>Step 2: Open the VSCode and click on the Remote Explorer icon on the left-hand (or the right-hand) side of the window.</p></li>
+</ul>
+<figure class="align-default" id="vscode-ssh-login-1">
+<a class="reference internal image-reference" href="../_images/vscode_ssh_login_1.png"><img alt="../_images/vscode_ssh_login_1.png" src="../_images/vscode_ssh_login_1.png" style="height: 500px;" /></a>
+</figure>
+<ul class="simple">
+<li><p>Step 3: Hover the mouse on your username or on <code class="docutils literal notranslate"><span class="pre">cannon</span></code> and click on the <code class="docutils literal notranslate"><span class="pre">-&gt;</span></code> button to connect to the FASRC cluster.</p></li>
+</ul>
+<figure class="align-default" id="vscode-ssh-login-2">
+<a class="reference internal image-reference" href="../_images/vscode_ssh_login_2.png"><img alt="../_images/vscode_ssh_login_2.png" src="../_images/vscode_ssh_login_2.png" style="height: 500px;" /></a>
+</figure>
+<ul class="simple">
+<li><p>Step 4: Enter your FASRC password (and MFA code) when prompted.</p></li>
+</ul>
+<figure class="align-default" id="vscode-ssh-login-3">
+<a class="reference internal image-reference" href="../_images/vscode_ssh_login_3.png"><img alt="../_images/vscode_ssh_login_3.png" src="../_images/vscode_ssh_login_3.png" style="height: 500px;" /></a>
+</figure>
+<p>Once connected, you will see the file explorer on the left-hand side of the window. You can now open any folder or file on the FASRC cluster and take full advantage of VSCode’s feature set.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please do not run any computationally intensive tasks on the login node. Use the login node only for editing files and submitting jobs to the compute nodes.</p>
+</div>
+<p>You can use the terminal in VSCode to run SLURM commands and submit jobs to the compute nodes. Open the terminal by clicking on <code class="docutils literal notranslate"><span class="pre">Terminal</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">Terminal</span></code> in the top menu.</p>
+<figure class="align-default" id="vscode-ssh-login-4">
+<a class="reference internal image-reference" href="../_images/vscode_ssh_login_4.png"><img alt="../_images/vscode_ssh_login_4.png" src="../_images/vscode_ssh_login_4.png" style="height: 500px;" /></a>
+</figure>
+</section>
+<section id="connecting-to-the-fasrc-cluster-compute-node">
+<span id="development-and-runtime-envs-using-vscode-for-remote-development-compute-node"></span><h2><span class="section-number">3.3.3. </span>Connecting to the FASRC cluster (Compute node)<a class="headerlink" href="#connecting-to-the-fasrc-cluster-compute-node" title="Link to this heading">#</a></h2>
+<p>Connecting to the compute nodes requries two additional configurations:</p>
+<ol class="arabic simple">
+<li><p>Add the compute node configuration to the ssh configuration file on your local machine.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Host<span class="w"> </span>cannon
+<span class="w">  </span>HostName<span class="w"> </span>holylogin01.rc.fas.harvard.edu
+<span class="w">  </span>User<span class="w"> </span>&lt;username&gt;
+<span class="w">  </span>ControlMaster<span class="w"> </span>auto
+<span class="w">  </span>ControlPath<span class="w"> </span>~/.ssh/%r@%h:%p
+
+Host<span class="w"> </span>holy*
+<span class="w">    </span>HostName<span class="w"> </span>%h
+<span class="w">    </span>User<span class="w"> </span>&lt;username&gt;
+<span class="w">    </span>ProxyJump<span class="w"> </span>cannon
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Generate a public and private key on your local machine and submit the public key to the FASRC cluster.</p></li>
+</ol>
+<p>Go to the <code class="docutils literal notranslate"><span class="pre">~/.ssh</span></code> directory on your local machine and see if you have a file named <code class="docutils literal notranslate"><span class="pre">id_rsa.pub</span></code>. If you don’t have the file, you need to generate the keys using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-keygen
+</pre></div>
+</div>
+<p>Once you have the <code class="docutils literal notranslate"><span class="pre">id_rsa.pub</span></code> file, submit the public key to the FASRC cluster using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-copy-id<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_rsa.pub<span class="w"> </span>&lt;username&gt;@login.rc.fas.harvard.edu
+</pre></div>
+</div>
+<p>It will prompt you to enter your FASRC password. Once you enter the password, the public key will be added to the <code class="docutils literal notranslate"><span class="pre">~/.ssh/authorized_keys</span></code> file on the FASRC cluster.</p>
+<p>After completing the above steps, you can connect to the compute nodes. First connect to the login node and allocate an interactive session. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>salloc<span class="w"> </span>--partition<span class="o">=</span>kempner_requeue<span class="w"> </span>--account<span class="o">=</span>kempner_dev<span class="w"> </span>--ntasks<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">16</span><span class="w"> </span>--mem<span class="o">=</span>16G<span class="w"> </span>--gres<span class="o">=</span>gpu:1<span class="w"> </span>--time<span class="o">=</span><span class="m">00</span>-03:00:00
+</pre></div>
+</div>
+<p>This will allocate an interactive session on the <code class="docutils literal notranslate"><span class="pre">kempner_requeue</span></code> partition with 16 cores, 16GB of memory, and 1 GPU for 3 hours. Then node name is displayed int the terminal.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can also use the <code class="docutils literal notranslate"><span class="pre">squeue</span> <span class="pre">-u</span> <span class="pre">&lt;username&gt;</span></code> command to see the list of your running jobs and the nodes they are running on.</p>
+</div>
+<figure class="align-default" id="vscode-ssh-login-5">
+<a class="reference internal image-reference" href="../_images/vscode_ssh_login_5.png"><img alt="../_images/vscode_ssh_login_5.png" src="../_images/vscode_ssh_login_5.png" style="height: 500px;" /></a>
+</figure>
+<p>Once you have the node name, go to the search bar of the VScode and type <code class="docutils literal notranslate"><span class="pre">&gt;Remote-SSH:</span> <span class="pre">Connect</span> <span class="pre">to</span> <span class="pre">Host...</span></code> and then in the prompt, put <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;&#64;&lt;node_name&gt;</span></code> and press enter.</p>
+<figure class="align-default" id="vscode-ssh-login-6">
+<a class="reference internal image-reference" href="../_images/vscode_ssh_login_6.png"><img alt="../_images/vscode_ssh_login_6.png" src="../_images/vscode_ssh_login_6.png" style="height: 500px;" /></a>
+</figure>
+<p>This will open a new window on the compute node. You can now use it to run your jobs interactively.</p>
+<figure class="align-default" id="vscode-ssh-login-7">
+<a class="reference internal image-reference" href="../_images/vscode_ssh_login_7.png"><img alt="../_images/vscode_ssh_login_7.png" src="../_images/vscode_ssh_login_7.png" style="height: 500px;" /></a>
+</figure>
+</section>
+<section id="using-jupyter-notebooks-within-vscode">
+<span id="development-and-runtime-envs-using-vscode-for-remote-development-jupyter"></span><h2><span class="section-number">3.3.4. </span>Using Jupyter notebooks within VSCode<a class="headerlink" href="#using-jupyter-notebooks-within-vscode" title="Link to this heading">#</a></h2>
+<p>You can open, edit, and run Jupyter notebooks within VSCode. To do so, you need to first install the <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter">Jupyter extension</a>.</p>
+<p>The interface for notebooks within VSCode is similar to other methods of accessing them - there are tools for running individual cells, all cells, clearing all outputs, etc. See the <a class="reference external" href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks">VSCode jupyter notebook documention</a> for a detailed overview of these options.</p>
+<p>If you follow the instructions above, you will be able to open and run jupyter notebooks within an interactive session on the cluster. Open the notebook within VSCode and click on <code class="docutils literal notranslate"><span class="pre">Select</span> <span class="pre">Kernel</span></code> (in the top right corner):</p>
+<figure class="align-default" id="vscode-jupyter-notebook-1">
+<a class="reference internal image-reference" href="../_images/vscode_jupyter_notebook_1.png"><img alt="../_images/vscode_jupyter_notebook_1.png" src="../_images/vscode_jupyter_notebook_1.png" style="height: 300px;" /></a>
+</figure>
+<p>If you click <code class="docutils literal notranslate"><span class="pre">Select</span> <span class="pre">Another</span> <span class="pre">Kernel</span></code> and then <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">environments</span></code>, you should see a list of possible kernels, including any <a class="reference internal" href="using_conda_env.html#development-and-runtime-envs-using-conda-env-creation"><span class="std std-ref">user-defined conda environments</span></a> (if you installed ipykernel within them):</p>
+<figure class="align-default" id="vscode-jupyter-notebook-2">
+<a class="reference internal image-reference" href="../_images/vscode_jupyter_notebook_2.png"><img alt="../_images/vscode_jupyter_notebook_2.png" src="../_images/vscode_jupyter_notebook_2.png" style="height: 300px;" /></a>
+</figure>
+<p>You can click on your preferred environment to use it within the jupyter notebook.</p>
+<p>If you recently created the conda environment, you may need to reload before it shows up. To do this, open the command palette using <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">P</span></code> (Windows)/<code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Command</span> <span class="pre">+</span> <span class="pre">P</span></code> (Mac) and type and select <code class="docutils literal notranslate"><span class="pre">Reload</span> <span class="pre">Window</span></code>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./development_and_runtime_envs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="containerization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3.2. </span>Containerization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="using_conda_env.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3.4. </span>Using Conda Environment</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">3.3.1. Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-the-fasrc-cluster-login-node">3.3.2. Connecting to the FASRC cluster (login node)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-the-fasrc-cluster-compute-node">3.3.3. Connecting to the FASRC cluster (Compute node)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-jupyter-notebooks-within-vscode">3.3.4. Using Jupyter notebooks within VSCode</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kempner Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright  2024, The President and Fellows of Harvard College.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
