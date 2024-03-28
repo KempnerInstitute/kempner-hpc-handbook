@@ -3,7 +3,7 @@
 _Date: March 28, 2024_  
 _Time: 1:00 - 4:00 PM_  
 _Location: SEC 2.118_  
-_Presenters: Ella Batty, Naeem Khoshnevis, Ben Sabath, Max Shad_   
+_Presenters: Ella Batty, Naeem Khoshnevis, Max Shad_   
 
   
 

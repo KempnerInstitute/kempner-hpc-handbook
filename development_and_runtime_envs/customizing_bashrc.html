@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3.6. Customizing ~/.bashrc &#8212; Kempner Institute HPC Handbook</title>
+    <title>3.6. Customizing Shell Configuration File &#8212; Kempner Institute HPC Handbook</title>
   
   
   
@@ -199,7 +199,7 @@
 <li class="toctree-l2"><a class="reference internal" href="using_vscode_for_remote_development.html">3.3. Using VSCode for Remote Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="using_conda_env.html">3.4. Using Conda Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="handling_dependencies_with_spack.html">3.5. Handling Dependencies with Spack</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. Customizing ~/.bashrc</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.6. Customizing Shell Configuration File</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../scalability/README.html">4. Scalability</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -369,7 +369,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -380,11 +382,25 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Customizing ~/.bashrc</h1>
+    <h1>Customizing Shell Configuration File</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shortcut-to-lab-or-project-storage">3.6.1. Shortcut to Lab or Project Storage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-access-to-scratch-space">3.6.2. Quick Access to Scratch Space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-loading-shortcuts">3.6.3. Module Loading Shortcuts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-shortcuts">3.6.4. Monitoring Shortcuts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-jobs">3.6.5. Interactive Jobs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canceling-all-your-jobs">3.6.6. Canceling All Your Jobs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-customizing-shell-configuration-file">3.6.7. Tips for Customizing Shell Configuration File</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -394,8 +410,86 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="customizing-bashrc">
-<h1><span class="section-number">3.6. </span>Customizing ~/.bashrc<a class="headerlink" href="#customizing-bashrc" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="customizing-shell-configuration-file">
+<h1><span class="section-number">3.6. </span>Customizing Shell Configuration File<a class="headerlink" href="#customizing-shell-configuration-file" title="Link to this heading">#</a></h1>
+<p>Including useful aliases and shortcuts into your shell configuration file (<code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> in your home directory) can significantly streamline your workflow on the Kempner HPC Cluster, especially when working with GPU-accelerated machine learning (ML) tasks. These aliases can save you time by <strong>reducing the need to type long commands</strong> and <strong>help avoid potential mistakes in repetitive tasks</strong>.</p>
+<p>This section provides examples of aliases and shortcuts that can be particularly useful in such environments.</p>
+<section id="shortcut-to-lab-or-project-storage">
+<h2><span class="section-number">3.6.1. </span>Shortcut to Lab or Project Storage<a class="headerlink" href="#shortcut-to-lab-or-project-storage" title="Link to this heading">#</a></h2>
+<p>Define aliases to quickly navigate to your lab or project storage directories on the Kempner HPC cluster,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">USERDIR</span><span class="o">=</span><span class="s1">&#39;/n/holylabs/LABS/&lt;lab_name&gt;/Users/$USER&#39;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">golab</span><span class="o">=</span><span class="s1">&#39;cd $USERDIR; pwd&#39;</span><span class="w"> </span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">goproject</span><span class="o">=</span><span class="s1">&#39;cd $USERDIR/&lt;project_name&gt;; pwd&#39;</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;lab_name&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;project_name&gt;</span></code> with your lab name (e.g., <code class="docutils literal notranslate"><span class="pre">kempner_grads</span></code>) and project folder name (<code class="docutils literal notranslate"><span class="pre">OLMo</span></code>). Defining <code class="docutils literal notranslate"><span class="pre">$USERDIR</span></code> as a separate variable helps organize your submission scripts and makes your code more portable when moving between systems.</p>
+</section>
+<section id="quick-access-to-scratch-space">
+<h2><span class="section-number">3.6.2. </span>Quick Access to Scratch Space<a class="headerlink" href="#quick-access-to-scratch-space" title="Link to this heading">#</a></h2>
+<p>Define an alias for quick navigation to your scratch space, a temporary storage location for running jobs.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">SCRATCHDIR</span><span class="o">=</span><span class="s1">&#39;/n/holyscratch01/&lt;lab_name&gt;/Users/$USER&#39;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">goscratch</span><span class="o">=</span><span class="s1">&#39;cd $SCRATCHDIR; pwd&#39;</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;lab_name&gt;</span></code> with your lab name (e.g., <code class="docutils literal notranslate"><span class="pre">kempner_grads</span></code>).</p>
+</section>
+<section id="module-loading-shortcuts">
+<h2><span class="section-number">3.6.3. </span>Module Loading Shortcuts<a class="headerlink" href="#module-loading-shortcuts" title="Link to this heading">#</a></h2>
+<p>Loading and unloading modules is a frequent task in HPC environments. You can simplify this process with aliases. Use <code class="docutils literal notranslate"><span class="pre">loadml</span> <span class="pre">&lt;module_name&gt;</span></code> with the specific modules you use.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">loadml</span><span class="o">=</span><span class="s1">&#39;module load $1&#39;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">unloadml</span><span class="o">=</span><span class="s1">&#39;module unload $1&#39;</span>
+</pre></div>
+</div>
+<p>You can use the alias as <code class="docutils literal notranslate"><span class="pre">loadml</span> <span class="pre">&lt;module_name&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;module_name&gt;</span></code> is the name of available module.</p>
+</section>
+<section id="monitoring-shortcuts">
+<h2><span class="section-number">3.6.4. </span>Monitoring Shortcuts<a class="headerlink" href="#monitoring-shortcuts" title="Link to this heading">#</a></h2>
+<p>Submitting and monitoring jobs is a core part of working on the Kempner HPC cluster. Simplify these commands to save time:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">myjobs</span><span class="o">=</span><span class="s1">&#39;squeue -u $USER&#39;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">sq</span><span class="o">=</span><span class="s1">&#39;showq -u $USER&#39;</span>
+</pre></div>
+</div>
+<p>Get detailed information about a specific job.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">jobinfo</span><span class="o">=</span><span class="s1">&#39;scontrol show job $1&#39;</span>
+</pre></div>
+</div>
+<p>Use this command as <code class="docutils literal notranslate"><span class="pre">jobinfo</span> <span class="pre">&lt;job_id&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;job_id&gt;</span></code>is the job ID assgined by SLURM.</p>
+<p>Check status of jobs in a given partition,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">partinfo</span><span class="o">=</span><span class="s1">&#39;showq -o -p $1&#39;</span>
+</pre></div>
+</div>
+<p>Pass one of the Kempner partitions to this command (e.g., <code class="docutils literal notranslate"><span class="pre">partinfo</span> <span class="pre">kempner</span></code>).</p>
+</section>
+<section id="interactive-jobs">
+<h2><span class="section-number">3.6.5. </span>Interactive Jobs<a class="headerlink" href="#interactive-jobs" title="Link to this heading">#</a></h2>
+<p>Define an alias to speed up interactive session request (default to one GPU with 250G RAM):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">onegpu</span><span class="o">=</span><span class="s1">&#39;salloc -p kempner_requeue --account=&lt;fairshare_account&gt; --nodes=1 --ntasks=1 --cpus-per-task=16 --mem=250G --gres=gpu:1 -t 00-07:00:00&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="canceling-all-your-jobs">
+<h2><span class="section-number">3.6.6. </span>Canceling All Your Jobs<a class="headerlink" href="#canceling-all-your-jobs" title="Link to this heading">#</a></h2>
+<p>Quickly cancel all your jobs.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">killmyjobs</span><span class="o">=</span><span class="s1">&#39;scancel -u $USER&#39;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Use this command with caution!</p>
+</div>
+</section>
+<section id="tips-for-customizing-shell-configuration-file">
+<h2><span class="section-number">3.6.7. </span>Tips for Customizing Shell Configuration File<a class="headerlink" href="#tips-for-customizing-shell-configuration-file" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Personalize Aliases</strong>: The examples provided are a starting point. Modify and expand them based on your workflow and frequently used commands.</p></li>
+<li><p><strong>Keep <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> Organized</strong>: As you add more aliases, keep your file organized by grouping related aliases together. This practice makes it easier to find and modify them later.</p></li>
+<li><p><strong>Test</strong>: After adding new aliases, test them to ensure they work as expected. This step will help avoid disruptions in your workflow.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can add <code class="docutils literal notranslate"><span class="pre">shopt</span> <span class="pre">-s</span> <span class="pre">expand_aliases</span></code> to your shell configuration file (<code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>) to enable alias expansion in your SLURM batch jobs. However, you will need to use <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/.bashrc</span></code> in your batch job submission script.</p>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -453,7 +547,26 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"></div>
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shortcut-to-lab-or-project-storage">3.6.1. Shortcut to Lab or Project Storage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-access-to-scratch-space">3.6.2. Quick Access to Scratch Space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-loading-shortcuts">3.6.3. Module Loading Shortcuts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-shortcuts">3.6.4. Monitoring Shortcuts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-jobs">3.6.5. Interactive Jobs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canceling-all-your-jobs">3.6.6. Canceling All Your Jobs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-customizing-shell-configuration-file">3.6.7. Tips for Customizing Shell Configuration File</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
