@@ -72,6 +72,8 @@ See {ref}`getting_started:accessing_and_navigating_the_cluster` for full details
 
 3. **Spack**
 
+See {ref}`development_and_runtime_envs:handling_dependencies_with_spack` for full details. 
+See {ref}`development_and_runtime_envs:handling_dependencies_with_spack` for full details. 
 
 ````
 
@@ -82,8 +84,6 @@ See {ref}`getting_started:accessing_and_navigating_the_cluster` for full details
 ````
 
 ````{dropdown} Data Transfer
-
-1. **Scp and Rsync**
 
 ````
 

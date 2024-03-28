@@ -1,3 +1,4 @@
+(resource_management:open_ondemand)=
 # Open OnDemand
 
 Open OnDemand is a user-friendly, web-based platform designed to facilitate access to high-performance computing (HPC) resources. It streamlines the process of using HPC by providing a no-install, browser-based interface through which users can submit and manage jobs, upload and download data, and run a wide array of applications without any complex command-line instructions. Among the many applications it supports, Open OnDemand offers direct access to RStudio Server, Jupyter Notebook / JupyterLab, and Remote Desktop. 
