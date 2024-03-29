@@ -59,9 +59,7 @@ kempner_requeue intel,holyhdr,icelake,avx,avx2,avx512,gpu,a100,cc8.0
 kempner_h100 amd,holyndr,genoa,avx,avx2,avx512,gpu,h100,cc9.0
 ```
 
-The following table describes each features in the Kempner HPC cluster, 
-
-Thank you for the clarification. Here's the updated description for `holyndr` in the context of SLURM features, reflecting its relation to network capabilities:
+The following table describes each of the features in the Kempner HPC cluster:
 
 | Feature  | Description                                                                                       |
 |----------|---------------------------------------------------------------------------------------------------|
@@ -69,7 +67,7 @@ Thank you for the clarification. Here's the updated description for `holyndr` in
 | `intel`    | Refers to processors manufactured by Intel.                                                       |
 | `holyndr`  | Indicates support for NDR (Next Data Rate, 400 Gb/s) networking, enhancing data transfer and communication efficiency between nodes. |
 | `genoa`    | Represents AMD's Genoa processor line, known for high performance in computing tasks.             |
-| `holyhdr`  | Indicates support for HDR (High Data Rate, 300 Gb/s) networking, enhancing data transfer and communication efficiency between nodes. |
+| `holyhdr`  | Indicates support for HDR (High Data Rate, 200 Gb/s) networking, enhancing data transfer and communication efficiency between nodes. |
 | `icelake`  | Denotes Intel's Ice Lake processor line, which includes features like deep learning boost for AI and machine learning enhancements. |
 | `avx`, `avx2`, `avx512` | Advanced Vector Extensions (AVX) are Intel's and AMD's SIMD (single instruction, multiple data) extensions for parallelism in computing. `avx512` offers more features and wider vector registers than `avx` and `avx2`. |
 | `gpu`      | Indicates the presence of GPU resources in the partition.                                         |

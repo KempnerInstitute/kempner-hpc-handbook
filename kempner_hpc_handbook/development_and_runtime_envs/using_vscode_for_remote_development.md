@@ -1,3 +1,4 @@
+(development_and_runtime_envs:using_vscode_for_remote_development)=
 # Using VSCode for Remote Development
 
 For remote development, we recommend using Visual Studio Code (VSCode) with the Remote - SSH extension. This extension allows you to open any folder and file on the FASRC cluster and take full advantage of VSCode's feature set. 
