@@ -292,7 +292,7 @@ sbatch run_array_job.sh
 ## Advanced Computing Techniques
 
 - Best practices for HPC efficiency
-- Introduction to parallel computing
+- Introduction to parallel computing (<a href="../../scalability/introduction_to_parallel_computing.html" target="_blank">Click Here</a>)
 - Containerization with Singularity (<a href="../../development_and_runtime_envs/containerization.md#containerization" target="_blank">Click Here</a>)
 - Distributed Computing and Training ([Click Here](https://github.com/KempnerInstitute/intro-compute-march-2024))
 
