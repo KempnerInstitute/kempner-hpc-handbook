@@ -26,8 +26,8 @@ For account approver please follow these instructions:
     - Select your PI as approver if they have an FASRC lab account (i.e. if they show up as option for approver) 
     - Otherwise, request `Ella Batty` or `Max Shad` as approver
 - If you are a **research fellow**: Select `Elise Porter` as approver	
-- If you are a **PI**: Email [Elise Porter](mailto:elise_porter@harvard.edu) to get access to the cluster after you have submitted the request. 
-- If **none** of the above: if you believe you are qualified to access the Kempner cluster, email [Elise Porter](mailto:elise_porter@harvard.edu).
+- If you are a **PI**: Email `Elise Porter` to get access to the cluster after you have submitted the request. 
+- If **none** of the above: if you believe you are qualified to access the Kempner cluster, email `Elise Porter`.
 
 Your approver will need to log in to the FASRC portal and approve your account creation request.
 

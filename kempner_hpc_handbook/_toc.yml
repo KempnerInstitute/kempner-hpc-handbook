@@ -1,6 +1,6 @@
 format: jb-article
 root: intro
-title: Kempner HPC Handbook
+title: Kempner Institute HPC Handbook
 options:
   numbered: true
 
@@ -11,6 +11,8 @@ sections:
     title: Introduction and Cluster Basics
   - file: getting_started/overview_of_kempner_cluster
     title: Overview of Kempner Institute HPC Cluster
+  - file: getting_started/kempner_policies_for_responsible_use
+    title: Kempner Policies for Responsible Use of the Cluster
   - file: getting_started/accessing_and_navigating_the_cluster
     title: Accessing and Navigating the Cluster
 - file: resource_management/README
@@ -40,7 +42,7 @@ sections:
   - file: development_and_runtime_envs/handling_dependencies_with_spack
     title: Handling Dependencies with Spack
   - file: development_and_runtime_envs/customizing_bashrc
-    title: Customizing ~/.bashrc
+    title: Customizing Shell Configuration File
 - file: scalability/README
   sections:
   - file: scalability/introduction_to_parallel_computing
@@ -59,6 +61,8 @@ sections:
     title: Understanding Storage Options
   - file: storage_and_data_transfer/data_transfer
     title: Data Transfer
+  - file: storage_and_data_transfer/shared_data_repository
+    title: Shared Data Repository    
 - file: performance_monitoring/README
   sections:
   - file: performance_monitoring/intro_to_performance_monitoring

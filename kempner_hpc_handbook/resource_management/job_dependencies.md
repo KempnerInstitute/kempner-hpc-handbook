@@ -29,6 +29,8 @@ The following table lists the common dependency types (`<type>`) for batch jobs,
 | `afterok`   | Job begins only after the specified job has completed successfully (exit code=0).        |
 | `afternotok`| Job begins only if the specified job has failed.                              |
 | `afterany`  | Job starts after the specified job has finished, regardless of its exit status. |
+| `singleton`  | Job starts after all previously launched jobs with the same name and user have ended. |
+
 
 ## Examples
 Let's review a few examples showcasing how SLURM job dependencies can be used in ML research scenarios:
