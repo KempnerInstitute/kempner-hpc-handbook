@@ -59,9 +59,7 @@ kempner_requeue intel,holyhdr,icelake,avx,avx2,avx512,gpu,a100,cc8.0
 kempner_h100 amd,holyndr,genoa,avx,avx2,avx512,gpu,h100,cc9.0
 ```
 
-The following table describes each features in the Kempner HPC cluster, 
-
-Thank you for the clarification. Here's the updated description for `holyndr` in the context of SLURM features, reflecting its relation to network capabilities:
+The following table describes each of the features in the Kempner HPC cluster:
 
 | Feature  | Description                                                                                       |
 |----------|---------------------------------------------------------------------------------------------------|
