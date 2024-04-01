@@ -14,27 +14,27 @@ We will develop a web interface later for data and model discovery.
 
 ## The current list of ML models 
 
-- **[CodeLlama](https://huggingface.co/codellama/CodeLlama-7b-hf)**
-    - Path: `$MODEL_PATH/models--codellama--CodeLlama-7b-hf`
+- **CodeLlama**
+    - Path: `$MODEL_PATH/models--codellama--CodeLlama-7b-hf` (see on [HuggingFace]( https://huggingface.co/codellama/CodeLlama-7b-hf))
         - Size: 16 G
 --- 
 
 - **EleutherAI**
-    - Path: `$MODEL_PATH/models--EleutherAI--pythia-160m-deduped`
+    - Path: `$MODEL_PATH/models--EleutherAI--pythia-160m-deduped` (see on [HuggingFace](https://huggingface.co/EleutherAI/pythia-160m-deduped)
         - Size: 435 M
-    - Path: `$MODEL_PATH/models--EleutherAI--pythia-70m-deduped`
+    - Path: `$MODEL_PATH/models--EleutherAI--pythia-70m-deduped` (see on [HuggingFace](https://huggingface.co/EleutherAI/pythia-70m-deduped)
         - Size: 195 M 
 
 ---
 
 - **OpenAI**
-    - Path: `$MODEL_PATH/models--gpt2`
+    - Path: `$MODEL_PATH/models--gpt2` (see on [HuggingFace](https://huggingface.co/gpt2))
         - Size: 4.5 M
 
 --- 
 
 - **Google**
-    - Path: `$MODEL_PATH/models--t5-base`
+    - Path: `$MODEL_PATH/models--t5-base` (see on [HuggingFace](https://huggingface.co/t5-base))
         - Size: 3.4 M
 
 ## The current list of ML datasets
