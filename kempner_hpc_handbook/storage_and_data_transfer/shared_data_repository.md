@@ -14,7 +14,7 @@ We will develop a web interface later for data and model discovery.
 
 ## The current list of ML models 
 
-- **CodeLlama**
+- **[CodeLlama](https://huggingface.co/codellama/CodeLlama-7b-hf)**
     - Path: `$MODEL_PATH/models--codellama--CodeLlama-7b-hf`
         - Size: 16 G
 --- 
