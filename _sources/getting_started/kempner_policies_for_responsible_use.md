@@ -12,13 +12,21 @@ We don’t limit jobs on the basis of size and encourage users to use capacity w
 
 Please use the [Kempner requeue](https://docs.rc.fas.harvard.edu/kb/kempner-partitions/) partition if you want to try out something resource intensive but not urgent. This work may be requeued by higher priority work, so you should implement checkpointing in the event that something higher priority interrupts your run.
 
-The cluster should never be used for CPU-only jobs. The current hardware has 64 cores on each 4-GPU node.  Jobs should be submitted with no more than 16 cores per GPU to allow other users to be able to submit jobs.  
+The cluster should never be used for CPU-only jobs. There are two types of Kempner Institute nodes on the cluster: Nodes with A100 40GB GPUs (`kempner` partition) and nodes with H100 80GB GPUs (`kempner_h100` partition). All nodes have 4 GPUs. Jobs should be submitted with **no more than**:
+
+- 16 cores and 250 GB per GPU for `kempner` partition, and 
+- 24 cores and 375 GB per GPU for `kempner_h100` partition.  
 
 ::::{important}
-Users should not submit jobs that use more than 10% of cluster resources (currently 12 GPUs) and that run for a long period of time (more than 4 hours), unless they follow the suggestions below. 
+Users should not submit jobs that utilize more than 10% of the cluster resources or that run for extended periods (exceeding 4 hours). Given the current resources, 10% of the cluster comprises:
+
+- 12 A100 GPUs (3 nodes) in the `kempner` partition, and
+- 8 H100 GPUs (2 nodes) in the `kempner_h100` partition.
+
+See the following guidelines for jobs that exceed this limit.
 ::::
 
-If your job falls into this category, you should:
+If your job exceeds this predefined limit, please adhere to the following guidelines:
 
 - Use the [Kempner requeue](https://docs.rc.fas.harvard.edu/kb/kempner-partitions/) partition. This allows jobs to be preempted by other jobs and then restarted, thus allowing large jobs to run without disrupting access for the rest of the community.
 - If not using the requeue partition, only submit jobs when there is significant excess capacity and actively monitor the cluster (hourly) to ensure that there are still resources available for other users.
