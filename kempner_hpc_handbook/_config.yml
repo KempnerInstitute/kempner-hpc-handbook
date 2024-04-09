@@ -12,3 +12,11 @@ latex:
 bibtex_bibfiles:
   - references.bib
 
+repository:
+  url: https://github.com/KempnerInstitute/kempner-hpc-handbook
+  path: kempner_hpc_handbook
+  branch: main
+
+html:
+  use_issues_button: true
+  use_repository_button: true
