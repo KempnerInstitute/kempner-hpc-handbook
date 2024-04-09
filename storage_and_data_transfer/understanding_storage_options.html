@@ -442,7 +442,9 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-persistent-home-directory">5.1.1. Default persistent home directory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-persistent-lab-directory">5.1.2. Default persistent lab directory</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary-scratch-storage">5.1.3. Temporary scratch storage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary-scratch-storage-lustre">5.1.3. Temporary scratch storage (Lustre)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary-scratch-storage-vast">5.1.4. Temporary scratch storage (VAST)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scratch-storage-summary-table">5.1.5. Scratch Storage Summary Table</a></li>
 </ul>
             </nav>
         </div>
@@ -471,7 +473,7 @@ document.write(`
 </section>
 <section id="default-persistent-lab-directory">
 <h2><span class="section-number">5.1.2. </span>Default persistent lab directory<a class="headerlink" href="#default-persistent-lab-directory" title="Link to this heading">#</a></h2>
-<p>Each lab has 4TB of persistent storage. <em>This is for long-term storage of files, checkpoints, datasets, etc</em>. Your lab directory is located at:</p>
+<p>Each lab has 4 TB of persistent storage. <em>This is for long-term storage of files, checkpoints, datasets, etc</em>. Your lab directory is located at:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>/n/holylabs/LABS/&lt;your<span class="w"> </span>lab<span class="w"> </span>name&gt;
 </pre></div>
 </div>
@@ -481,9 +483,9 @@ document.write(`
 </div>
 <p>This storage is only accessible to members of the lab. There is <strong>no cost</strong> associated with this storage.</p>
 </section>
-<section id="temporary-scratch-storage">
-<h2><span class="section-number">5.1.3. </span>Temporary scratch storage<a class="headerlink" href="#temporary-scratch-storage" title="Link to this heading">#</a></h2>
-<p>Each lab has 50TB of <code class="docutils literal notranslate"><span class="pre">scratch</span></code> storage space. This storage is high-performance, and it is intended to be where you keep data you are actively using for a job (e.g., datasets you’re actively using for a job, checkpoints you’re storing from a job, etc.). That data should be copied from the persistent directories above. Data in scratch folders will be deleted after 90 days, and you should treat it as if it could be deleted at any time.</p>
+<section id="temporary-scratch-storage-lustre">
+<h2><span class="section-number">5.1.3. </span>Temporary scratch storage (Lustre)<a class="headerlink" href="#temporary-scratch-storage-lustre" title="Link to this heading">#</a></h2>
+<p>Each lab has 50 TB of <code class="docutils literal notranslate"><span class="pre">scratch</span></code> storage space. This storage is high-performance, and it is intended to be where you keep data you are actively using for a job (e.g., datasets you’re actively using for a job, checkpoints you’re storing from a job, etc.). That data should be copied from the persistent directories above. Data in scratch folders will be deleted after 90 days, and you should treat it as if it could be deleted at any time.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Please be aware that employing any methods to alter data in the scratch directory to circumvent the 90-day deletion policy is strictly forbidden and will lead to administrative action by the RC team. For further information, please consult the following resource: <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/policy-scratch/">RC Scratch Directory Policy</a>.</p>
@@ -504,6 +506,64 @@ document.write(`
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In the <code class="docutils literal notranslate"><span class="pre">scratch</span></code> storage space under the <code class="docutils literal notranslate"><span class="pre">Users</span></code> directory, you can have private directory with your username. This will not exist by default. You need to file a ticket with FASRC on the <a class="reference external" href="https://portal.rc.fas.harvard.edu/">portal</a> to as for a private directory in the <code class="docutils literal notranslate"><span class="pre">scratch</span></code> storage space.</p>
+</div>
+</section>
+<section id="temporary-scratch-storage-vast">
+<h2><span class="section-number">5.1.4. </span>Temporary scratch storage (VAST)<a class="headerlink" href="#temporary-scratch-storage-vast" title="Link to this heading">#</a></h2>
+<p>The VAST storage offers improved performance for AI workflows, especially those requiring high I/O in computer vision ML workflows. In addition to the default <code class="docutils literal notranslate"><span class="pre">holyscratch01</span></code> scratch space, which is a Lustre-type filesystem, Kempner Cluster users also have access to VAST scratch space, mounted at the following path on the cluster.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/n/vast-scratch/&lt;your<span class="w"> </span>lab<span class="w"> </span>name&gt;
+</pre></div>
+</div>
+<p>For example, Jonathan Frankle’s lab directory on VAST scratch storage is at:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/n/vast-scratch/kempner_jfrankle_lab
+</pre></div>
+</div>
+<p>This VAST scratch storage is only accessible to members of the lab. Each lab has 25 TB of VAST scratch storage space.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The VAST scratch storage mounted on <code class="docutils literal notranslate"><span class="pre">/n/vast-scratch</span></code> is accessible only from Kempner cluster compute nodes (<code class="docutils literal notranslate"><span class="pre">holygpu8a17*</span></code> for H100 GPU nodes and <code class="docutils literal notranslate"><span class="pre">holygpu8a19*</span></code> for A100 GPU nodes), and FASRC is working to mount it on login nodes as well. You have access to this storage during an interactive session on any Kempner partition, or your batch job can access this storage once submitted to a Kempner partition.</p>
+</div>
+</section>
+<section id="scratch-storage-summary-table">
+<h2><span class="section-number">5.1.5. </span>Scratch Storage Summary Table<a class="headerlink" href="#scratch-storage-summary-table" title="Link to this heading">#</a></h2>
+<p>The following table summarizes the details of the default scratch storage (<code class="docutils literal notranslate"><span class="pre">holyscratch01</span></code>) and VAST scratch storage (<code class="docutils literal notranslate"><span class="pre">VAST</span></code>) offerings:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Default Scratch Storage</p></th>
+<th class="head"><p>VAST Scratch Storage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Name</strong></p></td>
+<td><p>holyscratch01</p></td>
+<td><p>VAST</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Filesystem Type</strong></p></td>
+<td><p>Lustre</p></td>
+<td><p>VAST</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Each Lab Quota</strong></p></td>
+<td><p>50 TB</p></td>
+<td><p>25 TB</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>File Retention</strong></p></td>
+<td><p>90 days</p></td>
+<td><p>90 days</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Lab Scratch Path</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/n/holyscratch01/&lt;your</span> <span class="pre">lab</span> <span class="pre">name&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/n/vast-scratch/&lt;your</span> <span class="pre">lab</span> <span class="pre">name&gt;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Use Cases</strong></p></td>
+<td><p>Optimized for Varieties of Workflows</p></td>
+<td><p>Optimized for High I/O AI Workflows</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current VAST scratch storage, mounted on <code class="docutils literal notranslate"><span class="pre">/n/vast-scratch</span></code>, serves as a temporary solution. Users may need to migrate to a more permanent VAST storage later in the summer. This page will be updated with the most recent information, and users will be notified about any changes to the scratch storage in advance.</p>
 </div>
 <p>The following table summarizes the storage options available on the cluster, visit <a class="reference external" href="https://www.rc.fas.harvard.edu/services/data-storage/">data storage</a> for more information.</p>
 <figure class="align-default" id="storage-options">
@@ -578,7 +638,9 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-persistent-home-directory">5.1.1. Default persistent home directory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-persistent-lab-directory">5.1.2. Default persistent lab directory</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary-scratch-storage">5.1.3. Temporary scratch storage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary-scratch-storage-lustre">5.1.3. Temporary scratch storage (Lustre)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary-scratch-storage-vast">5.1.4. Temporary scratch storage (VAST)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scratch-storage-summary-table">5.1.5. Scratch Storage Summary Table</a></li>
 </ul>
   </nav></div>
 
