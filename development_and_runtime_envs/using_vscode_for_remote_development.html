@@ -482,13 +482,26 @@ document.write(`
 <span class="w">  </span>User<span class="w"> </span>&lt;username&gt;
 </pre></div>
 </div>
-<p>Please make sure that you use your FASRC username in place of <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;</span></code>.</p>
-<ul class="simple">
-<li><p>Step 2: Open the VSCode and click on the Remote Explorer icon on the left-hand (or the right-hand) side of the window.</p></li>
-</ul>
-<figure class="align-default" id="vscode-ssh-login-1">
-<a class="reference internal image-reference" href="../_images/vscode_ssh_login_1.png"><img alt="../_images/vscode_ssh_login_1.png" src="../_images/vscode_ssh_login_1.png" style="height: 500px;" /></a>
-</figure>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please rotate among different login nodes to avoid an unbalanced load on specific nodes. Create multiple connections and change the login node name (e.g., from <code class="docutils literal notranslate"><span class="pre">holylogin01</span></code> to <code class="docutils literal notranslate"><span class="pre">holylogin02</span></code>, <code class="docutils literal notranslate"><span class="pre">holylogin03</span></code>, or <code class="docutils literal notranslate"><span class="pre">holylogin04</span></code>) and connect to a different login node every time. For example, define <code class="docutils literal notranslate"><span class="pre">cannon02</span></code> connection as,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Host<span class="w"> </span>cannon02
+<span class="w">  </span>HostName<span class="w"> </span>holylogin02.rc.fas.harvard.edu
+<span class="w">  </span>User<span class="w"> </span>&lt;username&gt;
+</pre></div>
+</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+Please make sure that you use your FASRC username in place of `&lt;username&gt;`.
+
+- Step 2: Open the VSCode and click on the Remote Explorer icon on the left-hand (or the right-hand) side of the window.
+
+```{figure} figures/png/vscode_ssh_login_1.png
+---
+height: 500 px
+name: VSCode SSH Login 1
+</pre></div>
+</div>
 <ul class="simple">
 <li><p>Step 3: Hover the mouse on your username or on <code class="docutils literal notranslate"><span class="pre">cannon</span></code> and click on the <code class="docutils literal notranslate"><span class="pre">-&gt;</span></code> button to connect to the FASRC cluster.</p></li>
 </ul>
@@ -528,6 +541,10 @@ Host<span class="w"> </span>holy*
 <span class="w">    </span>User<span class="w"> </span>&lt;username&gt;
 <span class="w">    </span>ProxyJump<span class="w"> </span>cannon
 </pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please rotate among different login nodes to avoid an unbalanced load on specific nodes. Create multiple connections and change the login node name (e.g., from <code class="docutils literal notranslate"><span class="pre">holylogin01</span></code> to <code class="docutils literal notranslate"><span class="pre">holylogin02</span></code>, <code class="docutils literal notranslate"><span class="pre">holylogin03</span></code>, or <code class="docutils literal notranslate"><span class="pre">holylogin04</span></code>) and connect to a different login node every time.</p>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>Generate a public and private key on your local machine and submit the public key to the FASRC cluster.</p></li>
