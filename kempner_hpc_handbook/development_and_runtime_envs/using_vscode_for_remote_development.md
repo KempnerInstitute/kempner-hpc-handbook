@@ -26,6 +26,11 @@ Host cannon
   HostName holylogin01.rc.fas.harvard.edu
   User <username>
 ```
+
+```{warning}
+Please rotate among different login nodes to avoid an unbalanced load on specific nodes. Create multiple connections and change the login node name (e.g., from `holylogin01` to `holylogin02`, `holylogin03`, or `holylogin04`) and connect to a different login node every time.
+```
+
 Please make sure that you use your FASRC username in place of `<username>`.
 
 - Step 2: Open the VSCode and click on the Remote Explorer icon on the left-hand (or the right-hand) side of the window.
@@ -84,6 +89,10 @@ Host holy*
     HostName %h
     User <username>
     ProxyJump cannon
+```
+
+```{warning}
+Please rotate among different login nodes to avoid an unbalanced load on specific nodes. Create multiple connections and change the login node name (e.g., from `holylogin01` to `holylogin02`, `holylogin03`, or `holylogin04`) and connect to a different login node every time.
 ```
 
 2. Generate a public and private key on your local machine and submit the public key to the FASRC cluster.
