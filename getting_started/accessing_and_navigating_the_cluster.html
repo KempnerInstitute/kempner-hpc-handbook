@@ -474,8 +474,9 @@ document.write(`
 <section id="setting-up-a-vpn-connection">
 <h2><span class="section-number">1.4.1. </span>Setting Up a VPN Connection<a class="headerlink" href="#setting-up-a-vpn-connection" title="Link to this heading">#</a></h2>
 <p>To set up a VPN connection, follow these steps:</p>
+<p><em>Skip Steps 1 and 2 if you have the Cisco AnyConnect VPN Client already installed on your local machine.</em></p>
 <ol class="arabic simple">
-<li><p><strong>Download the VPN Client</strong>: Download the VPN client from the <a class="reference external" href="https://vpn.rc.fas.harvard.edu">https://vpn.rc.fas.harvard.edu</a>.</p></li>
+<li><p><strong>Download the VPN Client</strong>: Download the VPN client from the <a class="reference external" href="https://vpn.rc.fas.harvard.edu">https://vpn.rc.fas.harvard.edu</a>. Use username + &#64; + <code class="docutils literal notranslate"><span class="pre">fasrc</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">jharvard&#64;fasrc</span></code>) for <code class="docutils literal notranslate"><span class="pre">USERNAME</span></code> field.</p></li>
 <li><p><strong>Install the VPN Client</strong>: Install the VPN client on your local machine.</p></li>
 <li><p><strong>Connect to the VPN</strong>: Open the VPN client and enter <code class="docutils literal notranslate"><span class="pre">vpn.rc.fas.harvard.edu</span></code> and click on the connect button.</p></li>
 <li><p><strong>Enter your credentials</strong>:</p>
@@ -488,7 +489,11 @@ document.write(`
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For detailed instructions and additional information, please read more about the VPN at <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/vpn-setup/">VPN setup guide</a>.</p>
+<p>For detailed instructions and additional information, please read more about the VPN at <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/vpn-setup/">VPN setup guide</a> on FASRC Documentation.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please avoid logging in directly to specific login nodes, as this can disrupt the load balancing on the nodes and may exert undue pressure on a particular login node (e.g., <code class="docutils literal notranslate"><span class="pre">holylogin01</span></code> through <code class="docutils literal notranslate"><span class="pre">holylogin04</span></code>). An exception exists for VSCode, which requires rotation between login nodes. Please refer to the <a class="reference internal" href="../development_and_runtime_envs/using_vscode_for_remote_development.html#development-and-runtime-envs-using-vscode-for-remote-development"><span class="std std-ref">VSCode Section</span></a> for more information.</p>
 </div>
 </section>
 <section id="ssh-access">
@@ -505,13 +510,14 @@ document.write(`
 </section>
 <section id="open-ondemand">
 <h2><span class="section-number">1.4.3. </span>Open OnDemand<a class="headerlink" href="#open-ondemand" title="Link to this heading">#</a></h2>
-<p>Open OnDemand is a web-based interface that allows users to access the cluster through a web browser. You can use Open onDemand to start a Remote Desktop session, launch Jupyter notebooks / JupyterLab or RStudio, and submit jobs to the cluster.</p>
+<p>Open OnDemand is a web-based interface that allows users to access the cluster through a web browser. You can use Open onDemand to start a Remote Desktop session, launch Jupyter notebooks / JupyterLab, RStudio, or other available interactive applications and submit jobs to the cluster.</p>
 <p>To access the cluster using Open OnDemand, follow these steps:</p>
 <ul class="simple">
 <li><p>Connect to the VPN</p></li>
 <li><p>Open a web browser and navigate to the following URL: <a class="reference external" href="http://vdi.rc.fas.harvard.edu/">http://vdi.rc.fas.harvard.edu/</a>.</p></li>
 <li><p>Enter your username and password to log in to the Open OnDemand interface.</p></li>
 </ul>
+<p>Refer to the dedicated <a class="reference internal" href="../resource_management/open_ondemand.html"><span class="std std-doc">Open OnDemand section</span></a> to learn more.</p>
 </section>
 </section>
 
