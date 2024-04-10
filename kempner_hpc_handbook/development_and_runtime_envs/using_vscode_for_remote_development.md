@@ -27,7 +27,7 @@ Host cannon
   User <username>
 ```
 
-```{warning}
+````{warning}
 Please rotate among different login nodes to avoid an unbalanced load on specific nodes. Create multiple connections and change the login node name (e.g., from `holylogin01` to `holylogin02`, `holylogin03`, or `holylogin04`) and connect to a different login node every time. For example, define `cannon02` connection as,
 
 ```bash
@@ -35,7 +35,7 @@ Host cannon02
   HostName holylogin02.rc.fas.harvard.edu
   User <username>
 ```
-```
+````
 
 Please make sure that you use your FASRC username in place of `<username>`.
 
