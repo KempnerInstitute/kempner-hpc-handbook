@@ -1,6 +1,9 @@
+(resource_management:open_ondemand)=
 # Open OnDemand
 
-Open OnDemand is a user-friendly, web-based platform designed to facilitate access to high-performance computing (HPC) resources. It streamlines the process of using HPC by providing a no-install, browser-based interface through which users can submit and manage jobs, upload and download data, and run a wide array of applications without any complex command-line instructions. Among the many applications it supports, Open OnDemand offers direct access to RStudio Server, Jupyter Notebook, and Remote Desktop. 
+Open OnDemand is a user-friendly, web-based platform designed to facilitate access to high-performance computing (HPC) resources. It streamlines the process of using HPC by providing a no-install, browser-based interface through which users can submit and manage jobs, upload and download data, and run a wide array of applications without any complex command-line instructions. Among the many applications it supports, Open OnDemand offers direct access to RStudio Server, Jupyter Notebook / JupyterLab, and Remote Desktop. 
+
+## Interactive Jobs on Open OnDemand
 
 ```{note}
 Use this link to access Open OnDemand: https://vdi.rc.fas.harvard.edu/.    
@@ -29,6 +32,10 @@ name: Open OnDemand Allocate Resources
 ```
 
 Fill out the form and click on the `Launch` button at the end of the page. This will put you in a queue. 
+
+```{note}
+You need to specify the `Slurm Account (Optional)` field if you wish to use the Kempner cluster or target a specific SLURM account in case of multiple lab memberships.
+```
 
 ```{figure} figures/png/open_ondemand_example-03.png
 ---
@@ -61,7 +68,8 @@ name: Run Jupyter Notebook
 
 Done!
 
+## Conda Environment in Jupyter Notebook
 
+To access a user-defined Conda environment in Jupyter Notebook/JupyterLab, you need to first create a Conda environment on the cluster. Follow the instructions in {ref}`development_and_runtime_envs:using_conda_env:creation` and {ref}`development_and_runtime_envs:using_conda_env:jupyter`. 
 
-
-
+When creating a new notebook, you can select the kernel - you should see any conda environments as part of that list. In existing notebooks, you can change the kernel by clicking `Kernel` -> `Change Kernel` at the top of the notebook.

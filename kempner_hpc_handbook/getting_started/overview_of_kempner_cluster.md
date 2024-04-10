@@ -4,7 +4,7 @@ The Kempner institute has dedicated compute resources for its mission toward adv
 
 ## What is the Kempner Institute HPC Cluster?
 
-The Kempner cluster is a cluster of GPUs networked such that the whole cluster can be used for single jobs.  The Kempner Institute collaborates with FASRC on the infrastructure and maintenance of this cluster.
+The Kempner cluster is a cluster of data center GPUs stacked in servers and racks, networked in such a way that the entire cluster can be utilized for both serial and distributed GPU workflows. The Kempner Institute collaborates with FAS Research Computing [FASRC](https://www.rc.fas.harvard.edu/) on the infrastructure and maintenance of this cluster.
 
 ## Who is eligible to use the Kempner Institute HPC Cluster?
 
@@ -22,6 +22,23 @@ The following table provides an overview of the Kempner Institute HPC cluster:
 | **GPUs per Server**       | 4                                              | 4                                                     |
 | **CPU Cores per Server**  | 64                                             | 96                                                    |
 | **RAM per Server**        | 1 TB                                           | 1.5 TB                                                |
+
+```{figure} figures/svg/cluster_diagram.svg
+---
+height: 500 px
+name: Diagram of HPC Cluster
+---
+This is a diagram of the Kempner HPC cluster within the FASRC infrastructure showing the arrangement of nodes, networking, and storage systems.
+```
+Currently, there are two GPU racks in production at the Massachusetts Green High Performance Computing Center (MGHPCC): one A100 GPU rack and one H100 GPU rack, with three more H100 GPU racks coming soon. In the following diagram, both the current and upcoming racks are shown, in addition to the network core designed for non-blocking communication between GPUs.
+
+```{figure} figures/svg/racks.svg
+---
+height: 500 px
+name: Current and Upcoming GPU Racks and Network Core
+---
+This is a diagram of the GPU racks (in production and upcoming ones) and network core.
+```
 
 
 ## Can I buy into the Kempner Institute HPC Cluster?

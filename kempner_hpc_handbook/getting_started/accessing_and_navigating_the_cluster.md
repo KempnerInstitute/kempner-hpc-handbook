@@ -1,6 +1,7 @@
+(getting_started:accessing_and_navigating_the_cluster)=
 # Accessing and Navigating the Cluster
 
-There are two methods for accessing the Kempner Institute HPC cluster. To utilize the resources, one must connect via a [VPN](https://docs.rc.fas.harvard.edu/kb/vpn-setup/) (Virtual Private Network).
+There are two methods for accessing the Kempner Institute HPC cluster. To utilize the resources, one may need to connect via a [VPN](https://docs.rc.fas.harvard.edu/kb/vpn-setup/) (Virtual Private Network). The VPN is not required for Secure Shell (SSH) access, but it is necessary for Open OnDemand access.
 
 
 ## Setting Up a VPN Connection
@@ -21,21 +22,21 @@ For detailed instructions and additional information, please read more about the
 
 ## SSH Access 
 
-You can access the cluster using a Secure Shell (SSH) client. Use the following command to connect to the cluster:
+You can access the cluster using an SSH client. Use the following command to connect to the cluster:
 
 ```bash
 ssh <username>@login.rc.fas.harvard.edu
 ```
 
-Replace `<username>` with your username on the cluster. This command will prompt you to enter your password and two-factor authentication (2FA) code. After entering your password and 2FA code, you will be connected to the login node of the cluster.
+Replace `<username>` with your username on the cluster. This command will prompt you to enter your password and a two-factor authentication (2FA) code. After entering your password and a 2FA code, you will be connected to one of the login nodes of the cluster.
 
 ```{note}
-Please do not use the login node for computationally intensive tasks, as these operations demand considerable computational resources and can severely impact the system's performance for all users. The login node is intended for file management, job submission, and other lightweight tasks only.
+Please do not use the login node for computationally intensive tasks, as these operations demand considerable computational resources and can severely impact the system's performance for all users. The login node is intended for *file management*, *job submission*, and other *lightweight tasks* only.
 ```
 
 ## Open OnDemand
 
-Open OnDemand is a web-based interface that allows users to access the cluster through a web browser. You can use Open onDemand to start a Remote Desktop session, launch Jupyter notebooks or RStudio, and submit jobs to the cluster.
+Open OnDemand is a web-based interface that allows users to access the cluster through a web browser. You can use Open onDemand to start a Remote Desktop session, launch Jupyter notebooks / JupyterLab or RStudio, and submit jobs to the cluster.
 
 To access the cluster using Open OnDemand, follow these steps:
 

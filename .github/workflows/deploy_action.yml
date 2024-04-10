@@ -1,0 +1,33 @@
+name: deploy_hpc_handbook
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    # Install dependencies
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install jupyter-book
+
+    # Build the book
+    - name: Build the book
+      run: |
+        jupyter-book build kempner_hpc_handbook 
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: kempner_hpc_handbook/_build/html
