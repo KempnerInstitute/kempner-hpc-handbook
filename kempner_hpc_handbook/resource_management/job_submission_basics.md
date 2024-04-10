@@ -5,11 +5,10 @@ You can either run your jobs interactively (with allocating compute resources) o
 
 ## Interactive Jobs
 
-Below are the steps to allocate 1 TB of RAM, 64 CPU cores, and 4 GPUs for an interactive job on the `kempner` partition, with the resources charged to the `kempner_grads` fairshare account for one hour.
+Below are the steps to allocate 1 TB of RAM, 64 CPU cores, and 4 A100 40GB GPUs for an interactive job on the `kempner` partition, with the resources charged to the `kempner_grads` fairshare account for one hour.
 
-- step 1: Connect to [VPN](https://docs.rc.fas.harvard.edu/kb/vpn-setup/)
-- step 2: Connect to the cluster using SSH (`ssh <username>@login.rc.fas.harvard.edu`)
-- step 3: Allocate resources using the `salloc` command:
+- step 1: Connect to the cluster using SSH (`ssh <username>@login.rc.fas.harvard.edu`)
+- step 2: Allocate resources using the `salloc` command:
 
 ```bash
 salloc --partition=kempner --account=kempner_grads --time=0-01:00 --mem=1000G --gres=gpu:4 --cpus-per-task=64
@@ -32,19 +31,19 @@ The following is an example of a very simple job script.
 ```bash
 #!/bin/bash
 #SBATCH --job-name=my_job
-#SBATCH --account=kempner_dev
+#SBATCH --account=kempner_grads
 #SBATCH --partition=kempner
 #SBATCH --nodes=1
 #SBATCH --ntasks_per_node=1
 #SBATCH --cpus-per-task=16
 #SBATCH --gpus_per_node=1
 #SBATCH --time=0-01:00
-#SBATCH --mem=128G
-
+#SBATCH --mem=256G
 
 # Load modules
 module load python/3.10.9-fasrc01 
 
+# Activate conda environment (optional)
 
 # Run the job
 python my_script.py
@@ -59,7 +58,7 @@ In the following table we provide a brief description of the SLURM directives us
 | `--nodes` | The number of nodes required for the job. |
 | `--ntasks_per_node` | The number of tasks to be launched on each node. |
 | `--cpus-per-task` | The number of CPUs per task. |
-| `--gpus_per_node` | The number of GPUs required for the job. |
+| `--gpus_per_node` | The number of GPUs per node. |
 | `--time` | The time limit for the job. |
 | `--mem` | The memory required for the job. |
 
