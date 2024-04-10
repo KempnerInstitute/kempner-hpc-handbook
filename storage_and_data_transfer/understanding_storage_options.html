@@ -54,9 +54,22 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-QFZEXWFW26"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-QFZEXWFW26');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-QFZEXWFW26');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'storage_and_data_transfer/understanding_storage_options';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -471,6 +484,14 @@ document.write(`
 </pre></div>
 </div>
 <p>This storage is only accessible only to you. There is <strong>no cost</strong> associated with this storage.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Check your home directory usage while on login node by running the following command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>df<span class="w"> </span>-h<span class="w"> </span>~/
+</pre></div>
+</div>
+<p>Read more about how to manage a full home directory situation <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/home-directory-full/">here</a>.</p>
+</div>
 </section>
 <section id="default-persistent-lab-directory">
 <h2><span class="section-number">5.1.2. </span>Default persistent lab directory<a class="headerlink" href="#default-persistent-lab-directory" title="Link to this heading">#</a></h2>

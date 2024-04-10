@@ -54,9 +54,22 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-QFZEXWFW26"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-QFZEXWFW26');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-QFZEXWFW26');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'support/faq';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -444,7 +457,26 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="frequently-asked-questions">
 <h1><span class="section-number">11.1. </span>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Link to this heading">#</a></h1>
-<p>[Answers to common questions about using the HPC facilities at the Kempner Institute.]</p>
+<ol class="arabic">
+<li><p>I am trying to clone a repository on HPC but I get the following error:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@<span class="w">    </span>WARNING:<span class="w"> </span>REMOTE<span class="w"> </span>HOST<span class="w"> </span>IDENTIFICATION<span class="w"> </span>HAS<span class="w"> </span>CHANGED!<span class="w">     </span>@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT<span class="w"> </span>IS<span class="w"> </span>POSSIBLE<span class="w"> </span>THAT<span class="w"> </span>SOMEONE<span class="w"> </span>IS<span class="w"> </span>DOING<span class="w"> </span>SOMETHING<span class="w"> </span>NASTY!
+Someone<span class="w"> </span>could<span class="w"> </span>be<span class="w"> </span>eavesdropping<span class="w"> </span>on<span class="w"> </span>you<span class="w"> </span>right<span class="w"> </span>now<span class="w"> </span><span class="o">(</span>man-in-the-middle<span class="w"> </span>attack<span class="o">)</span>!
+It<span class="w"> </span>is<span class="w"> </span>also<span class="w"> </span>possible<span class="w"> </span>that<span class="w"> </span>a<span class="w"> </span>host<span class="w"> </span>key<span class="w"> </span>has<span class="w"> </span>just<span class="w"> </span>been<span class="w"> </span>changed.
+The<span class="w"> </span>fingerprint<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>RSA<span class="w"> </span>key<span class="w"> </span>sent<span class="w"> </span>by<span class="w"> </span>the<span class="w"> </span>remote<span class="w"> </span>host<span class="w"> </span>is
+...
+</pre></div>
+</div>
+<p>This can happen if you do not add your ssh key to your github account. Follow these links to add your ssh key to your github account:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys">Checking for existing SSH keys</a></p></li>
+<li><p><a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux">Generating a new SSH key and adding it to the ssh-agent</a></p></li>
+<li><p><a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">Adding a new SSH key to your GitHub account</a></p></li>
+</ul>
+</li>
+</ol>
 </section>
 
     <script type="text/x-thebe-config">
