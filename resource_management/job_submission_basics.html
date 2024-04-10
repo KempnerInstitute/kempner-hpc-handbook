@@ -473,11 +473,10 @@ document.write(`
 <p>You can either run your jobs interactively (with allocating compute resources) or submit them as batch jobs. Interactive jobs are useful for testing and debugging, while batch jobs are useful for running large-scale simulations and analyses. In this section, we will cover the basics of job submission on the Kempner Institute HPC cluster. In both cases, you will need to specify the Kempner Institute partitions and the fairshare account to which the resources will be charged.</p>
 <section id="interactive-jobs">
 <h2><span class="section-number">2.2.1. </span>Interactive Jobs<a class="headerlink" href="#interactive-jobs" title="Link to this heading">#</a></h2>
-<p>Below are the steps to allocate 1 TB of RAM, 64 CPU cores, and 4 GPUs for an interactive job on the <code class="docutils literal notranslate"><span class="pre">kempner</span></code> partition, with the resources charged to the <code class="docutils literal notranslate"><span class="pre">kempner_grads</span></code> fairshare account for one hour.</p>
+<p>Below are the steps to allocate 1 TB of RAM, 64 CPU cores, and 4 A100 40GB GPUs for an interactive job on the <code class="docutils literal notranslate"><span class="pre">kempner</span></code> partition, with the resources charged to the <code class="docutils literal notranslate"><span class="pre">kempner_grads</span></code> fairshare account for one hour.</p>
 <ul class="simple">
-<li><p>step 1: Connect to <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/vpn-setup/">VPN</a></p></li>
-<li><p>step 2: Connect to the cluster using SSH (<code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">&lt;username&gt;&#64;login.rc.fas.harvard.edu</span></code>)</p></li>
-<li><p>step 3: Allocate resources using the <code class="docutils literal notranslate"><span class="pre">salloc</span></code> command:</p></li>
+<li><p>step 1: Connect to the cluster using SSH (<code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">&lt;username&gt;&#64;login.rc.fas.harvard.edu</span></code>)</p></li>
+<li><p>step 2: Allocate resources using the <code class="docutils literal notranslate"><span class="pre">salloc</span></code> command:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>salloc<span class="w"> </span>--partition<span class="o">=</span>kempner<span class="w"> </span>--account<span class="o">=</span>kempner_grads<span class="w"> </span>--time<span class="o">=</span><span class="m">0</span>-01:00<span class="w"> </span>--mem<span class="o">=</span>1000G<span class="w"> </span>--gres<span class="o">=</span>gpu:4<span class="w"> </span>--cpus-per-task<span class="o">=</span><span class="m">64</span>
 </pre></div>
@@ -498,23 +497,23 @@ document.write(`
 <p>The following is an example of a very simple job script.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1">#SBATCH --job-name=my_job</span>
-<span class="c1">#SBATCH --account=kempner_dev</span>
+<span class="c1">#SBATCH --account=kempner_grads</span>
 <span class="c1">#SBATCH --partition=kempner</span>
 <span class="c1">#SBATCH --nodes=1</span>
 <span class="c1">#SBATCH --ntasks_per_node=1</span>
 <span class="c1">#SBATCH --cpus-per-task=16</span>
 <span class="c1">#SBATCH --gpus_per_node=1</span>
 <span class="c1">#SBATCH --time=0-01:00</span>
-<span class="c1">#SBATCH --mem=128G</span>
+<span class="c1">#SBATCH --mem=256G</span>
 <span class="c1">#SBATCH --output=my_job_output.out</span>
 <span class="c1">#SBATCH --error=my_job_error.err</span>
 <span class="c1">#SBATCH --mail-type=END</span>
 <span class="c1">#SBATCH --mail-user=&lt;username&gt;@harvard.edu</span>
 
-
 <span class="c1"># Load modules</span>
 module<span class="w"> </span>load<span class="w"> </span>python/3.10.9-fasrc01<span class="w"> </span>
 
+<span class="c1"># Activate conda environment (optional)</span>
 
 <span class="c1"># Run the job</span>
 python<span class="w"> </span>my_script.py
@@ -547,7 +546,7 @@ python<span class="w"> </span>my_script.py
 <td><p>The number of CPUs per task.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--gpus_per_node</span></code></p></td>
-<td><p>The number of GPUs required for the job.</p></td>
+<td><p>The number of GPUs per node.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--time</span></code></p></td>
 <td><p>The time limit for the job.</p></td>
