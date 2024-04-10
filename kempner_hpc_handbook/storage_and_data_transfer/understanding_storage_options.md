@@ -17,6 +17,18 @@ There are 15 different home numbers, and your home directory will be allocated t
 ```
 This storage is only accessible only to you. There is __no cost__ associated with this storage.
 
+````{tip}
+Check your home directory usage while on login node by running the following command:
+
+```sh
+df -h .
+```
+Read more about how to manage a full home directory situation [here](https://docs.rc.fas.harvard.edu/kb/home-directory-full/).
+
+````
+
+
+
 
 ## Default persistent lab directory
 
