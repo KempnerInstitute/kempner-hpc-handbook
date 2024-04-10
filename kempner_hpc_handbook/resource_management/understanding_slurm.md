@@ -51,16 +51,24 @@ The following partitions are available for Kempner affliates on the FASRC cluste
 | `kempner` | This GPU block includes 2304 Intel Ice Lake cores and 144 Nvidia A100 40GB GPUs, with each water-cooled node featuring 64 cores, 1TB RAM, and 4 A100 GPUs, linked via HDR Infiniband, with a 7-day limit.|
 | `kempner_h100` | This GPU block includes 2304 AMD Genoa cores, 96 Nvidia H100 80GB GPUs, water-cooled nodes with 96 cores, 1.5TB RAM, and 4 H100 GPUs, interconnected via NDR Infiniband, with a 3-day limit. |
 | `kempner_requeue` | This partition utilizes `kempner` and `kempner_h100` partitions, designed for tasks that can be interrupted and restarted. This partition has a 7 day time limit.|
-| `kempner_dev` | TBD |
+| `kempner_dev` | This partition is dedicated to the engineering team and is not available to all users. |
 
-```{tip}
-Run `spart | awk 'NR==1 || /kempner/'` to see the list of kempner partition.
+````{tip}
+Run the following command to see the list of Kempner partitions,
+
+```bash
+spart | awk 'NR==1 || /kempner/'
 ```
+````
 
 (resource_management:understanding_slurm:slurm_accounts)=
 ## SLURM Accounts
 
 The accounts are used to track the usage of resources on the cluster. You need to specify the account to which the resources will be charged when submitting a job. You can run `sshare -U -u <username>` to see which accounts you have access to and the fairshare information for each account. If you cannot see the account you need, and you think should be a part of that account, please add a grant on [FASRC portal](https://portal.rc.fas.harvard.edu/request/grants/add) or feel free to contact [Max Shad](mailto:max_shad@harvard.edu) if you need additional help.
+
+```bash
+sshare -U -u <username>
+```
 
 ## SLURM Variables
 
