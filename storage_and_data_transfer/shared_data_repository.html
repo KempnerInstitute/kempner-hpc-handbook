@@ -470,6 +470,10 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="shared-data-model-repository">
 <h1><span class="section-number">5.3. </span>Shared Data/Model Repository<a class="headerlink" href="#shared-data-model-repository" title="Link to this heading">#</a></h1>
 <p>We host several popular ML datasets and models on the Kempner HPC cluster. This approach reduces the need for multiple transfers of the same data/model by researchers and provides a central, read-only repository for all Kempner Institute users to access for their ML workflows. Only the admin team has write access, but users can submit requests for popular data/models. After a careful review, we may place a copy in the shared data/model repository. The current path on the cluster is:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We are in the process of moving the shared data repository from Tier 1 storage to Tier 0 (holylfs06) and the following paths may not work until the work is done.</p>
+</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">DATA_PATH</span><span class="o">=</span>/n/kempner_shared/Everyone/data
 <span class="nv">MODEL_PATH</span><span class="o">=</span>/n/kempner_shared/Everyone/models
 </pre></div>
