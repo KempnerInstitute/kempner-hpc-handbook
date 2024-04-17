@@ -2,13 +2,9 @@
 
 We host several popular ML datasets and models on the Kempner HPC cluster. This approach reduces the need for multiple transfers of the same data/model by researchers and provides a central, read-only repository for all Kempner Institute users to access for their ML workflows. Only the admin team has write access, but users can submit requests for popular data/models. After a careful review, we may place a copy in the shared data/model repository. The current path on the cluster is:
 
-```{warning}
-We are in the process of moving the shared data repository from Tier 1 storage to Tier 0 (holylfs06) and the following paths may not work until the work is done.
-```
-
 ```bash
-DATA_PATH=/n/kempner_shared/Everyone/data
-MODEL_PATH=/n/kempner_shared/Everyone/models
+DATA_PATH=/n/holylfs06/LABS/kempner_shared/Lab/data
+MODEL_PATH=/n/holylfs06/LABS/kempner_shared/Lab/models
 ```
 
 ```{note}
