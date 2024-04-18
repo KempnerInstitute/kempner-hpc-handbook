@@ -35,9 +35,9 @@ The following is an example of a very simple job script.
 #SBATCH --account=kempner_grads
 #SBATCH --partition=kempner
 #SBATCH --nodes=1
-#SBATCH --ntasks_per_node=1
+#SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=16
-#SBATCH --gpus_per_node=1
+#SBATCH --gpus-per-node=1
 #SBATCH --time=0-01:00
 #SBATCH --mem=256G
 #SBATCH --output=my_job_output.out
@@ -61,9 +61,9 @@ In the following table we provide a brief description of the SLURM directives us
 | `--account` | The account to which the resources will be charged. |
 | `--partition` | The partition to which the job will be submitted. |
 | `--nodes` | The number of nodes required for the job. |
-| `--ntasks_per_node` | The number of tasks to be launched on each node. |
+| `--ntasks-per-node` | The number of tasks to be launched on each node. |
 | `--cpus-per-task` | The number of CPUs per task. |
-| `--gpus_per_node` | The number of GPUs per node. |
+| `--gpus-per-node` | The number of GPUs per node. |
 | `--time` | The time limit for the job. |
 | `--mem` | The memory required for the job. |
 | `--output` | The file to which the standard output will be written. |
@@ -97,11 +97,11 @@ Please note that some of the following combinations may not work on Kempner part
 | `--cpus-per-task=2 --ntasks=4 --gres=gpu:1` | Allocates 4 tasks, each with 2 CPU cores and 1 shared GPU among all tasks. Suitable for multi-threaded GPU-accelerated applications. |
 | `--nodes=3 --ntasks=12 --ntasks-per-node=4 --mem=128G` | Distributes 12 tasks across 3 nodes, with 4 tasks per node, using a total of 128GB memory. Good for balanced load distribution across nodes. |
 | `--ntasks=6 --cpus-per-task=4 --mem-per-cpu=8G` | Allocates 6 tasks, each with 4 CPU cores and 8GB of memory per CPU. This setup is beneficial for CPU-intensive applications requiring significant memory per core. |
-| `--nodes=2 --gpus_per_node=2 --mem-per-node=48G` | Allocates 2 nodes, each with 2 GPUs and 48GB of memory. Targets GPU-based computations needing substantial memory but with a clear node division. |
+| `--nodes=2 --gpus-per-node=2 --mem-per-node=48G` | Allocates 2 nodes, each with 2 GPUs and 48GB of memory. Targets GPU-based computations needing substantial memory but with a clear node division. |
 | `--ntasks=10 --cpus-per-task=1 --gres=gpu:2 --mem=128G` | Allocates 10 tasks with 1 CPU each, 2 GPUs shared among tasks, and 128GB of memory. This combination is tailored for lightweight tasks in a GPU-enhanced environment. |
 | `--ntasks-per-node=2 --nodes=4 --mem-per-cpu=4G --gres=gpu:1` | Uses 4 nodes with 2 tasks each, 4GB memory per CPU, and 1 GPU per node. Designed for tasks that are GPU intensive, spread evenly across multiple nodes. |
 | `--nodes=1 --cpus-per-task=8 --mem=64G --gres=gpu:2` | Single-node job with tasks that require 8 CPUs each, a total of 64GB memory, and 2 GPUs. Fits high-performance computing tasks on a single node with substantial GPU requirements. |
-| `--ntasks=5 --cpus-per-task=2 --mem-per-cpu=16G --gpus_per_node=1` | Allocates 5 tasks, each with 2 CPU cores and 16GB memory per CPU, with at least 1 GPU per node. This setup is optimal for moderately demanding tasks, ensuring enough memory and GPU access. |
+| `--ntasks=5 --cpus-per-task=2 --mem-per-cpu=16G --gpus-per-node=1` | Allocates 5 tasks, each with 2 CPU cores and 16GB memory per CPU, with at least 1 GPU per node. This setup is optimal for moderately demanding tasks, ensuring enough memory and GPU access. |
 
 
 
