@@ -52,7 +52,7 @@ We will develop a web interface later for data and model discovery.
 - **dolma**
   - Path: `$DATA_PATH/dolma`
     - Subfolders: 
-      - `preprocessed` (6.8 G)
+      - `preprocessed` (6.8 T)
       - `raw` (5.9 T)
     - Description: Dolma is a dataset of 3 trillion tokens from a diverse mix of web content, academic publications, code, books, and encyclopedic materials.
 
