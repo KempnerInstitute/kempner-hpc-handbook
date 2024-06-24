@@ -31,7 +31,17 @@ Overall, conda environments allow you to isolate package versions for different 
     ```
     ```{note}
     You can also create the environment from a `yaml` file. Please see the [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)'s official documentation for more information.
+
     ```
+
+    You can also specify the list and order of channels to look for the software pacakges. 
+
+    ```{tip}
+    conda config --add channels conda-forge
+    conda config --add channels bioconda
+
+    ```
+
 - Step 6: Check the location of the conda environment using the `mamba info --envs` command. This will show the list of conda environments and their locations. 
 
     ```bash
