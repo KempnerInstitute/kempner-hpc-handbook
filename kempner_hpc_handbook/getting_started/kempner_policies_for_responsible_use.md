@@ -21,7 +21,7 @@ The cluster should never be used for CPU-only jobs. There are two types of Kempn
 Users should not submit jobs that utilize more than 10% of the cluster resources or that run for extended periods (exceeding 4 hours). Given the current resources, 10% of the cluster comprises:
 
 - 12 A100 GPUs (3 nodes) in the `kempner` partition, and
-- 8 H100 GPUs (2 nodes) in the `kempner_h100` partition.
+- 12 H100 GPUs (3 nodes) in the `kempner_h100` partition.
 
 See the following guidelines for jobs that exceed this limit.
 ::::
