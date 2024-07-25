@@ -24,14 +24,29 @@ Overall, conda environments allow you to isolate package versions for different 
 
 - Step 2: Purge the loaded modules using the `module purge` command if you have any loaded modules and you want to start fresh.
 - Step 3: Load `python` module using the `module load python` command. This will load the default version of Python.
-- Step 5: Create a conda environment using the `mamba create` command. For example, to create a conda environment named `myenv` with Python 3.12 and installing pip and numpy from the channel conda-forge, you can use the following command:
+- Step 5: Create a conda environment using the `mamba create` command. For example, to create a conda environment named `myenv` with Python 3.12 and installing pip and numpy, you can use the following command:
 
     ```bash
-    mamba create --name myenv python=3.12 pip numpy -c conda-forge
+    mamba create --name myenv python=3.12 pip numpy
     ```
     ```{note}
     You can also create the environment from a `yaml` file. Please see the [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)'s official documentation for more information.
     ```
+    ```{tip}
+      You can also add a channel to the command if needed:
+      
+      ```bash
+      mamba create --name myenv python=3.12 pip numpy -c conda-forge
+      ```
+    
+      Or give the highest priority to the `conda-forge` channel using the following command:
+     
+      ```bash
+      conda config --add channels conda-forge
+      ```
+     
+    ```
+
 - Step 6: Check the location of the conda environment using the `mamba info --envs` command. This will show the list of conda environments and their locations. 
 
     ```bash
