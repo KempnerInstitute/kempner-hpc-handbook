@@ -19,3 +19,18 @@
     - [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
 
 
+2. I am trying to `git push` (`git pull` or `git fetch`) however I get the following error: 
+
+    ```bash
+    (gnome-ssh-askpass:134672): Gtk-WARNING **: 07:19:13.800: cannot open display: 
+    error: unable to read askpass response from '/usr/libexec/openssh/gnome-ssh-askpass'
+    Username for 'https://github.com':
+    ```
+
+    This error is due to the fact that you are trying to use `https` instead of `ssh`. You can change the remote url to `ssh` by running the following command:
+
+    ```bash
+    git remote set-url origin git@github.com:[Github account]/[Github repository].git
+    ```
+
+    Replace `[Github account]` with your github account and `[Github repository]` with the repository you are trying to push to.
