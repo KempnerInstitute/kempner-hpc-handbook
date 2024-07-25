@@ -33,12 +33,19 @@ Overall, conda environments allow you to isolate package versions for different 
     You can also create the environment from a `yaml` file. Please see the [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)'s official documentation for more information.
 
     ```
-
-    You can also specify the list and order of channels to look for the software pacakges. 
-
     ```{tip}
-    conda config --add channels conda-forge
-    conda config --add channels bioconda
+      You can also add a channel to the command if needed:
+      
+      ```bash
+      mamba create --name myenv python=3.12 pip numpy -c conda-forge
+      ```     
+
+      You can also specify the list and order of channels to look for the software pacakges. 
+
+      ```bash
+      conda config --add channels conda-forge
+      conda config --add channels bioconda
+      ```
 
     ```
 
