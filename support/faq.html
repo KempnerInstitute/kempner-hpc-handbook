@@ -479,6 +479,18 @@ The<span class="w"> </span>fingerprint<span class="w"> </span><span class="k">fo
 <li><p><a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">Adding a new SSH key to your GitHub account</a></p></li>
 </ul>
 </li>
+<li><p>I am trying to <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> or <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code>) however I get the following error:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>gnome-ssh-askpass:134672<span class="o">)</span>:<span class="w"> </span>Gtk-WARNING<span class="w"> </span>**:<span class="w"> </span><span class="m">07</span>:19:13.800:<span class="w"> </span>cannot<span class="w"> </span>open<span class="w"> </span>display:<span class="w"> </span>
+error:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span><span class="nb">read</span><span class="w"> </span>askpass<span class="w"> </span>response<span class="w"> </span>from<span class="w"> </span><span class="s1">&#39;/usr/libexec/openssh/gnome-ssh-askpass&#39;</span>
+Username<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;https://github.com&#39;</span>:
+</pre></div>
+</div>
+<p>This error is due to the fact that you are trying to use <code class="docutils literal notranslate"><span class="pre">https</span></code> instead of <code class="docutils literal notranslate"><span class="pre">ssh</span></code>. You can change the remote url to <code class="docutils literal notranslate"><span class="pre">ssh</span></code> by running the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>set-url<span class="w"> </span>origin<span class="w"> </span>git@github.com:<span class="o">[</span>Github<span class="w"> </span>account<span class="o">]</span>/<span class="o">[</span>Github<span class="w"> </span>repository<span class="o">]</span>.git
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">[Github</span> <span class="pre">account]</span></code> with your github account and <code class="docutils literal notranslate"><span class="pre">[Github</span> <span class="pre">repository]</span></code> with the repository you are trying to push to.</p>
+</li>
 </ol>
 </section>
 
