@@ -104,6 +104,26 @@ This behaves differently. Now, the files that were in the results directory on t
 
 ````
 
+(fpsync_section)=
+## fpsync
+While rsync is appropriate for most synchronization needs, fpsync may be more suitable for synchronizing large directories. Fpsync synchronizes directories in parallel by using fpart and rsync to launch several jobs simultaneously, and, like rsync, the synchronization can be resumed if disrupted. Fpsync can launch synchronization processes locally or remotely on one or more workers using ssh. Remote workers must be able to access both the source and destination directories. Unlike rsync, only the source directory contents are synchronized, not the directory itself.
+
+```bash
+fpsync [arguments] [path to source directory] [path to destination directory]
+```
+
+You can customize the fpsync command by adding any of the arguments below directly after the fpsync command:
+
+| fpsync Argument | Description |
+|---------|-------------|
+| `-n` | Set the number of concurrent synchronization processes. Default: 2. |
+| `-f` | Limit the number of files assigned to each sync job. Default: 2000. |
+| `-s` | Limit the size (in bytes) assigned to each sync job. Default: 4GB |
+| `-t` | Path to temporary directory where fpsync logs are stored. Default: /tmp/fpsync |
+| `-o` | Arguments for rsync (if you do not want to use default options). See above for rsync arguments. Do not use --delete. Default: -av --numeric-ids |
+| `-O` | Arguments for fpart. Default: -x .zfs -x .snapshot* -x .ckpt |
+
+Refer to the [fpsync documentation](https://manpages.ubuntu.com/manpages/bionic/man1/fpsync.1.html) for further information and additional argument options.
 
 (globus_section)=
 ## Globus
