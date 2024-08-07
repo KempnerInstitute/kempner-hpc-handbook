@@ -123,6 +123,18 @@ You can customize the fpsync command by adding any of the arguments below direct
 | `-o` | Arguments for rsync (if you do not want to use default options). See above for rsync arguments. Do not use --delete. Default: -av --numeric-ids |
 | `-O` | Arguments for fpart. Default: -x .zfs -x .snapshot* -x .ckpt |
 
+In most cases on the FAS RC cluster, your fpsync command might look like:
+
+```bash
+fpsync -n NUMBER OF CONCURRENT JOBS -o "av" /source/directory /destination/directory
+```
+
+As noted above, fpsync logs are found in /tmp. You can also submit a job to run fpsync and set the number of concurrent jobs to the number of cpus requested:
+
+```bash
+srun -c $SLURM_CPUS_PER_TASK fpsync -n $SLURM_CPUS_PER_TASK -o "av" /source/directory /destination/directory
+```
+
 Refer to the [fpsync documentation](https://manpages.ubuntu.com/manpages/bionic/man1/fpsync.1.html) for further information and additional argument options.
 
 (globus_section)=
