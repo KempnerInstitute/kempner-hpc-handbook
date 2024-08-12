@@ -106,13 +106,13 @@ This behaves differently. Now, the files that were in the results directory on t
 
 (fpsync_section)=
 ## fpsync
-While rsync is appropriate for most synchronization needs, fpsync may be more suitable for synchronizing large directories. Fpsync synchronizes directories in parallel by using fpart and rsync to launch several jobs simultaneously, and, like rsync, the synchronization can be resumed if disrupted. Fpsync can launch synchronization processes locally or remotely on one or more workers using ssh. Remote workers must be able to access both the source and destination directories. Unlike rsync, only the source directory contents are synchronized, not the directory itself.
+While `rsync` is appropriate for most synchronization needs, `fpsync` may be more suitable for synchronizing large directories. `fpsync` synchronizes directories in parallel by using `fpart` and `rsync` to launch several jobs simultaneously, and, like `rsync`, the synchronization can be resumed if disrupted. Fpsync can launch synchronization processes locally or remotely on one or more workers using ssh. Remote workers must be able to access both the source and destination directories. Unlike rsync, only the source directory contents are synchronized, not the directory itself.
 
 ```bash
 fpsync [arguments] [path to source directory] [path to destination directory]
 ```
 
-You can customize the fpsync command by adding any of the arguments below directly after the fpsync command:
+You can customize the `fpsync` command by adding any of the arguments below directly after the `fpsync` command:
 
 | fpsync Argument | Description |
 |---------|-------------|
@@ -126,10 +126,10 @@ You can customize the fpsync command by adding any of the arguments below direct
 In most cases on the FAS RC cluster, your fpsync command might look like:
 
 ```bash
-fpsync -n NUMBER OF CONCURRENT JOBS -o "av" /source/directory /destination/directory
+fpsync -n [NUMBER OF CONCURRENT JOBS] -o "av" /source/directory /destination/directory
 ```
 
-As noted above, fpsync logs are found in /tmp. You can also submit a job to run fpsync and set the number of concurrent jobs to the number of cpus requested:
+`-o` passes arguments to rsync. As in the previous section on `rsync`, we are running in archive mode (-a) and verbose mode (-v). As noted above, `fpsync` logs are found in /tmp. You can also submit a job to run fpsync and set the number of concurrent jobs to the number of cpus requested:
 
 ```bash
 srun -c $SLURM_CPUS_PER_TASK fpsync -n $SLURM_CPUS_PER_TASK -o "av" /source/directory /destination/directory
