@@ -104,6 +104,40 @@ This behaves differently. Now, the files that were in the results directory on t
 
 ````
 
+(fpsync_section)=
+## fpsync
+While `rsync` is appropriate for most synchronization needs, `fpsync` may be more suitable for synchronizing large directories. `fpsync` synchronizes directories in parallel by using `fpart` and `rsync` to launch several jobs simultaneously, and, like `rsync`, the synchronization can be resumed if disrupted. `fpsync` can launch synchronization processes locally or remotely on one or more workers using ssh. Remote workers must be able to access both the source and destination directories. Unlike `rsync`, only the source directory contents are synchronized, not the directory itself.
+
+```bash
+fpsync [arguments] [absolute path to source directory] [absolute path to destination directory]
+```
+When passing in the path to the source and destination directories, the absolute path must be specified.
+You can customize the `fpsync` command by adding any of the arguments below directly after the `fpsync` command:
+
+| fpsync Argument | Description |
+|---------|-------------|
+| `-n` | Set the number of concurrent synchronization processes. Default: 2. |
+| `-f` | Limit the number of files assigned to each sync job. Default: 2000. |
+| `-s` | Limit the size (in bytes) assigned to each sync job. Default: 4GB |
+| `-t` | Path to temporary directory where fpsync logs are stored. Default: /tmp/fpsync (you need to change this)|
+| `-o` | Arguments for rsync (if you do not want to use default options). See above for rsync arguments. Do not use --delete. Default: -av --numeric-ids |
+| `-O` | Arguments for fpart. Default: -x .zfs -x .snapshot* -x .ckpt |
+
+In most cases on the FAS RC cluster, your `fpsync` command might look like:
+
+```bash
+fpsync -n [NUMBER OF CONCURRENT JOBS] -t /temp/directory /source/directory /destination/directory
+```
+
+As noted above, `fpsync` logs are found in /tmp by default. When running on the FAS RC cluster, you must specify a temp directory that you can access. 
+
+You can also submit a job to run `fpsync` and set the number of concurrent jobs to the number of cpus requested:
+
+```bash
+srun -c $SLURM_CPUS_PER_TASK fpsync -n $SLURM_CPUS_PER_TASK -t /temp/directory /source/directory /destination/directory
+```
+
+Refer to the [fpsync documentation](https://manpages.ubuntu.com/manpages/bionic/man1/fpsync.1.html) for further information and additional argument options.
 
 (globus_section)=
 ## Globus
