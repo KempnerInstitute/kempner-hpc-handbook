@@ -17,7 +17,7 @@ The following table provides an overview of the Kempner Institute HPC cluster:
 
 | Specification             | A100 40GB                                      | H100 80GB                                             |
 |---------------------------|------------------------------------------------|-------------------------------------------------------|
-| **Total GPUs**            | 144                                            | 96 (available), 384 (after adding 3 more racks)       |
+| **Total GPUs**            | 144                                            | 384                                                   |
 | **Servers (per rack)**    | 36                                             | 24                                                    |
 | **GPUs per Server**       | 4                                              | 4                                                     |
 | **CPU Cores per Server**  | 64                                             | 96                                                    |
@@ -33,7 +33,7 @@ This is a diagram of the Kempner HPC cluster within the FASRC infrastructure sho
 Currently, there are two GPU racks in production at the Massachusetts Green High Performance Computing Center (MGHPCC): one A100 GPU rack and one H100 GPU rack, with three more H100 GPU racks coming soon. In the following diagram, both the current and upcoming racks are shown, in addition to the network core designed for non-blocking communication between GPUs.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/KempnerInstitute/kempner-hpc-handbook/dmbala-patch-1/kempner_hpc_handbook/getting_started/figures/svg/Clusters_1.svg " width="90%" />
+  <img src="https://github.com/KempnerInstitute/kempner-hpc-handbook/blob/main/kempner_hpc_handbook/getting_started/figures/svg/Clusters_1.svg" width="90%" />
 </p>
 
 
