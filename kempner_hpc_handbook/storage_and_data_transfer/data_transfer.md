@@ -119,20 +119,22 @@ You can customize the `fpsync` command by adding any of the arguments below dire
 | `-n` | Set the number of concurrent synchronization processes. Default: 2. |
 | `-f` | Limit the number of files assigned to each sync job. Default: 2000. |
 | `-s` | Limit the size (in bytes) assigned to each sync job. Default: 4GB |
-| `-t` | Path to temporary directory where fpsync logs are stored. Default: /tmp/fpsync |
+| `-t` | Path to temporary directory where fpsync logs are stored. Default: /tmp/fpsync (you need to change this)|
 | `-o` | Arguments for rsync (if you do not want to use default options). See above for rsync arguments. Do not use --delete. Default: -av --numeric-ids |
 | `-O` | Arguments for fpart. Default: -x .zfs -x .snapshot* -x .ckpt |
 
 In most cases on the FAS RC cluster, your `fpsync` command might look like:
 
 ```bash
-fpsync -n [NUMBER OF CONCURRENT JOBS] -o "av" /source/directory /destination/directory
+fpsync -n [NUMBER OF CONCURRENT JOBS] -t /temp/directory /source/directory /destination/directory
 ```
 
-`-o` passes arguments to `rsync`. As in the previous section on `rsync`, we are running in archive mode (-a) and verbose mode (-v). As noted above, `fpsync` logs are found in /tmp. You can also submit a job to run `fpsync` and set the number of concurrent jobs to the number of cpus requested:
+As noted above, `fpsync` logs are found in /tmp by default. When running on the FAS RC cluster, you must specify a temp directory that you can access. 
+
+You can also submit a job to run `fpsync` and set the number of concurrent jobs to the number of cpus requested:
 
 ```bash
-srun -c $SLURM_CPUS_PER_TASK fpsync -n $SLURM_CPUS_PER_TASK -o "av" /source/directory /destination/directory
+srun -c $SLURM_CPUS_PER_TASK fpsync -n $SLURM_CPUS_PER_TASK -t /temp/directory /source/directory /destination/directory
 ```
 
 Refer to the [fpsync documentation](https://manpages.ubuntu.com/manpages/bionic/man1/fpsync.1.html) for further information and additional argument options.
