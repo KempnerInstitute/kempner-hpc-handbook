@@ -109,9 +109,9 @@ This behaves differently. Now, the files that were in the results directory on t
 While `rsync` is appropriate for most synchronization needs, `fpsync` may be more suitable for synchronizing large directories. `fpsync` synchronizes directories in parallel by using `fpart` and `rsync` to launch several jobs simultaneously, and, like `rsync`, the synchronization can be resumed if disrupted. `fpsync` can launch synchronization processes locally or remotely on one or more workers using ssh. Remote workers must be able to access both the source and destination directories. Unlike `rsync`, only the source directory contents are synchronized, not the directory itself.
 
 ```bash
-fpsync [arguments] [path to source directory] [path to destination directory]
+fpsync [arguments] [absolute path to source directory] [absolute path to destination directory]
 ```
-
+When passing in the path to the source and destination directories, the absolute path must be specified.
 You can customize the `fpsync` command by adding any of the arguments below directly after the `fpsync` command:
 
 | fpsync Argument | Description |
