@@ -1,88 +1,120 @@
 # GPU Computing
 
-## Machine Learning Parallelism Approaches on GPUs
-The scaling of machine learning (ML) workloads in HPC environments can be achieved through various parallelism approaches. This section outlines the primary methods for parallelizing ML computations.
-
-### Data Parallelism
-Involves splitting the dataset into smaller batches that are processed in parallel across different GPUs. Each GPU trains a copy of the model on its subset of the data, and the results are aggregated to update the model.
-
-
-```{figure} figures/png/data_parallel.PNG
----
-height: 450 px
-name: Data Parallelism Diagram
----
-(*Credit: [nvidia.com](https://nvidia.com)*)
-```
-
-### Model Parallelism
-The model's parameters are divided across multiple GPUs. This approach is useful for training large models that cannot fit into the memory of a single GPU. GPUs work on different parts of the model simultaneously.
-
-
-```{figure} figures/png/tensor_parallel_1.PNG
+## GPU vs CPU Computing
+The difference in CPU and GPU computing capabilities comes from their design. CPUs are designed to execute a sequence of instructions (aka thread) as fast as possible and with multicore design to run multiple threads simultaneously, mostly targeting lower response time. While GPU design focuses on providing higher throughput by executing thousands of threads concurrently by providing more computing resources aiming to excel parallel workloads efficiently.
+```{figure} figures/png/gpu_vs_cpu.png
 ---
 height: 300px
-name: Model Parallelism Diagram 1
+name: GPU Compute Resources
 ---
-Model Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
+GPU design provides vastly greater compute resources particularly for parallel workloads
 ```
 
-```{figure} figures/png/tensor_parallel_2.PNG
----
-height: 350px
-name: Model Parallelism Diagram 2
----
-Model Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
+## How to use GPUs
+Here is how we can utilize the compute power of GPUs for Matrix Multiplication using CuPy package (equivalent NumPy for GPUs) and using PyTorch.
+
+```{code}
+import numpy as np
+import cupy as cp
+import time
+
+# Matrix size
+n = 10000
+
+# Function to perform matrix multiplication on CPU
+def matrix_multiplication_cpu():
+    # Initialize matrices with random values
+    A = np.random.randn(n, n)
+    B = np.random.randn(n, n)
+
+    # Measure time for matrix multiplication
+    start_time = time.time()
+    C = np.dot(A, B)
+    end_time = time.time()
+
+    # Return time taken
+    return end_time - start_time
+
+# Function to perform matrix multiplication on GPU
+def matrix_multiplication_gpu():
+    # Initialize matrices with random values
+    A = cp.random.randn(n, n)
+    B = cp.random.randn(n, n)
+
+    # Measure time for matrix multiplication
+    start_time = time.time()
+    C = cp.dot(A, B)
+
+    # Synchronize to ensure all GPU operations are complete
+    cp.cuda.Stream.null.synchronize()
+
+    end_time = time.time()
+
+    # Return time taken
+    return end_time - start_time
+
+# Perform on CPU
+cpu_time = matrix_multiplication_cpu()
+print(f"Time taken on CPU: {cpu_time:.6f} seconds")
+
+# Perform on GPU if available
+gpu_time = matrix_multiplication_gpu()
+print(f"Time taken on GPU: {gpu_time:.6f} seconds")
 ```
-
-```{figure} figures/png/tensor_parallel_3.PNG
----
-height: 350px
-name: Model Parallelism Diagram 3
----
-Model Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
+Output:
+```console
+Time taken on CPU: 23.157653 seconds
+Time taken on GPU: 7.113699 seconds
 ```
+Alternatively PyTorch provides a very efficient built-in function for matrix multiplication.
+```{code}
+import time
+import torch
 
-### Pipeline Parallelism
-Combines aspects of data and model parallelism by splitting the model into stages that are processed in a pipeline fashion. Each stage of the model is processed on different GPU, allowing for efficient parallel processing of large models and datasets.
+# Start timer for the whole script
+start_time_script = time.time()
 
-```{figure} figures/png/pipeline_parallel.PNG
----
-height: 350px
-name: Pipeline Parallelism Diagram
----
-Pipeline Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
+# Matrix size
+n = 1000
+
+# Initialize matrices with random values
+A = torch.randn(n, n)
+B = torch.randn(n, n)
+
+# Measure time for CPU operation
+start_time_cpu = time.time()
+C_cpu = torch.matmul(A, B)
+end_time_cpu = time.time()
+
+print(f"Time taken on CPU: {end_time_cpu - start_time_cpu:.6f} seconds")
+
+# Check if a GPU is available
+if torch.cuda.is_available():
+    # Move matrices to GPU
+    A_gpu = A.to('cuda')
+    B_gpu = B.to('cuda')
+    
+    # Warm-up GPU
+    torch.matmul(A_gpu, B_gpu)
+    
+    # Synchronize and measure GPU time
+    torch.cuda.synchronize()
+    start_time_gpu = time.time()
+    C_gpu = torch.matmul(A_gpu, B_gpu)
+    torch.cuda.synchronize()
+    end_time_gpu = time.time()
+    
+    print(f"Time taken on GPU: {end_time_gpu - start_time_gpu:.6f} seconds")
+else:
+    print("No GPU available.")
+
+# End timer for the whole script
+end_time_script = time.time()
+print(f"Total script execution time: {end_time_script - start_time_script:.6f} seconds")
 ```
-
-### Hybrid Parallelism
-The hybrid model is a combination of data, model, and pipeline parallelism. It combines these techniques to benefit from the scalability of data parallelism, the memory efficiency of model parallelism, and the throughput efficiency of pipeline parallelism. For instance, a large model can be divided into segments (model parallelism), each segment can be replicated across multiple devices (data parallelism), and different segments can process different batches of data simultaneously (pipeline parallelism).
-
-```{figure} figures/png/hybrid_parallel_1.PNG
----
-height: 350px
-name: Hybrid Parallelism Diagram 1
----
-Hybrid Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
+Output:
+```console
+Time taken on CPU: 0.379145 seconds
+Time taken on GPU: 0.000208 seconds
+Total script execution time: 2.112846 seconds
 ```
-
-```{figure} figures/png/hybrid_parallel_2.PNG
----
-height: 350px
-name: Hybrid Parallelism Diagram 2
----
-Hybrid Parallelism Diagram (*Credit: [nvidia.com](https://nvidia.com)*)
-```
-
-These parallelism approaches leverage the computational power of HPC to tackle the complexities of training and deploying large-scale ML models, ensuring efficient use of resources and reducing computation time.
-
-### Comparison Table
-
-The following table highlights the core aspects and trade-offs of using data, model, pipeline, and hybrid parallelism approaches with GPUs for machine learning tasks.
-
-
-| Approach          | Features                                         | Pros                                                   | Cons                                            |
-|-------------------|--------------------------------------------------|--------------------------------------------------------|-------------------------------------------------|
-| **Data Parallelism**  | Splits dataset, processes chunks on different GPUs. | - Scalable<br>- Easy to implement                      | - High communication overhead                   |
-| **Model Parallelism** | Different parts of the model on multiple GPUs.     | - Trains large models<br>- Utilizes GPU specialization | - Complex dependencies<br>- Resource underutilization |
-| **Pipeline Parallelism** | Model stages across GPUs, data processed in sequence. | - Efficient resource use<br>- Lowers idle times        | - Scheduling complexity<br>- Data flow management       |
-| **Hybrid Parallelism**  | Combines all three methods for optimization.       | - Minimizes overhead<br>- Maximizes efficiency         | - High complexity<br>- Advanced infrastructure required |
