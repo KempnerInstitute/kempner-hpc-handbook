@@ -134,3 +134,15 @@ during your script will run across the Ray cluster, with Ray handling scheduling
 
 ### MPI
 [TODO]
+
+## NVIDIA Collective Communication Library (NCCL)
+For inter-GPU communication NVIDIA Collective Communication Library (NCCL, pronounced “Nickel”) is being use as backend in distributed strategies such as Distributed Data Parallel (DDP) and Fully Sharded Data Parallel (FSDP). NCCL provides the following collective communication primitives :
+* AllReduce: Each rank receives the reduction of input values across ranks.
+* Broadcast: All ranks receive data from a “root” rank.
+* Reduce: One rank receives the reduction of input values across ranks.
+* AllGather: Each rank receives the aggregation of data from all ranks in the order of the ranks.
+* ReduceScatter: Input values are reduced across ranks, with each rank receiving a subpart of the result.
+```{seealso}
+For more information about the different NCCL collective operations refer to:
+https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html
+``` 

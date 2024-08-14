@@ -118,3 +118,8 @@ Time taken on CPU: 0.379145 seconds
 Time taken on GPU: 0.000208 seconds
 Total script execution time: 2.112846 seconds
 ```
+
+## More Frameworks and Libraries
+### Nvidia RAPIDS
+
+### Pytorch Lightning
