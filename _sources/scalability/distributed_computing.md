@@ -52,7 +52,82 @@ Pytorch and Pytorch lightning support multiple communicatoin backends including 
 
 
 ### Ray
-[TODO]
+
+[Ray](https://ray.io) is a distributed computation library for python that supports both single and multi-node execution. Ray is designed to be easy to use and provides a number of high-level abstractions for distributed computing, including a task-based API, a distributed actor API, and a distributed data API. Ray also includes a number of utilities for distributed machine learning, including a distributed data loader and a distributed hyperparameter search library.
+
+It serves as the backend for a number of tools in the modern AI/ML ecosystem, including [vLLM](https://github.com/vllm-project/vllm), [DCLM](https://github.com/mlfoundations/dclm) and others. 
+
+Ray clusters can be run on your laptop as well as on SLURM. The methods of starting the cluster are different, but once the cluster is started the python API is the same, enabling easy development of Ray applications for the cluster on your laptop.
+
+#### Installing Ray
+
+Ray can be installed using pip. The following command will install Ray and all of its dependencies.
+
+```
+pip install ray[default]
+```
+
+While Ray is available on `conda-forge`, the version available there is maintained by the community and may not be the most up to date. It is recommended to install Ray using pip. See the [Ray documentation](https://docs.ray.io/en/latest/ray-overview/installation.html#installing-from-conda-forge) for more information on how to install Ray.
+
+#### Using Ray on SLURM
+
+In order to use Ray on SLURM, you will need to start a Ray cluster and ensure that it is using the proper number of resources. The following script can be used to start a Ray cluster on SLURM. This script will start a Ray head node on the first node in the allocation and then start Ray workers on the rest of the nodes. The script will then start a python script that uses Ray to do distributed computation. Note the use of the SLURM environment variables. By default, Ray will attempt to use all CPUs on a node regardless of the number of tasks requested. This can be controlled by setting the `--num-cpus` flag when starting the Ray cluster.
+
+```
+#! /bin/bash
+#SBATCH --job-name=ray_cluster
+#SBATCH -N 2 # number of nodes, this script is adaptable for any number of nodes
+#SBATCH --tasks-per-node=1
+#SBATCH --cpus-per-task=40 # number of cpus per task, this script can work with any number of cpus
+#SBATCH --gres=gpu:4 # number of gpus per node, note that GPUs are not required for Ray
+#SBATCH --mem=0 # memory per node, note that this is per node and not per task
+#SBATCH --time=0:30:00 # time limit for the job
+#SBATCH -p kempner_requeue
+#SBATCH --account=<your account>
+
+
+
+
+# Load environment with Ray installed, as well as other dependencies
+# Can also run Ray inside singularitiy containers, assuming that all needed dependencies are installed in the container
+
+## PLACEHOLDER LOAD ENV COMMAND ##
+
+# choose available port on the head node
+head_port=`comm -23 <(seq 15000 20000 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1`
+nodes=`scontrol show hostnames $SLURM_JOB_NODELIST`
+nodes_array=( $nodes )
+head_node=${nodes_array[0]}
+head_node_ip=$(srun --nodes=1 --ntasks=1 -w "$head_node" hostname --ip-address)
+echo "Head node: $head_node"
+echo "Head node ip: $head_node_ip"
+echo "Head port: $head_port"
+export head_addr="$head_node_ip:$head_port"
+echo "Head address: $head_addr"
+
+echo "Starting Ray head on $head_node"
+srun -N 1 -n 1 -w "$head_node" ray start --head --node-ip-address="$head_node_ip" \
+    --port=$head_port --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $SLURM_GPUS_ON_NODE --min-worker-port 20001 --max-worker-port 30000 --block &
+
+# wait for head node to start
+sleep 5
+
+# start ray on the rest of the nodes
+worker_num=$((SLURM_NNODES - 1))
+for (( i = 1; i <= worker_num; i++ )); do
+    node=${nodes_array[$i]}
+    echo "Starting Ray worker on $node"
+    srun -N 1 -n 1 -w "$node"  ray start --address="$head_addr" \
+        --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $SLURM_GPUS_ON_NODE --min-worker-port 20001 --max-worker-port 30000 --block &
+    sleep 5
+done
+
+# Start your script here
+python my_ray_script.py
+```
+
+Your python script will then be able to call `ray.init()` to connect to the Ray cluster and use the Ray API to do distributed computation. Tasks and actors created 
+during your script will run across the Ray cluster, with Ray handling scheduling, communication, and placement. Upon completion of the script, the Ray cluster will be shut down and the resources will be released as SLURM terminates the job.
 
 ### Dask
 [TODO]
