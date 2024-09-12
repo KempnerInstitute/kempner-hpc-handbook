@@ -59,9 +59,19 @@ It serves as the backend for a number of tools in the modern AI/ML ecosystem, in
 
 Ray clusters can be run on your laptop as well as on SLURM. The methods of starting the cluster are different, but once the cluster is started the python API is the same, enabling easy development of Ray applications for the cluster on your laptop.
 
+#### Installing Ray
+
+Ray can be installed using pip. The following command will install Ray and all of its dependencies.
+
+```
+pip install ray[default]
+```
+
+While Ray is available on `conda-forge`, the version available there is maintained by the community and may not be the most up to date. It is recommended to install Ray using pip. See the [Ray documentation](https://docs.ray.io/en/latest/ray-overview/installation.html#installing-from-conda-forge) for more information on how to install Ray.
+
 #### Using Ray on SLURM
 
-In order to use ray on SLURM, you will need to start a ray cluster and ensure that it is using the proper number of resources. The following script can be used to start a ray cluster on SLURM. This script will start a ray head on the first node in the allocation and then start ray workers on the rest of the nodes. The script will then start a python script that uses ray to do distributed computation. Note the use of teh SLURM environment variables. By default, Ray will attempt to use all CPUs on a node regardless of the number of tasks requested. This can be controlled by setting the `--num-cpus` flag when starting the ray cluster.
+In order to use Ray on SLURM, you will need to start a Ray cluster and ensure that it is using the proper number of resources. The following script can be used to start a Ray cluster on SLURM. This script will start a Ray head node on the first node in the allocation and then start Ray workers on the rest of the nodes. The script will then start a python script that uses Ray to do distributed computation. Note the use of the SLURM environment variables. By default, Ray will attempt to use all CPUs on a node regardless of the number of tasks requested. This can be controlled by setting the `--num-cpus` flag when starting the Ray cluster.
 
 ```
 #! /bin/bash
@@ -78,8 +88,8 @@ In order to use ray on SLURM, you will need to start a ray cluster and ensure th
 
 
 
-# Load environment with ray installed, as well as other dependencies
-# Can also run ray inside singularitiy containers, assuming that all needed dependencies are installed in the container
+# Load environment with Ray installed, as well as other dependencies
+# Can also run Ray inside singularitiy containers, assuming that all needed dependencies are installed in the container
 module load python
 
 mamba activate fake_ray_environment
@@ -116,6 +126,10 @@ done
 # Start your script here
 python my_ray_script.py
 ```
+
+Your python script will then be able to call `ray.init()` to connect to the Ray cluster and use the Ray API to do distributed computation. Tasks and actors created 
+during your script will run across the Ray cluster, with Ray handling scheduling, communication, and placement. Upon completion of the script, the Ray cluster will be shut down and the resources will be released as SLURM terminates the job.
+
 ### Dask
 [TODO]
 
