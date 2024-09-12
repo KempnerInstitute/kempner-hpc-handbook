@@ -97,7 +97,7 @@ export head_addr="$head_node_ip:$head_port"
 echo "Head address: $head_addr"
 
 echo "Starting Ray head on $head_node"
-srun -N 1 -n 1 -w "$head_node" ${SINGULARITY_WRAP} ray start --head --node-ip-address="$head_node_ip" \
+srun -N 1 -n 1 -w "$head_node" ray start --head --node-ip-address="$head_node_ip" \
     --port=$head_port --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $SLURM_GPUS_ON_NODE --min-worker-port 20001 --max-worker-port 30000 --block &
 
 # wait for head node to start
@@ -108,7 +108,7 @@ worker_num=$((SLURM_NNODES - 1))
 for (( i = 1; i <= worker_num; i++ )); do
     node=${nodes_array[$i]}
     echo "Starting Ray worker on $node"
-    srun -N 1 -n 1 -w "$node" ${SINGULARITY_WRAP} ray start --address="$head_addr" \
+    srun -N 1 -n 1 -w "$node"  ray start --address="$head_addr" \
         --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $SLURM_GPUS_ON_NODE --min-worker-port 20001 --max-worker-port 30000 --block &
     sleep 5
 done
