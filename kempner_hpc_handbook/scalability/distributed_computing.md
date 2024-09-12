@@ -79,7 +79,7 @@ In order to use Ray on SLURM, you will need to start a Ray cluster and ensure th
 #SBATCH -N 2 # number of nodes, this script is adaptable for any number of nodes
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=40 # number of cpus per task, this script can work with any number of cpus
-#SBATCH --gres=gpu:4 # number of gpus per node
+#SBATCH --gres=gpu:4 # number of gpus per node, note that GPUs are not required for Ray
 #SBATCH --mem=0 # memory per node, note that this is per node and not per task
 #SBATCH --time=0:30:00 # time limit for the job
 #SBATCH -p kempner_requeue
