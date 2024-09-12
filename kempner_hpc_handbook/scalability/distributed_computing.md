@@ -90,9 +90,8 @@ In order to use Ray on SLURM, you will need to start a Ray cluster and ensure th
 
 # Load environment with Ray installed, as well as other dependencies
 # Can also run Ray inside singularitiy containers, assuming that all needed dependencies are installed in the container
-module load python
 
-mamba activate fake_ray_environment
+## PLACEHOLDER LOAD ENV COMMAND ##
 
 # choose available port on the head node
 head_port=`comm -23 <(seq 15000 20000 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1`
