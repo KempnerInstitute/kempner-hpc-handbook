@@ -23,6 +23,7 @@ The following table provides an overview of the Kempner Institute HPC cluster:
 | **CPU Cores per Server**  | 64                                             | 96                                                    |
 | **RAM per Server**        | 1 TB                                           | 1.5 TB                                                |
 
+
 ```{figure} figures/svg/cluster_diagram.svg
 ---
 height: 500 px
@@ -30,20 +31,16 @@ name: Diagram of HPC Cluster
 ---
 This is a diagram of the Kempner HPC cluster within the FASRC infrastructure showing the arrangement of nodes, networking, and storage systems.
 ```
-Currently, there are two GPU racks in production at the Massachusetts Green High Performance Computing Center (MGHPCC): one A100 GPU rack and one H100 GPU rack, with three more H100 GPU racks coming soon. In the following diagram, both the current and upcoming racks are shown, in addition to the network core designed for non-blocking communication between GPUs.
 
-<p align="center">
-  <img src="https://github.com/KempnerInstitute/kempner-hpc-handbook/blob/main/kempner_hpc_handbook/getting_started/figures/svg/Clusters_1.svg" width="90%" />
-</p>
+Currently, there are five GPU racks in production at the Massachusetts Green High Performance Computing Center (MGHPCC): one A100 GPU rack and four H100 GPU racks. In the following diagram, these racks are shown along with a network core designed for non-blocking communication between GPUs.
 
 
-
-```{figure} figures/svg/racks.svg
+```{figure} figures/svg/Clusters_1.svg
 ---
 height: 500 px
-name: Current and Upcoming GPU Racks and Network Core
+name: GPU Racks and Network Core
 ---
-This is a diagram of the GPU racks (in production and upcoming ones) and network core.
+This is a diagram of the GPU racks and network core.
 ```
 
 
