@@ -3,7 +3,9 @@
 
 In order to use a conda environment on the cluster, you will need to create a conda environment and then activate it on the compute node. FASRC uses `mamba` as a replacement for `conda` to manage conda environments. `mamba` is a drop-in replacement for `conda` that is generally much faster. 
 
-## What is a conda environment and why should you use it?
+## Building a Conda environment under the default home directory
+
+### What is a conda environment and why should you use it?
 
 
 A conda environment is a directory that contains a self-contained instance of Python along with a specific set of packages. For instance, you can create a conda environment called `myenv` with numpy version 1.26.4 installed. When executing Python code within that environment, numpy version 1.26.4 will be used. If you need to run code from a different project requiring an older version of numpy, you can use a different conda environment with that older version of numpy installed.
@@ -14,7 +16,7 @@ Overall, conda environments allow you to isolate package versions for different 
 
 
 (development_and_runtime_envs:using_conda_env:creation)=
-## Creating a Conda Environment
+### Creating a Conda Environment
 
 - Step 1: See a list of load modules using the `module list` command.
 
@@ -75,7 +77,7 @@ Be aware that the size of the new conda environment can occupy several gigabytes
 
 
 (development_and_runtime_envs:using_conda_env:jupyter)=
-## Using a Conda Environment with Jupyter
+### Using a Conda Environment with Jupyter
 If you plan to use Jupyter notebooks or JupyterLab on the cluster, and would like to use a conda environment, you need to install `ipykernel` within that conda environment:
 
 
@@ -91,7 +93,7 @@ You should now be able to change the kernel of the notebook to your conda enviro
 For details on how select a kernel when running a jupyter notebook in VSCode,  please see the section {ref}`development_and_runtime_envs:using_vscode_for_remote_development:jupyter`.
 ```
 
-## Exporting a Conda Environment
+### Exporting a Conda Environment
 You can export your conda environment into a `yml` file. This means that other users can recreate your exact conda environment using the `yml` file.
 
 
@@ -146,3 +148,76 @@ They will need both the `environment.yml` file and the `requirements.txt` file.
 
 ````{seealso}
 The [Conda documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) may be useful for further information.
+````
+
+
+## Building a Conda environment in a user-defined directory
+
+The Conda environment and cache directory for installed packages can easily exceed tens of gigabytes. It is recommended to create the Conda environment in the lab directory instead of the home directory. In this section, we assume you prefer not to have a Conda environment in the default home directory, and that your default Conda environment is located in the lab directory. The lab directory (under your username) does not have the 100 GB space limitation, providing you with more room to create Conda environments.
+
+```{warning}
+Please note that this is a major change to the default behavior of Conda. If you are unsure about this change, please consult with the Research and Engineering team or the FASRC help desk.
+```
+
+
+
+Here are the steps to create a Conda environment in the lab directory:
+
+- Step 1: Locate your lab directory
+
+The labs are located at the following path: `/n/holylabs/LABS`. Inside the LABS directory, you will find directories for individual labs. Within each lab directory, there is a `Users` folder. Inside this folder, there should be a folder with your username. If such a folder does not exist, request the FASRC help desk to create one for you. This folder will serve as your personal directory under your affiliated lab.
+
+
+- Step 2: Create the following directories in your lab directory:
+
+    - `.conda`: This directory will be your default Conda directory.
+    - `.conda/envs`: This directory will store the conda environments.
+    - `.conda/pkgs`: This directory will store the cached packages.
+
+- Step 3: Set the following environment variables in your `~/.bashrc` file:
+
+    ```bash
+    export CONDA_ENVS=/n/holylabs/LABS/<lab_name>/<username>/.conda/envs
+    export CONDA_PKGS_DIRS=/n/holylabs/LABS/<lab_name>/<username>/.conda/pkgs
+    export PATH="/n/holylabs/LABS/<lab_name>/<username>/.conda:$PATH"
+    ```
+
+
+    Replace `<lab_name>` with the name of your lab and `<username>` with your username. The `CONDA_ENVS` environment variable specifies the directory where the Conda environments will be stored, and the `CONDA_PKGS_DIRS` environment variable specifies the directory where the cached packages will be stored.
+
+    Run the following command to apply the changes:
+
+    ```bash
+    source ~/.bashrc
+    ```
+
+- Step 4: Add these default directories to your `.condarc` file:
+
+    ```bash
+    envs_dirs:
+    - /n/holylabs/LABS/<lab_name>/<username>/.conda/envs
+
+    pkgs_dirs:
+    - /n/holylabs/LABS/<lab_name>/<username>/.conda/pkgs
+    ```
+
+    Replace `<lab_name>` with the name of your lab and `<username>` with your username.
+
+
+- Step 5: Create a Conda environment in the lab directory using the `conda create` command. For example, to create a Conda environment named `myenv` with Python 3.12 and installing pip and numpy, you can use the following command:
+
+    ```bash
+    module load python/3.10.12-fasrc01
+    conda create --name myenv python=3.12 pip numpy
+    ```
+
+- Step 6: Check if the Conda environment is created successfully in the lab directory using the following command:
+
+    ```bash
+    conda env list
+    ```
+
+    This command will list all the Conda environments, including the one you just created.
+
+- Done! You have successfully created a Conda environment in the lab directory.
+
