@@ -156,7 +156,7 @@ The [Conda documentation](https://conda.io/projects/conda/en/latest/user-guide/t
 The Conda environment and cache directory for installed packages can easily exceed tens of gigabytes. It is recommended to create the Conda environment in the lab directory instead of the home directory. In this section, we assume you prefer not to have a Conda environment in the default home directory, and that your default Conda environment is located in the lab directory. The lab directory (under your username) does not have the 100 GB space limitation, providing you with more room to create Conda environments.
 
 ```{warning}
-Please note that this is a major change to the default behavior of Conda. If you are unsure about this change, please consult with the Research and Engineering team or the FASRC help desk.
+Please note that this is a major change to the default behavior of Conda. If you are unsure about this change, please consult with the FAS Research Computing.
 ```
 
 
@@ -165,7 +165,7 @@ Here are the steps to create a Conda environment in the lab directory:
 
 - Step 1: Locate your lab directory
 
-The labs are located at the following path: `/n/holylabs/LABS`. Inside the LABS directory, you will find directories for individual labs. Within each lab directory, there is a `Users` folder. Inside this folder, there should be a folder with your username. If such a folder does not exist, request the FASRC help desk to create one for you. This folder will serve as your personal directory under your affiliated lab.
+The labs are located at the following path: `/n/holylabs/LABS` (or other filesystems such as `holylfs04`, `holylfs05`, `holylfs06`). Inside the LABS directory, you will find directories for individual labs. Within each lab directory, there is a `Users` folder. Inside this folder, there should be a folder with your username. If such a folder does not exist, request the FASRC help desk to create one for you. This folder will serve as your personal directory under your affiliated lab.
 
 
 - Step 2: Create the following directories in your lab directory:
