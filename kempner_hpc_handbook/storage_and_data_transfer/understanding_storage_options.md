@@ -57,13 +57,13 @@ Please be aware that employing any methods to alter data in the scratch director
 Your scratch directory is located at:
 
 ```sh
-/n/holyscratch01/C/<your lab name>
+/n/holyscratch01/<your lab name>
 ```
 
 For example, Jonathan Frankle’s lab directory is at:
 
 ```sh
-/n/holyscratch01/C/jfrankle_lab
+/n/holyscratch01/jfrankle_lab
 ```
 
 This storage is only accessible to members of the lab. The prefix of that path may change in the future, so you can use the $SCRATCH environment variable to refer to the prefix of the path:
@@ -112,7 +112,7 @@ The following table summarizes the details of the default scratch storage (`holy
 | **Use Cases**       | Optimized for Varieties of Workflows | Optimized for High I/O AI Workflows |
 
 ```{note}
-The current VAST scratch storage, mounted on `/n/vast-scratch`, serves as a temporary solution. Users may need to migrate to a more permanent VAST storage later in the summer. This page will be updated with the most recent information, and users will be notified about any changes to the scratch storage in advance.
+The current VAST scratch storage, mounted on `/n/vast-scratch`, serves as a temporary solution. Users may need to migrate to a more permanent VAST storage later. This page will be updated with the most recent information, and users will be notified about any changes to the scratch storage in advance.
 ```
 
 The following table summarizes the storage options available on the cluster, visit [data storage](https://www.rc.fas.harvard.edu/services/data-storage/) for more information.
