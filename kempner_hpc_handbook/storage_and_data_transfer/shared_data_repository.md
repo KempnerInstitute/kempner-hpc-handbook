@@ -4,7 +4,7 @@ We host several popular ML datasets and models on the Kempner HPC cluster. This 
 
 ```bash
 DATA_PATH=/n/holylfs06/LABS/kempner_shared/Lab/data
-MODEL_PATH=/n/holylfs06/LABS/kempner_shared/Lab/models
+MODEL_PATH=/n/holylfs06/LABS/kempner_shared/Lab/model
 ```
 
 ```{note}
