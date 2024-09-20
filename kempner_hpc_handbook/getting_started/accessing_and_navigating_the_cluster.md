@@ -1,29 +1,29 @@
 (getting_started:accessing_and_navigating_the_cluster)=
 # Accessing and Navigating the Cluster
 
-There are two methods for accessing the Kempner Institute HPC cluster. To utilize the resources, one may need to connect via a [VPN](https://docs.rc.fas.harvard.edu/kb/vpn-setup/) (Virtual Private Network). The VPN is not required for Secure Shell (SSH) access, but it is necessary for Open OnDemand access.
+There are two methods for accessing the Kempner Institute HPC cluster. To utilize the resources, one may need to install [OpenAuth](https://docs.rc.fas.harvard.edu/kb/openauth/) two-factor authentication and connect via a [VPN](https://docs.rc.fas.harvard.edu/kb/vpn-setup/) (Virtual Private Network). The VPN is not required for Secure Shell (SSH) access, but it is necessary for Open OnDemand access.
 
 ## Installing OpenAuth 2FA
 
 FASRC  uses its own two-factor authentication tool, [OpenAuth](https://docs.rc.fas.harvard.edu/kb/openauth/), which is different than Harvard Key.
 
-To install OpenAuth, follow these steps:
+To use OpenAuth, follow these steps:
 
-1. **Request OpenAuth**: Click [here](https://two-factor.rc.fas.harvard.edu/) to request OpenAuth from FASRC.
+1. **Request OpenAuth**: Click [here](https://two-factor.rc.fas.harvard.edu/) to request OpenAuth instructions and installation links from FASRC.
 Use the following credentials:
      - **username**: your [FASRC account username](https://docs.rc.fas.harvard.edu/kb/about-usernames/)
     - **password**: your [FASRC account password](https://docs.rc.fas.harvard.edu/kb/quickstart-guide/#2_Set_a_password_and_setup_OpenAuth_for_two-factor_authentication)
 
 
-2. **Install OpentAuth**: 
+2. **Install 2FA Tool**: 
     - **Open the Email from FASRC**: After submitting a request for OpenAuth, FASRC will send a message to the email address on record. (Since FASRC uses email verification for authentication, users must have an email address on record with FASRC.)
 
         The email will contain: 
-        - OpenAuth installation instructions
+        - Installation instructions
         - Download links (valid for 24 hours) 
         - A personalized token
 
-    - **Download the OpenAuth**: Choose among these download options:
+    - **Select and Install 2FA Tool**: Choose among these options:
         - **Smart phone app**: uses a QR code for use in Google Authenticator ([Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&pli=1) or [IOS](https://apps.apple.com/us/app/google-authenticator/id388497605))
         - **Duo Mobile**: tokens are separate from Harvard Key tokens
         - **Java Desktop App**: 
@@ -44,7 +44,7 @@ To set up a VPN connection, follow these steps:
 4. **Enter your credentials**: 
     - **username**: username + @ + `fasrc` (e.g., `jharvard@fasrc`)
     - **password**: your FASRC password (reset your password [here](https://portal.rc.fas.harvard.edu/p3/pwreset/))
-    - **OpenAuth 2FA code**: your OpenAuth 2FA code (See [Installing OpenAuth 2FA](#installing-openauth-2FA))
+    - **OpenAuth 2FA code**: your OpenAuth 2FA code (See [Installing OpenAuth 2FA](../getting_started/accessing_and_navigating_the_cluster.md))
 
 ```{note}
 For detailed instructions and additional information, please read more about the VPN at [VPN setup guide](https://docs.rc.fas.harvard.edu/kb/vpn-setup/) on FASRC Documentation.
