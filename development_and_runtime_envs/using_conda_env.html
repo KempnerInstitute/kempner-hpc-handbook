@@ -457,10 +457,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-conda-environment-and-why-should-you-use-it">3.4.1. What is a conda environment and why should you use it?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">3.4.2. Creating a Conda Environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-conda-environment-with-jupyter">3.4.3. Using a Conda Environment with Jupyter</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-a-conda-environment">3.4.4. Exporting a Conda Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-conda-environment-under-the-default-home-directory">3.4.1. Building a Conda environment under the default home directory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-conda-environment-and-why-should-you-use-it">3.4.1.1. What is a conda environment and why should you use it?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">3.4.1.2. Creating a Conda Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-conda-environment-with-jupyter">3.4.1.3. Using a Conda Environment with Jupyter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-a-conda-environment">3.4.1.4. Exporting a Conda Environment</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-conda-environment-in-a-user-defined-directory">3.4.2. Building a Conda environment in a user-defined directory</a></li>
 </ul>
             </nav>
         </div>
@@ -475,13 +479,15 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="using-conda-environment">
 <span id="development-and-runtime-envs-using-conda-env"></span><h1><span class="section-number">3.4. </span>Using Conda Environment<a class="headerlink" href="#using-conda-environment" title="Link to this heading">#</a></h1>
 <p>In order to use a conda environment on the cluster, you will need to create a conda environment and then activate it on the compute node. FASRC uses <code class="docutils literal notranslate"><span class="pre">mamba</span></code> as a replacement for <code class="docutils literal notranslate"><span class="pre">conda</span></code> to manage conda environments. <code class="docutils literal notranslate"><span class="pre">mamba</span></code> is a drop-in replacement for <code class="docutils literal notranslate"><span class="pre">conda</span></code> that is generally much faster.</p>
+<section id="building-a-conda-environment-under-the-default-home-directory">
+<h2><span class="section-number">3.4.1. </span>Building a Conda environment under the default home directory<a class="headerlink" href="#building-a-conda-environment-under-the-default-home-directory" title="Link to this heading">#</a></h2>
 <section id="what-is-a-conda-environment-and-why-should-you-use-it">
-<h2><span class="section-number">3.4.1. </span>What is a conda environment and why should you use it?<a class="headerlink" href="#what-is-a-conda-environment-and-why-should-you-use-it" title="Link to this heading">#</a></h2>
+<h3><span class="section-number">3.4.1.1. </span>What is a conda environment and why should you use it?<a class="headerlink" href="#what-is-a-conda-environment-and-why-should-you-use-it" title="Link to this heading">#</a></h3>
 <p>A conda environment is a directory that contains a self-contained instance of Python along with a specific set of packages. For instance, you can create a conda environment called <code class="docutils literal notranslate"><span class="pre">myenv</span></code> with numpy version 1.26.4 installed. When executing Python code within that environment, numpy version 1.26.4 will be used. If you need to run code from a different project requiring an older version of numpy, you can use a different conda environment with that older version of numpy installed.</p>
 <p>Overall, conda environments allow you to isolate package versions for different projects or repositories, which reduces conflicts and dependency issues. The use of conda environments also ensures reproducibility; you can export your conda environment, allowing others to run your code in precisely the same environment.</p>
 </section>
 <section id="creating-a-conda-environment">
-<span id="development-and-runtime-envs-using-conda-env-creation"></span><h2><span class="section-number">3.4.2. </span>Creating a Conda Environment<a class="headerlink" href="#creating-a-conda-environment" title="Link to this heading">#</a></h2>
+<span id="development-and-runtime-envs-using-conda-env-creation"></span><h3><span class="section-number">3.4.1.2. </span>Creating a Conda Environment<a class="headerlink" href="#creating-a-conda-environment" title="Link to this heading">#</a></h3>
 <ul>
 <li><p>Step 1: See a list of load modules using the <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">list</span></code> command.</p>
 <div class="admonition tip">
@@ -535,7 +541,7 @@ base<span class="w">                     </span>/n/sw/Mambaforge-23.11.0-0
 </div>
 </section>
 <section id="using-a-conda-environment-with-jupyter">
-<span id="development-and-runtime-envs-using-conda-env-jupyter"></span><h2><span class="section-number">3.4.3. </span>Using a Conda Environment with Jupyter<a class="headerlink" href="#using-a-conda-environment-with-jupyter" title="Link to this heading">#</a></h2>
+<span id="development-and-runtime-envs-using-conda-env-jupyter"></span><h3><span class="section-number">3.4.1.3. </span>Using a Conda Environment with Jupyter<a class="headerlink" href="#using-a-conda-environment-with-jupyter" title="Link to this heading">#</a></h3>
 <p>If you plan to use Jupyter notebooks or JupyterLab on the cluster, and would like to use a conda environment, you need to install <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code> within that conda environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>activate<span class="w"> </span>myenv
 pip<span class="w"> </span>install<span class="w"> </span>ipykernel
@@ -548,7 +554,7 @@ pip<span class="w"> </span>install<span class="w"> </span>ipykernel
 </div>
 </section>
 <section id="exporting-a-conda-environment">
-<h2><span class="section-number">3.4.4. </span>Exporting a Conda Environment<a class="headerlink" href="#exporting-a-conda-environment" title="Link to this heading">#</a></h2>
+<h3><span class="section-number">3.4.1.4. </span>Exporting a Conda Environment<a class="headerlink" href="#exporting-a-conda-environment" title="Link to this heading">#</a></h3>
 <p>You can export your conda environment into a <code class="docutils literal notranslate"><span class="pre">yml</span></code> file. This means that other users can recreate your exact conda environment using the <code class="docutils literal notranslate"><span class="pre">yml</span></code> file.</p>
 <p>To export your conda environment, run</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>activate<span class="w"> </span>&lt;environment<span class="w"> </span>name&gt;
@@ -581,6 +587,64 @@ mamba<span class="w"> </span>env<span class="w"> </span><span class="nb">export<
 <p class="admonition-title">See also</p>
 <p>The <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html">Conda documentation</a> may be useful for further information.</p>
 </div>
+</section>
+</section>
+<section id="building-a-conda-environment-in-a-user-defined-directory">
+<h2><span class="section-number">3.4.2. </span>Building a Conda environment in a user-defined directory<a class="headerlink" href="#building-a-conda-environment-in-a-user-defined-directory" title="Link to this heading">#</a></h2>
+<p>The Conda environment and cache directory for installed packages can easily exceed tens of gigabytes. It is recommended to create the Conda environment in the lab directory instead of the home directory. In this section, we assume you prefer not to have a Conda environment in the default home directory, and that your default Conda environment is located in the lab directory. The lab directory (under your username) does not have the 100 GB space limitation, providing you with more room to create Conda environments.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that this is a major change to the default behavior of Conda. If you are unsure about this change, please consult with the FAS Research Computing.</p>
+</div>
+<p>Here are the steps to create a Conda environment in the lab directory:</p>
+<ul class="simple">
+<li><p>Step 1: Locate your lab directory</p></li>
+</ul>
+<p>The labs are located at the following path: <code class="docutils literal notranslate"><span class="pre">/n/holylabs/LABS</span></code> (or other filesystems such as <code class="docutils literal notranslate"><span class="pre">holylfs04</span></code>, <code class="docutils literal notranslate"><span class="pre">holylfs05</span></code>, <code class="docutils literal notranslate"><span class="pre">holylfs06</span></code>). Inside the LABS directory, you will find directories for individual labs. Within each lab directory, there is a <code class="docutils literal notranslate"><span class="pre">Users</span></code> folder. Inside this folder, there should be a folder with your username. If such a folder does not exist, request the FASRC help desk to create one for you. This folder will serve as your personal directory under your affiliated lab.</p>
+<ul>
+<li><p>Step 2: Create the following directories in your lab directory:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.conda</span></code>: This directory will be your default Conda directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.conda/envs</span></code>: This directory will store the conda environments.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.conda/pkgs</span></code>: This directory will store the cached packages.</p></li>
+</ul>
+</li>
+<li><p>Step 3: Set the following environment variables in your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">CONDA_ENVS</span><span class="o">=</span>/n/holylabs/LABS/&lt;lab_name&gt;/&lt;username&gt;/.conda/envs
+<span class="nb">export</span><span class="w"> </span><span class="nv">CONDA_PKGS_DIRS</span><span class="o">=</span>/n/holylabs/LABS/&lt;lab_name&gt;/&lt;username&gt;/.conda/pkgs
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/n/holylabs/LABS/&lt;lab_name&gt;/&lt;username&gt;/.conda:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;lab_name&gt;</span></code> with the name of your lab and <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;</span></code> with your username. The <code class="docutils literal notranslate"><span class="pre">CONDA_ENVS</span></code> environment variable specifies the directory where the Conda environments will be stored, and the <code class="docutils literal notranslate"><span class="pre">CONDA_PKGS_DIRS</span></code> environment variable specifies the directory where the cached packages will be stored.</p>
+<p>Run the following command to apply the changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+</li>
+<li><p>Step 4: Add these default directories to your <code class="docutils literal notranslate"><span class="pre">.condarc</span></code> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>envs_dirs:
+-<span class="w"> </span>/n/holylabs/LABS/&lt;lab_name&gt;/&lt;username&gt;/.conda/envs
+
+pkgs_dirs:
+-<span class="w"> </span>/n/holylabs/LABS/&lt;lab_name&gt;/&lt;username&gt;/.conda/pkgs
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;lab_name&gt;</span></code> with the name of your lab and <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;</span></code> with your username.</p>
+</li>
+<li><p>Step 5: Create a Conda environment in the lab directory using the <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span></code> command. For example, to create a Conda environment named <code class="docutils literal notranslate"><span class="pre">myenv</span></code> with Python 3.12 and installing pip and numpy, you can use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python/3.10.12-fasrc01
+conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>myenv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12<span class="w"> </span>pip<span class="w"> </span>numpy
+</pre></div>
+</div>
+</li>
+<li><p>Step 6: Check if the Conda environment is created successfully in the lab directory using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>list
+</pre></div>
+</div>
+<p>This command will list all the Conda environments, including the one you just created.</p>
+</li>
+<li><p>Done! You have successfully created a Conda environment in the lab directory.</p></li>
+</ul>
 </section>
 </section>
 
@@ -648,10 +712,14 @@ mamba<span class="w"> </span>env<span class="w"> </span><span class="nb">export<
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-conda-environment-and-why-should-you-use-it">3.4.1. What is a conda environment and why should you use it?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">3.4.2. Creating a Conda Environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-conda-environment-with-jupyter">3.4.3. Using a Conda Environment with Jupyter</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-a-conda-environment">3.4.4. Exporting a Conda Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-conda-environment-under-the-default-home-directory">3.4.1. Building a Conda environment under the default home directory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-conda-environment-and-why-should-you-use-it">3.4.1.1. What is a conda environment and why should you use it?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">3.4.1.2. Creating a Conda Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-conda-environment-with-jupyter">3.4.1.3. Using a Conda Environment with Jupyter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-a-conda-environment">3.4.1.4. Exporting a Conda Environment</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-conda-environment-in-a-user-defined-directory">3.4.2. Building a Conda environment in a user-defined directory</a></li>
 </ul>
   </nav></div>
 
