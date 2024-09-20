@@ -46,9 +46,7 @@ sections:
 - file: scalability/README
   sections:
   - file: scalability/introduction_to_parallel_computing
-    title: Parallel Computing
-  - file: scalability/parallel_io
-    title: Parallel I/O
+    title: Intro to Parallel Computing
   - file: scalability/gpu_computing
     title: GPU Computing
   - file: scalability/gpu_profiling
@@ -57,6 +55,8 @@ sections:
     title: Distributed Computing
   - file: scalability/using_multiple_gpus
     title: Using Multiple GPUs
+  - file: scalability/parallel_io
+    title: Parallel I/O
 - file: storage_and_data_transfer/README
   sections:
   - file: storage_and_data_transfer/understanding_storage_options
