@@ -5,16 +5,16 @@
 ## Machine Learning Parallelism Approaches on GPUs
 The scaling of machine learning (ML) workloads in HPC environments can be achieved through various parallelism approaches. This section outlines the primary methods for parallelizing ML computations.
 
-### Data Parallelism
-Involves splitting the dataset into smaller batches that are processed in parallel across different GPUs. Each GPU trains a copy of the model on its subset of the data, and the results are aggregated to update the model.
+### Distributed Data Parallelism (DDP)
+Each GPU trains a copy of the model and the dataset is splitted into smaller batches evenly distributed between GPUs. In each training step, GPUs perform forward and backward passes locally and compute the parameter gradients corresponding to their current data batch. Then before updating the model weights, GPUs communicate to sum the parameter gradients across GPUs. This guarantees the model replicas being kept consistent across GPUs before starting the next training step. These inter-GPU communications are optimized by All-Reduce collective communication primitive from NCCL library for Nvidia GPUs.
 
 
-```{figure} figures/png/data_parallel.PNG
+```{figure} figures/png/ddp.png
 ---
 height: 450 px
 name: Data Parallelism Diagram
 ---
-(*Credit: [nvidia.com](https://nvidia.com)*)
+DDP
 ```
 
 ### Model Parallelism

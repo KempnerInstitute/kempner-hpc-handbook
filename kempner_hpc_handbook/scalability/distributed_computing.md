@@ -136,13 +136,29 @@ during your script will run across the Ray cluster, with Ray handling scheduling
 [TODO]
 
 ## NVIDIA Collective Communication Library (NCCL)
-For inter-GPU communication NVIDIA Collective Communication Library (NCCL, pronounced “Nickel”) is being use as backend in distributed strategies such as Distributed Data Parallel (DDP) and Fully Sharded Data Parallel (FSDP). NCCL provides the following collective communication primitives :
-* AllReduce: Each rank receives the reduction of input values across ranks.
-* Broadcast: All ranks receive data from a “root” rank.
-* Reduce: One rank receives the reduction of input values across ranks.
+For multi-GPU and multi-node communication, NVIDIA Collective Communication Library (NCCL, pronounced “Nickel”) is being used as backend in distributed strategies for Nvidia GPUs such as Distributed Data Parallel (DDP) and Fully Sharded Data Parallel (FSDP). Following are some of the most related NCCL collective communication primitives :
+* Scatter: From one rank, data will be distributed across all rank, with each rank receiving a subpart of the data.
+* Gather: One rank will receive the aggregation of data from all ranks.
 * AllGather: Each rank receives the aggregation of data from all ranks in the order of the ranks.
+* Reduce: One rank receives the reduction of input values across ranks.
+* AllReduce: Each rank receives the reduction of input values across ranks.
 * ReduceScatter: Input values are reduced across ranks, with each rank receiving a subpart of the result.
 ```{seealso}
 For more information about the different NCCL collective operations refer to:
 https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html
 ``` 
+```{note}
+Each process in the multi-process applications is called a rank. Usually each process has its own exclusive device. Therefore you can think of each rank as one GPU in the following diagrams.
+```
+
+````{list-table}
+:header-rows: 0
+:user-select: none
+
+* - ![](figures/png/nccl_scatter.png)
+   - ![](figures/png/nccl_gather.png)
+* - ![](figures/png/nccl_reduce.png)
+   - ![](figures/png/nccl_all_gather.png)
+* - ![](figures/png/nccl_all_reduce.png)
+   - ![](figures/png/nccl_reduce_scatter.png)
+````

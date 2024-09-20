@@ -11,8 +11,9 @@ GPU design provides vastly greater compute resources particularly for parallel w
 ```
 
 ## How to use GPUs
-Here is how we can utilize the compute power of GPUs for Matrix Multiplication using CuPy package (equivalent NumPy for GPUs) and using PyTorch.
+Here is how we can utilize the compute power of GPUs for Matrix Multiplication using CuPy package (equivalent NumPy for GPUs).
 
+````{dropdown} Matrix Multiplication Using CuPy on GPU vs CPU
 ```{code}
 import numpy as np
 import cupy as cp
@@ -66,7 +67,9 @@ Output:
 Time taken on CPU: 23.157653 seconds
 Time taken on GPU: 7.113699 seconds
 ```
+````
 Alternatively PyTorch provides a very efficient built-in function for matrix multiplication.
+````{dropdown} Matrix Multiplication Using PyTorch on GPU vs CPU
 ```{code}
 import time
 import torch
@@ -118,8 +121,9 @@ Time taken on CPU: 0.379145 seconds
 Time taken on GPU: 0.000208 seconds
 Total script execution time: 2.112846 seconds
 ```
-
+````
 ## More Frameworks and Libraries
+In addition to the aforementioned CuPy and PyTorch, there are many more Frameworks and Libraries that enable applications to run computation on GPUs.
 ### Nvidia RAPIDS
 
 ### Pytorch Lightning
