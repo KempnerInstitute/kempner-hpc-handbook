@@ -51,8 +51,6 @@ sections:
     title: GPU Computing
   - file: scalability/gpu_profiling
     title: GPU Profiling
-  - file: scalability/distributed_computing
-    title: Distributed Computing
   - file: scalability/using_multiple_gpus
     title: Using Multiple GPUs
   - file: scalability/parallel_io
