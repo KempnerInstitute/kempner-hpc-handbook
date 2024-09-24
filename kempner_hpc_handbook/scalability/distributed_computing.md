@@ -71,7 +71,11 @@ While Ray is available on `conda-forge`, the version available there is maintain
 
 #### Using Ray on SLURM
 
-In order to use Ray on SLURM, you will need to start a Ray cluster and ensure that it is using the proper number of resources. The following script can be used to start a Ray cluster on SLURM. This script will start a Ray head node on the first node in the allocation and then start Ray workers on the rest of the nodes. The script will then start a python script that uses Ray to do distributed computation. Note the use of the SLURM environment variables. By default, Ray will attempt to use all CPUs on a node regardless of the number of tasks requested. This can be controlled by setting the `--num-cpus` flag when starting the Ray cluster.
+In order to use Ray on SLURM, you will need to start a Ray cluster and ensure that it is using the proper number of resources. The following script can be used to start a Ray cluster on SLURM. This script will start a Ray head node on the first node in the allocation and then start Ray workers on the rest of the nodes. The script will then start a python script that uses Ray to do distributed computation. Note the use of the SLURM environment variables. By default, Ray will attempt to use all CPUs on a node regardless of the number of tasks requested. This can be controlled by setting the `--num-cpus` flag when starting the Ray cluster. We do this in the following script by setting the number of CPUs to the number of CPUs per task requested by the user. We also set the number of GPUs to the number of GPUs per node requested by the user.
+
+Some specific things to note about the script:
+- The script will start a Ray head node on the first node in the allocation and then start Ray workers on the rest of the nodes.
+- The script defines a custom temporary directory for ray to use, based on the user and job id. This is important as Ray will store logs and other temporary files in this directory. If we don't specify a custom directory, Ray will use the default `/tmp/ray` directory, which can lead to conflicts if multiple users are running Ray jobs on the same node. However this makes it so that `ray.init()` can't automatically connect to the ray cluster without specifying the address. We use the `RAY_ADDRESS` environment variable to specify the address of the head node without having to modify the script.
 
 ```
 #! /bin/bash
@@ -93,6 +97,13 @@ In order to use Ray on SLURM, you will need to start a Ray cluster and ensure th
 
 ## PLACEHOLDER LOAD ENV COMMAND ##
 
+# Get number of GPUs on each node
+if [[ -z "$SLURM_GPUS_ON_NODE" ]]; then
+    export RAY_GPUS=0
+else
+    export RAY_GPUS=$SLURM_GPUS_ON_NODE
+fi
+
 # choose available port on the head node
 head_port=`comm -23 <(seq 15000 20000 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1`
 nodes=`scontrol show hostnames $SLURM_JOB_NODELIST`
@@ -106,8 +117,8 @@ export head_addr="$head_node_ip:$head_port"
 echo "Head address: $head_addr"
 
 echo "Starting Ray head on $head_node"
-srun -N 1 -n 1 -w "$head_node" ray start --head --node-ip-address="$head_node_ip" \
-    --port=$head_port --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $SLURM_GPUS_ON_NODE --min-worker-port 20001 --max-worker-port 30000 --block &
+srun -N 1 -n 1 -w "$head_node" ray start --head --node-ip-address="$head_node_ip" --temp-dir /tmp/$USER/$SLURM_JOB_ID/ray \
+    --port=$head_port --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $RAY_GPUS --min-worker-port 20001 --max-worker-port 30000 --block &
 
 # wait for head node to start
 sleep 5
@@ -118,9 +129,15 @@ for (( i = 1; i <= worker_num; i++ )); do
     node=${nodes_array[$i]}
     echo "Starting Ray worker on $node"
     srun -N 1 -n 1 -w "$node"  ray start --address="$head_addr" \
-        --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $SLURM_GPUS_ON_NODE --min-worker-port 20001 --max-worker-port 30000 --block &
+        --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $RAY_GPUS --min-worker-port 20001 --max-worker-port 30000 --block &
     sleep 5
 done
+
+# wait for all nodes to start
+sleep 5
+
+# export RAY_ADDRESS for your script to connect with custom tempdir
+export RAY_ADDRESS="$head_addr"
 
 # Start your script here
 python my_ray_script.py
