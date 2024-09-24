@@ -561,7 +561,12 @@ support multinode training.</p>
 </section>
 <section id="using-ray-on-slurm">
 <h4><span class="section-number">4.2.4.2.2. </span>Using Ray on SLURM<a class="headerlink" href="#using-ray-on-slurm" title="Link to this heading">#</a></h4>
-<p>In order to use Ray on SLURM, you will need to start a Ray cluster and ensure that it is using the proper number of resources. The following script can be used to start a Ray cluster on SLURM. This script will start a Ray head node on the first node in the allocation and then start Ray workers on the rest of the nodes. The script will then start a python script that uses Ray to do distributed computation. Note the use of the SLURM environment variables. By default, Ray will attempt to use all CPUs on a node regardless of the number of tasks requested. This can be controlled by setting the <code class="docutils literal notranslate"><span class="pre">--num-cpus</span></code> flag when starting the Ray cluster.</p>
+<p>In order to use Ray on SLURM, you will need to start a Ray cluster and ensure that it is using the proper number of resources. The following script can be used to start a Ray cluster on SLURM. This script will start a Ray head node on the first node in the allocation and then start Ray workers on the rest of the nodes. The script will then start a python script that uses Ray to do distributed computation. Note the use of the SLURM environment variables. By default, Ray will attempt to use all CPUs on a node regardless of the number of tasks requested. This can be controlled by setting the <code class="docutils literal notranslate"><span class="pre">--num-cpus</span></code> flag when starting the Ray cluster. We do this in the following script by setting the number of CPUs to the number of CPUs per task requested by the user. We also set the number of GPUs to the number of GPUs per node requested by the user.</p>
+<p>Some specific things to note about the script:</p>
+<ul class="simple">
+<li><p>The script will start a Ray head node on the first node in the allocation and then start Ray workers on the rest of the nodes.</p></li>
+<li><p>The script defines a custom temporary directory for ray to use, based on the user and job id. This is important as Ray will store logs and other temporary files in this directory. If we don’t specify a custom directory, Ray will use the default <code class="docutils literal notranslate"><span class="pre">/tmp/ray</span></code> directory, which can lead to conflicts if multiple users are running Ray jobs on the same node. However this makes it so that <code class="docutils literal notranslate"><span class="pre">ray.init()</span></code> can’t automatically connect to the ray cluster without specifying the address. We use the <code class="docutils literal notranslate"><span class="pre">RAY_ADDRESS</span></code> environment variable to specify the address of the head node without having to modify the script.</p></li>
+</ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#! /bin/bash
 #SBATCH --job-name=ray_cluster
 #SBATCH -N 2 # number of nodes, this script is adaptable for any number of nodes
@@ -581,6 +586,13 @@ support multinode training.</p>
 
 ## PLACEHOLDER LOAD ENV COMMAND ##
 
+# Get number of GPUs on each node
+if [[ -z &quot;$SLURM_GPUS_ON_NODE&quot; ]]; then
+    export RAY_GPUS=0
+else
+    export RAY_GPUS=$SLURM_GPUS_ON_NODE
+fi
+
 # choose available port on the head node
 head_port=`comm -23 &lt;(seq 15000 20000 | sort) &lt;(ss -Htan | awk &#39;{print $4}&#39; | cut -d&#39;:&#39; -f2 | sort -u) | shuf | head -n 1`
 nodes=`scontrol show hostnames $SLURM_JOB_NODELIST`
@@ -594,8 +606,8 @@ export head_addr=&quot;$head_node_ip:$head_port&quot;
 echo &quot;Head address: $head_addr&quot;
 
 echo &quot;Starting Ray head on $head_node&quot;
-srun -N 1 -n 1 -w &quot;$head_node&quot; ray start --head --node-ip-address=&quot;$head_node_ip&quot; \
-    --port=$head_port --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $SLURM_GPUS_ON_NODE --min-worker-port 20001 --max-worker-port 30000 --block &amp;
+srun -N 1 -n 1 -w &quot;$head_node&quot; ray start --head --node-ip-address=&quot;$head_node_ip&quot; --temp-dir /tmp/$USER/$SLURM_JOB_ID/ray \
+    --port=$head_port --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $RAY_GPUS --min-worker-port 20001 --max-worker-port 30000 --block &amp;
 
 # wait for head node to start
 sleep 5
@@ -606,9 +618,15 @@ for (( i = 1; i &lt;= worker_num; i++ )); do
     node=${nodes_array[$i]}
     echo &quot;Starting Ray worker on $node&quot;
     srun -N 1 -n 1 -w &quot;$node&quot;  ray start --address=&quot;$head_addr&quot; \
-        --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $SLURM_GPUS_ON_NODE --min-worker-port 20001 --max-worker-port 30000 --block &amp;
+        --num-cpus $SLURM_CPUS_PER_TASK --num-gpus $RAY_GPUS --min-worker-port 20001 --max-worker-port 30000 --block &amp;
     sleep 5
 done
+
+# wait for all nodes to start
+sleep 5
+
+# export RAY_ADDRESS for your script to connect with custom tempdir
+export RAY_ADDRESS=&quot;$head_addr&quot;
 
 # Start your script here
 python my_ray_script.py
