@@ -1,9 +1,17 @@
 (getting_started:accessing_and_navigating_the_cluster)=
 # Accessing and Navigating the Cluster
 
-There are two methods for accessing the Kempner Institute HPC cluster. To utilize the resources, one may need to install [OpenAuth](https://docs.rc.fas.harvard.edu/kb/openauth/) two-factor authentication and connect via a [VPN](https://docs.rc.fas.harvard.edu/kb/vpn-setup/) (Virtual Private Network). The VPN is not required for Secure Shell (SSH) access, but it is necessary for Open OnDemand access.
+There are two methods for accessing the Kempner Institute HPC cluster: 
 
-## Installing OpenAuth 2FA
+- [SSH Access](#ssh_access)
+- [Open OnDemand](#ondemand_access)
+
+
+To utilize the resources, one may need to install [OpenAuth](https://docs.rc.fas.harvard.edu/kb/openauth/) two-factor authentication. A [VPN](https://docs.rc.fas.harvard.edu/kb/vpn-setup/) connection is required to use Open OnDemand.
+
+## Access Requirements
+
+### Installing OpenAuth 2FA
 
 FASRC  uses its own two-factor authentication tool, [OpenAuth](https://docs.rc.fas.harvard.edu/kb/openauth/), which is different than Harvard Key.
 
@@ -32,7 +40,7 @@ Use the following credentials:
 
 Credit for OpenAuth instructions: [FASRC OpenAuth site](https://docs.rc.fas.harvard.edu/kb/openauth/).
 
-## Setting Up a VPN Connection
+### Setting Up a VPN Connection
 
 To set up a VPN connection, follow these steps:
 
@@ -54,6 +62,7 @@ For detailed instructions and additional information, please read more about the
 Please avoid logging in directly to specific login nodes, as this can disrupt the load balancing on the nodes and may exert undue pressure on a particular login node (e.g., `holylogin01` through `holylogin04`). An exception exists for VSCode, which requires rotation between login nodes. Please refer to the [VSCode Section](development_and_runtime_envs:using_vscode_for_remote_development) for more information.
 ```
 
+(ssh_access)=
 ## SSH Access 
 
 You can access the cluster using an SSH client. Use the following command to connect to the cluster:
@@ -68,6 +77,7 @@ Replace `<username>` with your username on the cluster. This command will prompt
 Please do not use the login node for computationally intensive tasks, as these operations demand considerable computational resources and can severely impact the system's performance for all users. The login node is intended for *file management*, *job submission*, and other *lightweight tasks* only.
 ```
 
+(ondemand_access)=
 ## Open OnDemand
 
 Open OnDemand is a web-based interface that allows users to access the cluster through a web browser. You can use Open onDemand to start a Remote Desktop session, launch Jupyter notebooks / JupyterLab, RStudio, or other available interactive applications and submit jobs to the cluster.
