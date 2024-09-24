@@ -457,7 +457,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-a-vpn-connection">1.4.1. Setting Up a VPN Connection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-requirements">1.4.1. Access Requirements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-openauth-2fa">1.4.1.1. Installing OpenAuth 2FA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-a-vpn-connection">1.4.1.2. Setting Up a VPN Connection</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-access">1.4.2. SSH Access</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-ondemand">1.4.3. Open OnDemand</a></li>
 </ul>
@@ -473,9 +477,55 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="accessing-and-navigating-the-cluster">
 <span id="getting-started-accessing-and-navigating-the-cluster"></span><h1><span class="section-number">1.4. </span>Accessing and Navigating the Cluster<a class="headerlink" href="#accessing-and-navigating-the-cluster" title="Link to this heading">#</a></h1>
-<p>There are two methods for accessing the Kempner Institute HPC cluster. To utilize the resources, one may need to connect via a <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/vpn-setup/">VPN</a> (Virtual Private Network). The VPN is not required for Secure Shell (SSH) access, but it is necessary for Open OnDemand access.</p>
+<p>There are two methods for accessing the Kempner Institute HPC cluster:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ssh-access">SSH Access</a></p></li>
+<li><p><a class="reference internal" href="#ondemand-access">Open OnDemand</a></p></li>
+</ul>
+<p>To utilize the resources, one may need to install <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/openauth/">OpenAuth</a> two-factor authentication. A <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/vpn-setup/">VPN</a> connection is required to use Open OnDemand.</p>
+<section id="access-requirements">
+<h2><span class="section-number">1.4.1. </span>Access Requirements<a class="headerlink" href="#access-requirements" title="Link to this heading">#</a></h2>
+<section id="installing-openauth-2fa">
+<h3><span class="section-number">1.4.1.1. </span>Installing OpenAuth 2FA<a class="headerlink" href="#installing-openauth-2fa" title="Link to this heading">#</a></h3>
+<p>FASRC  uses its own two-factor authentication tool, <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/openauth/">OpenAuth</a>, which is different than Harvard Key.</p>
+<p>To use OpenAuth, follow these steps:</p>
+<ol class="arabic">
+<li><p><strong>Request OpenAuth</strong>: Click <a class="reference external" href="https://two-factor.rc.fas.harvard.edu/">here</a> to request OpenAuth instructions and installation links from FASRC.
+Use the following credentials:</p>
+<ul class="simple">
+<li><p><strong>username</strong>: your <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/about-usernames/">FASRC account username</a></p></li>
+<li><p><strong>password</strong>: your <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/quickstart-guide/#2_Set_a_password_and_setup_OpenAuth_for_two-factor_authentication">FASRC account password</a></p></li>
+</ul>
+</li>
+<li><p><strong>Install 2FA Tool</strong>:</p>
+<ul>
+<li><p><strong>Open the Email from FASRC</strong>: After submitting a request for OpenAuth, FASRC will send a message to the email address on record. (Since FASRC uses email verification for authentication, users must have an email address on record with FASRC.)</p>
+<p>The email will contain:</p>
+<ul class="simple">
+<li><p>Installation instructions</p></li>
+<li><p>Download links (valid for 24 hours)</p></li>
+<li><p>A personalized token</p></li>
+</ul>
+</li>
+<li><p><strong>Select and Install 2FA Tool</strong>: Choose among these options:</p>
+<ul class="simple">
+<li><p><strong>Smart phone app</strong>: uses a QR code for use in Google Authenticator (<a class="reference external" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;amp;pli=1">Android</a> or <a class="reference external" href="https://apps.apple.com/us/app/google-authenticator/id388497605">IOS</a>)</p></li>
+<li><p><strong>Duo Mobile</strong>: tokens are separate from Harvard Key tokens</p></li>
+<li><p><strong>Java Desktop App</strong>:</p>
+<ul>
+<li><p>Java runtime is required.  Installation instructions are <a class="reference external" href="https://www.java.com/en/download/help/index_installing.html">here</a></p></li>
+<li><p>Double-click the Jauth.jar file to start the Java applet.  Alternatively, use one of the installation scripts for Windows (.bat) and Linux (.sh).</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>Credit for OpenAuth instructions: <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/openauth/">FASRC OpenAuth site</a>.</p>
+</section>
 <section id="setting-up-a-vpn-connection">
-<h2><span class="section-number">1.4.1. </span>Setting Up a VPN Connection<a class="headerlink" href="#setting-up-a-vpn-connection" title="Link to this heading">#</a></h2>
+<h3><span class="section-number">1.4.1.2. </span>Setting Up a VPN Connection<a class="headerlink" href="#setting-up-a-vpn-connection" title="Link to this heading">#</a></h3>
 <p>To set up a VPN connection, follow these steps:</p>
 <p><em>Skip Steps 1 and 2 if you have the Cisco AnyConnect VPN Client already installed on your local machine.</em></p>
 <ol class="arabic simple">
@@ -486,7 +536,7 @@ document.write(`
 <ul class="simple">
 <li><p><strong>username</strong>: username + &#64; + <code class="docutils literal notranslate"><span class="pre">fasrc</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">jharvard&#64;fasrc</span></code>)</p></li>
 <li><p><strong>password</strong>: your FASRC password (reset your password <a class="reference external" href="https://portal.rc.fas.harvard.edu/p3/pwreset/">here</a>)</p></li>
-<li><p><strong>2FA code</strong>: your 2FA code (Set up 2FA <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/openauth/">here</a>)</p></li>
+<li><p><strong>OpenAuth 2FA code</strong>: your OpenAuth 2FA code (See <a class="reference internal" href="#"><span class="std std-doc">Installing OpenAuth 2FA</span></a>)</p></li>
 </ul>
 </li>
 </ol>
@@ -499,20 +549,21 @@ document.write(`
 <p>Please avoid logging in directly to specific login nodes, as this can disrupt the load balancing on the nodes and may exert undue pressure on a particular login node (e.g., <code class="docutils literal notranslate"><span class="pre">holylogin01</span></code> through <code class="docutils literal notranslate"><span class="pre">holylogin04</span></code>). An exception exists for VSCode, which requires rotation between login nodes. Please refer to the <a class="reference internal" href="../development_and_runtime_envs/using_vscode_for_remote_development.html#development-and-runtime-envs-using-vscode-for-remote-development"><span class="std std-ref">VSCode Section</span></a> for more information.</p>
 </div>
 </section>
+</section>
 <section id="ssh-access">
-<h2><span class="section-number">1.4.2. </span>SSH Access<a class="headerlink" href="#ssh-access" title="Link to this heading">#</a></h2>
+<span id="id1"></span><h2><span class="section-number">1.4.2. </span>SSH Access<a class="headerlink" href="#ssh-access" title="Link to this heading">#</a></h2>
 <p>You can access the cluster using an SSH client. Use the following command to connect to the cluster:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>&lt;username&gt;@login.rc.fas.harvard.edu
 </pre></div>
 </div>
-<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;</span></code> with your username on the cluster. This command will prompt you to enter your password and a two-factor authentication (2FA) code. After entering your password and a 2FA code, you will be connected to one of the login nodes of the cluster.</p>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;</span></code> with your username on the cluster. This command will prompt you to enter your password and an OpenAuth 2FA code. After entering your password and a 2FA code, you will be connected to one of the login nodes of the cluster.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Please do not use the login node for computationally intensive tasks, as these operations demand considerable computational resources and can severely impact the system’s performance for all users. The login node is intended for <em>file management</em>, <em>job submission</em>, and other <em>lightweight tasks</em> only.</p>
 </div>
 </section>
 <section id="open-ondemand">
-<h2><span class="section-number">1.4.3. </span>Open OnDemand<a class="headerlink" href="#open-ondemand" title="Link to this heading">#</a></h2>
+<span id="ondemand-access"></span><h2><span class="section-number">1.4.3. </span>Open OnDemand<a class="headerlink" href="#open-ondemand" title="Link to this heading">#</a></h2>
 <p>Open OnDemand is a web-based interface that allows users to access the cluster through a web browser. You can use Open onDemand to start a Remote Desktop session, launch Jupyter notebooks / JupyterLab, RStudio, or other available interactive applications and submit jobs to the cluster.</p>
 <p>To access the cluster using Open OnDemand, follow these steps:</p>
 <ul class="simple">
@@ -588,7 +639,11 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-a-vpn-connection">1.4.1. Setting Up a VPN Connection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-requirements">1.4.1. Access Requirements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-openauth-2fa">1.4.1.1. Installing OpenAuth 2FA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-a-vpn-connection">1.4.1.2. Setting Up a VPN Connection</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-access">1.4.2. SSH Access</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-ondemand">1.4.3. Open OnDemand</a></li>
 </ul>
