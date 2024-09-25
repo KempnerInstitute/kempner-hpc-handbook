@@ -51,6 +51,8 @@ sections:
     title: GPU Computing
   - file: scalability/gpu_profiling
     title: GPU Profiling
+  - file: scalability/distributed_gpu_computing
+    title: Distributed GPU Computing
   - file: scalability/parallel_io
     title: Parallel I/O
 - file: storage_and_data_transfer/README
