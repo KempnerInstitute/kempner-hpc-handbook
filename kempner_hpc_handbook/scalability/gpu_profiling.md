@@ -164,7 +164,7 @@ for i in range(max_steps):
 torch.cuda.cudart().cudaProfilerStop()
 ```
 
-### Prepare The Eperimental Envireonment on the Cluster
+### Prepare The Experimental Environment on the Cluster
 * Following modules needs to be loaded on the cluster using the following command line. These command line is added to the slurm scripts for running Nsight System and Nsight Comput on {numref}`Nsight-System-Slurm` and {numref}`Nsight-Compute-Slurm` respectively.
 ```{code-block} bash
 module load python nvhpc cudnn cuda
