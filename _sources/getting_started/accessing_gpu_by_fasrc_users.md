@@ -4,7 +4,7 @@ Priority access to the Kempner AI cluster is granted based on an ongoing, direct
 
 However, the Kempner Institute and FAS Research Computing (FASRC) want to ensure that GPU resources are fully utilized.  Thus, if any resources on the Kempner AI cluster (`kempner`, `kempner_h100`, or `kempner_requeue` partitions) are not being used by a Kempner user, it is accessible to all users in the FASRC Cannon cluster environment through the `gpu_requeue` partition. The `gpu_requeue` partition has a preemption policy, meaning that jobs are preempted by SLURM when a high-priority job is submitted.
 
-Conversely, some Kempner users also has access to other FASRC GPUs via `gpu_requeue` partition. You can see the full list of [available GPUs on the FASRC website](https://docs.rc.fas.harvard.edu/kb/running-jobs/#Using_GPUs).
+Conversely, some Kempner users also have access to other FASRC GPUs via the `gpu_requeue` partition. You can see the full list of [available GPUs on the FASRC website](https://docs.rc.fas.harvard.edu/kb/running-jobs/#Using_GPUs).
 
 ## Interactive Jobs
 
