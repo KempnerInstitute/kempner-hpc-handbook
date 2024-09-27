@@ -243,7 +243,9 @@ name: mlp_ddp_figure
 ---
 DDP for the simple MLP example. For simplicity it does not show communication overlap.
 ```
-Now we can take the single-GPU code of our simple mlp example from {numref}`mlp_single_gpu` and modify to use two GPUs using DDP.
+{numref}`mlp_ddp_figure` shows that each GPU take a copy of the model, both has the whole $W_1$, $b_1$, $W_2$ and $b_2$. It shows the dataset is divided into two parts and each GPU sees only its own batches of the data perform the forward and backward passes locally. After each backward pass and before updating model, the GPUs needs to sync on gradients since each GPU compute their own gradiens for the model parameters based on the data batches that they process. The average of the parameter garaients across the GPUs are computed and synced across all GPUs using All-Reduce commpunication primitive, see {numref}`sec-nccl`. it guarantees the model on all GPUs are consistent before starting the next iteration.
+
+Next, we can take the single-GPU code of our simple mlp example from {numref}`mlp_single_gpu` and modify to use two GPUs using DDP.
 ````{dropdown} Using DDP To Run The Simple MLP example On Two GPUs
 ```{code-block}
 :name: mlp_ddp_code
