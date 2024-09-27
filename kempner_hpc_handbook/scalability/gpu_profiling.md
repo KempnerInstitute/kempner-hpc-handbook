@@ -169,11 +169,11 @@ torch.cuda.cudart().cudaProfilerStop()
 ```{code-block} bash
 module load python nvhpc cudnn cuda
 ```
-* Creating the conda envireonment named `profiling` (one can use their own costomized name).
+* Creating the conda envireonment named `profiling` (one can use their own customized name).
 ```{code-block} bash
 conda create profiling python=3.10
 ```
-activating the conda environment and install the required packages:
+* Activating the conda environment and install the required packages:
 ```{code-block} bash
 conda activate profiling
 pip3 install torch torchvision torchaudio
