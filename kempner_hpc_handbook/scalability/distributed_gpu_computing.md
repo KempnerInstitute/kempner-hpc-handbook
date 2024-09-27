@@ -220,7 +220,7 @@ conda activate dist_computing
 python mlp_single_gpu.py
 ```
 ````
-### Distributed Data Parallel (DDP)
+### Distributed Data Parallelism (DDP)
 Distributed Data Parallelism facilitates training a model on high-volume datasets by distributing the computation across multiple devices. Particularly, Each GPU trains a copy of the model and the dataset is splitted into smaller batches evenly distributed between GPUs. In each training step, GPUs perform forward and backward passes locally and compute the parameter gradients corresponding to their current data batch. Then before updating the model weights, GPUs communicate to sum the parameter gradients across GPUs. This guarantees the model replicas being kept consistent across GPUs before starting the next training step. This inter-GPU communication are optimized by All-Reduce collective communication primitive from NCCL library for Nvidia GPUs, see {numref}`sec-nccl`.
 
 {numref}`ddp` shows a high-level overview of how DDP works. 
@@ -390,3 +390,16 @@ srun --ntasks-per-node=$SLURM_NTASKS_PER_NODE \
      python -u mlp_ddp.py
 ```
 ````
+### Model Parallelism (MP)
+Although DDP can significantly accelerate the training process, it does not work for some use cases where the model is too large to fit into a single GPU. Unlike DDP, Model Parallelism focuses on parallelizing the model itself, rather than the data to support training the larger models.
+
+A naive implementation could be dividing the model vertically meaning that the layers of the model are divided into multiple groups consisting of one or more layers. Each GPU will hold one group. The forward and backward phase will be performed sequentially.
+
+{numref}`mlp_mp_figure` shows the model parallelism of our simple mlp example.
+```{figure} figures/png/mlp_mp.png
+---
+width: 100%
+name: mlp_mp_figure
+---
+Model Parallelism for the simple MLP example. Note since the output of one GPU is used as input of the next one, it results in a high GPU idle time.
+```
