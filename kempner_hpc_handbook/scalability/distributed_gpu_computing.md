@@ -246,7 +246,7 @@ DDP for the simple MLP example. For simplicity it does not show communication ov
 {numref}`mlp_ddp_figure` shows that each GPU take a copy of the model, both has the whole $W_1$, $b_1$, $W_2$ and $b_2$. It shows the dataset is divided into two parts and each GPU sees only its own batches of the data perform the forward and backward passes locally. After each backward pass and before updating model, the GPUs needs to sync on gradients since each GPU compute their own gradiens for the model parameters based on the data batches that they process. The average of the parameter garaients across the GPUs are computed and synced across all GPUs using All-Reduce commpunication primitive, see {numref}`sec-nccl`. it guarantees the model on all GPUs are consistent before starting the next iteration.
 
 Next, we can take the single-GPU code of our simple mlp example from {numref}`mlp_single_gpu` and modify to use two GPUs using DDP.
-````{dropdown} Using DDP To Run The Simple MLP example On Two GPUs
+````{dropdown} Using DDP To Run The Simple MLP Example On Two GPUs
 ```{code-block}
 :name: mlp_ddp_code
 :caption: mlp_ddp.py - Modifying the simple mlp example, {numref}`mlp_single_gpu`, to run on multiple GPUs using DDP
@@ -402,4 +402,100 @@ width: 100%
 name: mlp_mp_figure
 ---
 Model Parallelism for the simple MLP example. Note since the output of one GPU is used as input of the next one, it results in a high GPU idle time.
+```
+````{dropdown} Using MP To Run The Simple MLP Example On Two GPUs
+{numref}`mlp_mp_code` shows how to send each layer into different GPUs using `.to` method from `torch` module while defining different layers of the model. Note that the input data (`x`) should also be sent to proper devices accordingly in the forward function. 
+```{code-block}
+:name: mlp_mp_code
+:caption: mlp_model_parallel.py - Modifying the simple mlp example, {numref}`mlp_single_gpu`, to run on two GPUs on the same node using MP
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
+from random_dataset import RandomTensorDataset
+
+class MLP(nn.Module):
+  def __init__(self, in_feature, hidden_units, out_feature):
+    super().__init__()
+
+    self.hidden_layer = nn.Linear(in_feature, hidden_units).to(0)
+    self.output_layer = nn.Linear(hidden_units, out_feature).to(1)
+  
+  def forward(self, x):
+    x = self.hidden_layer(x.to(0))
+    x = self.output_layer(x.to(1))
+    return x
+
+# model construction
+layer_1_units = 6
+layer_2_units = 4
+layer_3_units = 2
+model = MLP(
+  in_feature=layer_1_units,
+  hidden_units=layer_2_units,
+  out_feature=layer_3_units
+)
+
+loss_fn = nn.MSELoss()
+optimizer = optim.SGD(model.parameters(),lr=0.01)
+
+# dataset construction
+num_samples = 1024
+batch_size=32
+dataset = RandomTensorDataset(
+  num_samples=num_samples,
+  in_shape=layer_1_units,
+  out_shape=layer_3_units
+  )
+
+dataloader = DataLoader(
+  dataset,
+  batch_size=batch_size,
+  pin_memory=True,
+  shuffle=True
+  )
+
+max_epochs = 1
+for i in range(max_epochs):
+  print(f"Epoch {i} | Batchsize: {len(next(iter(dataloader))[0])} | Steps: {len(dataloader)}")
+  for x, y in dataloader:
+    y = y.to(1)
+    
+    # Forward Pass 
+    out = model(x)
+
+    # Calculate loss
+    loss = loss_fn(out, y)
+
+    # Zero grad
+    optimizer.zero_grad(set_to_none=True)
+
+    # Backward Pass
+    loss.backward()
+
+    # Update Model
+    optimizer.step()
+```
+To run it you can just follow the same steps when running the single GPU {numref}`mlp_single_gpu`. Note that it requires two available GPUs on the same node.
+````
+As you see in {numref}`mlp_mp_figure`, the main drawback of this method is that at any given time only one of the GPUs are active and the other GPUs are idle leading to underutilization of the compute resources. Tensor Parallelism (sharding model horizontally) and Pipeline Parallelism are other forms of Model parallelism that aim to mitigate this drawback.
+
+
+````{list-table} Model Partitioned Into Two GPUs Using Pipeline Parallelism (left) vs Tensor Prallelism (right).
+:header-rows: 0
+* - ![](figures/png/mlp_network_mp.png)
+  - ![](figures/png/mlp_network_tp.png)
+````
+
+### Tensor Parallelism
+Tensor Parallelism is a form of Model Parallelism in which we divide the parameter tensors of each layer into slices and each GPU will hold one slice instead of putting the entire layer in one GPU. In this way each GPU participates in computation of every layer equally and does not have to be idle and waiting for other GPUs to perform previous layers’ computation.
+
+{numref}`mlp_tp_figure` shows the model parallelism of our simple mlp example.
+```{figure} figures/png/mlp_tp.png
+---
+width: 100%
+name: mlp_tp_figure
+---
+Tensor Parallelism for the simple MLP example. In this example each tensor is divided into two slices column-wise. Each GPU computing a part of the output and then communication needed to gather the partail compuation across GPUs.
 ```
