@@ -1,4 +1,6 @@
 # Distributed GPU Computing
+The scaling of machine learning (ML) workloads in HPC environments can be achieved through various parallelism approaches. This section outlines the primary methods for parallelizing ML computations.
+
 One can decide to use multiple GPUs on their AI/ML applications for different reasons including but not limited to:
 * Handling large-scale datasets
 * Hyperparameter tuning
@@ -221,7 +223,9 @@ python mlp_single_gpu.py
 ```
 ````
 ### Distributed Data Parallelism (DDP)
-Distributed Data Parallelism facilitates training a model on high-volume datasets by distributing the computation across multiple devices. Particularly, Each GPU trains a copy of the model and the dataset is splitted into smaller batches evenly distributed between GPUs. In each training step, GPUs perform forward and backward passes locally and compute the parameter gradients corresponding to their current data batch. Then before updating the model weights, GPUs communicate to sum the parameter gradients across GPUs. This guarantees the model replicas being kept consistent across GPUs before starting the next training step. This inter-GPU communication are optimized by All-Reduce collective communication primitive from NCCL library for Nvidia GPUs, see {numref}`sec-nccl`.
+Distributed Data Parallelism facilitates training a model on high-volume datasets by distributing the computation across multiple devices. It involves splitting the dataset into smaller batches that are processed in parallel across different GPUs. Each GPU trains a copy of the model on its subset of the data, and the results are aggregated to update the model.
+
+Particularly, in each training step, GPUs perform forward and backward passes locally and compute the parameter gradients corresponding to their current data batch. Then before updating the model weights, GPUs communicate to sum the parameter gradients across GPUs. This guarantees the model replicas being kept consistent across GPUs before starting the next training step. This inter-GPU communication are optimized by All-Reduce collective communication primitive from NCCL library for Nvidia GPUs, see {numref}`sec-nccl`.
 
 {numref}`ddp` shows a high-level overview of how DDP works. 
 ```{figure} figures/png/DDP.png
@@ -488,7 +492,10 @@ As you see in {numref}`mlp_mp_figure`, the main drawback of this method is that 
   - ![](figures/png/mlp_network_tp.png)
 ````
 
-### Tensor Parallelism
+### Pipeline Parallelism (PP)
+It is very similar to the naive model parallelism while it combines aspects of data and model parallelism by splitting the model into stages that are processed in a pipeline fashion to mitigate the GPU idle time issue in model prallelism. Each stage of the model is processed on different GPU, allowing for efficient parallel processing of large models and datasets.
+
+### Tensor Parallelism (TP)
 Tensor Parallelism is a form of Model Parallelism in which we divide the parameter tensors of each layer into slices and each GPU will hold one slice instead of putting the entire layer in one GPU. In this way each GPU participates in computation of every layer equally and does not have to be idle and waiting for other GPUs to perform previous layers’ computation.
 
 {numref}`mlp_tp_figure` shows the model parallelism of our simple mlp example.
