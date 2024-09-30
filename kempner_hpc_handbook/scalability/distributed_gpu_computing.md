@@ -649,7 +649,7 @@ Since each GPU is working with different data batches, after the backward pass a
 FSDP's sharding method is optimized for collective communication primitives. For each FSDP unit, it flattens all the parameters into a 1D array format and then equally divides them across GPUs. {numref}`mlp_fsdp_figure` shows how fsdp can be applied on our simple mlp example of {numref}`mlp_single_gpu`.
 
 {numref}`mlp_tp_figure` shows the model parallelism of our simple mlp example.
-```{figure} figures/png/mlp_fsdp2.png
+```{figure} figures/png/mlp_fsdp.png
 ---
 width: 100%
 name: mlp_fsdp_figure
