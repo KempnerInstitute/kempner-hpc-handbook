@@ -580,7 +580,7 @@ model = parallelize_module(
   device_mesh=device_mesh,
   parallelize_plan={
     "hidden_layer": ColwiseParallel(),
-    "output_layer": ColwiseParallel(),
+    "output_layer": RowwiseParallel(),
     },
 )
 
