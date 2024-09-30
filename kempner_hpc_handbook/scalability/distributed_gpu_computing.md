@@ -362,7 +362,7 @@ destroy_process_group()
 ```
 To run this code we need the `random_sataset.py` from {numref}`random_dataset` and a conda environment in which PyTorch is installed, refer to {numref}`conda_setup` to create one if you don't have one already.
 
-Now use the following slurm script skeleton to run the `mlp_ddp.py` from {numref}`mlp_ddp_code`. Note that we need to add environment variables to specify the Master node info, rannk, local rank, etc.
+Now use the following slurm script skeleton to run the `mlp_ddp.py` from {numref}`mlp_ddp_code`. Note that we need to add environment variables to specify the Master node info, rank, local rank, etc.
 ```{code-block} bash
 :name: multi_gpu_slurm
 :caption: Slurm script skeleton to run {numref}`mlp_ddp_code` on multiple GPUs. Here, it requests for two nodes, one GPU on each node, a total of two GPUs.
@@ -505,4 +505,154 @@ width: 100%
 name: mlp_tp_figure
 ---
 Tensor Parallelism for the simple MLP example. In this example each tensor is divided into two slices column-wise. Each GPU computing a part of the output and then communication needed to gather the partail compuation across GPUs.
+```
+
+````{dropdown} Using TP To Run The Simple MLP Example On Two GPUs 
+```{code-block}
+:name: mlp_tp_code
+:caption: mlp_tensor_parallel.py - Modifying the simple mlp example, {numref}`mlp_single_gpu`, to run on multiple GPUs using TP
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
+
+from torch.distributed.tensor.parallel import (
+  parallelize_module,
+  ColwiseParallel,
+  RowwiseParallel,
+)
+from torch.distributed._tensor.device_mesh import init_device_mesh
+from torch.distributed import init_process_group, destroy_process_group, is_initialized
+import os
+from socket import gethostname
+
+from random_dataset import RandomTensorDataset
+
+class MLP(nn.Module):
+  def __init__(self, in_feature, hidden_units, out_feature):
+    super().__init__()
+
+    self.hidden_layer = nn.Linear(in_feature, hidden_units)
+    self.output_layer = nn.Linear(hidden_units, out_feature)
+  
+  def forward(self, x):
+    x = self.hidden_layer(x)
+    x = self.output_layer(x)
+    return x
+
+rank          = int(os.environ["SLURM_PROCID"])
+world_size    = int(os.environ["WORLD_SIZE"])
+gpus_per_node = int(os.environ["SLURM_GPUS_ON_NODE"])
+
+assert (
+  gpus_per_node == torch.cuda.device_count()
+), f'SLURM_GPUS_ON_NODE={gpus_per_node} vs torch.cuda.device_count={torch.cuda.device_count()}'
+
+print(
+  f"Hello from rank {rank} of {world_size} on {gethostname()} where there are" \
+  f" {gpus_per_node} allocated GPUs per node." \
+  f" | (CUDA_VISIBLE_DEVICES={os.environ["CUDA_VISIBLE_DEVICES"]})", flush=True
+)
+
+# Using NCCl for inter-GPU communication
+init_process_group(backend="nccl", rank=rank, world_size=world_size)
+if rank == 0: print(f"Group initialized? {is_initialized()}", flush=True)
+
+device_mesh = init_device_mesh(device_type="cuda", mesh_shape=(world_size,))
+assert(rank == device_mesh.get_rank())
+device = rank - gpus_per_node * (rank // gpus_per_node)
+torch.cuda.set_device(device)
+
+print(f'Using GPU{device} on Machine {os.uname().nodename.split('.')[0]} (Rank {rank})')
+
+# model construction
+layer_1_units = 6
+layer_2_units = 4
+layer_3_units = 2
+model = MLP(
+  in_feature=layer_1_units,
+  hidden_units=layer_2_units,
+  out_feature=layer_3_units
+  ).to(device)
+
+model = parallelize_module(
+  module=model,
+  device_mesh=device_mesh,
+  parallelize_plan={
+    "hidden_layer": ColwiseParallel(),
+    "output_layer": ColwiseParallel(),
+    },
+)
+
+loss_fn = nn.MSELoss()
+optimizer = optim.SGD(model.parameters(),lr=0.01)
+
+# dataset construction
+num_samples = 1024
+batch_size  = 32
+dataset = RandomTensorDataset(
+  num_samples=num_samples,
+  in_shape=layer_1_units,
+  out_shape=layer_3_units
+  )
+
+dataloader = DataLoader(
+  dataset,
+  batch_size=batch_size,
+  pin_memory=True,
+  shuffle=False # GPUs should see the same input in each iteration.
+  )
+
+max_epochs = 1
+for i in range(max_epochs):
+  print(f"[GPU{rank}] Epoch {i} | Batchsize: {len(next(iter(dataloader))[0])} | Steps: {len(dataloader)}")
+  for x, y in dataloader:
+    x = x.to(device)
+    y = y.to(device)
+    
+    # Forward Pass 
+    out = model(x)
+
+    # Calculate loss
+    loss = loss_fn(out, y)
+
+    # Zero grad
+    optimizer.zero_grad(set_to_none=True)
+
+    # Backward Pass
+    loss.backward()
+
+    # Update Model
+    optimizer.step()
+
+destroy_process_group()
+```
+To run this code we need the `random_sataset.py` from {numref}`random_dataset` and a conda environment in which PyTorch is installed, refer to {numref}`conda_setup` to create one if you don't have one already.
+
+Now use the same slurm script skeleton in {numref}`multi_gpu_slurm` to run the `mlp_tensor_parallel.py` from {numref}`mlp_tp_code`.
+````
+
+### Fully Sharded Data Parallelism (FSDP)
+The idea of this strategy is to shards almost everything across GPUs to enable distributed training for very large models. FSDP shards the model (parameters and gradients), data and optimization states across GPUs. It combines Data Parallelism with Model Parallelism (sharding model both Vertically and Horizontally) in a unique way. FSDP breaks down a model instance into smaller units and then flattens and shards all of the parameters within each unit. It allows to train very large models using the combined memory of many GPUs. Before each computation, it requires to first gather all the paramater shards across GPUs (aka, parameter unsharding) using `All-Gather` and `Reduce_Scatter` collective communication primitives, see {numref}`sec-nccl`.
+
+```{figure} figures/png/FSDP.png
+---
+height: 500px
+name: fsdp
+---
+Schematic Diagram of FSDP Computation, Communication and Their Potential Overlapp.
+```
+As {numref}`fsdp` shows - Before performing each Forward or Backward pass for a given FSDP unit, it has to first All-Gather the unit’s parameters from all GPUs and then perform the Forward or Backward pass. Afterward it will release the remote shards to free memory for the next unit `All-Gather`.
+
+Since each GPU is working with different data batches, after the backward pass and before updating the model parameters, FSDP synchronizes the gradients across GPUs for consistency using `Reduce-Scatter` collective primitive.
+
+FSDP's sharding method is optimized for collective communication primitives. For each FSDP unit, it flattens all the parameters into a 1D array format and then equally divides them across GPUs. {numref}`mlp_fsdp_figure` shows how fsdp can be applied on our simple mlp example of {numref}`mlp_single_gpu`.
+
+{numref}`mlp_tp_figure` shows the model parallelism of our simple mlp example.
+```{figure} figures/png/mlp_fsdp2.png
+---
+width: 100%
+name: mlp_fsdp_figure
+---
+FSDP implementation for the simple MLP example.
 ```
