@@ -171,7 +171,7 @@ module load python nvhpc cudnn cuda
 ```
 * Creating the conda envireonment named `profiling` (one can use their own customized name).
 ```{code-block} bash
-conda create profiling python=3.10
+conda create -n profiling python=3.10
 ```
 * Activating the conda environment and install the required packages:
 ```{code-block} bash

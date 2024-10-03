@@ -191,7 +191,7 @@ If you don't have a conda environment already in which PyTorch is installed, you
 :name: conda_setup
 :caption: Conda Environment Setup
 # Creating the conda envireonment named `dist_computing` (one can use their own customized name).
-conda create dist_computing python=3.10
+conda create -n dist_computing python=3.10
 
 # Activating the conda environment and install PyTorch:
 conda activate dist_computing
