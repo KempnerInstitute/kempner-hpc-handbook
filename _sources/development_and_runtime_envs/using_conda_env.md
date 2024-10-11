@@ -156,7 +156,9 @@ The [Conda documentation](https://conda.io/projects/conda/en/latest/user-guide/t
 The Conda environment and cache directory for installed packages can easily exceed tens of gigabytes. It is recommended to create the Conda environment in the lab directory instead of the home directory. In this section, we assume you prefer not to have a Conda environment in the default home directory, and that your default Conda environment is located in the lab directory. The lab directory (under your username) does not have the 100 GB space limitation, providing you with more room to create Conda environments.
 
 ```{warning}
-Please note that this is a major change to the default behavior of Conda. If you are unsure about this change, please consult with the FAS Research Computing.
+- Please note that this is a major change to the default behavior of Conda. If you are unsure about this change, please consult with the FAS Research Computing.
+
+- Also be aware that creating numerous Conda environments can exhaust the file system's inodes, as Conda generates a large number of files. To avoid this, use the `$SCRATCH` space for your Conda environments. You can learn more about the Scratch space policy on the [FASRC website](https://docs.rc.fas.harvard.edu/kb/policy-scratch/).
 ```
 
 

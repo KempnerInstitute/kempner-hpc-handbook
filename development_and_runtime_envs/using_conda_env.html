@@ -595,7 +595,10 @@ mamba<span class="w"> </span>env<span class="w"> </span><span class="nb">export<
 <p>The Conda environment and cache directory for installed packages can easily exceed tens of gigabytes. It is recommended to create the Conda environment in the lab directory instead of the home directory. In this section, we assume you prefer not to have a Conda environment in the default home directory, and that your default Conda environment is located in the lab directory. The lab directory (under your username) does not have the 100 GB space limitation, providing you with more room to create Conda environments.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Please note that this is a major change to the default behavior of Conda. If you are unsure about this change, please consult with the FAS Research Computing.</p>
+<ul class="simple">
+<li><p>Please note that this is a major change to the default behavior of Conda. If you are unsure about this change, please consult with the FAS Research Computing.</p></li>
+<li><p>Also be aware that creating numerous Conda environments can exhaust the file system’s inodes, as Conda generates a large number of files. To avoid this, use the <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code> space for your Conda environments. You can learn more about the Scratch space policy on the <a class="reference external" href="https://docs.rc.fas.harvard.edu/kb/policy-scratch/">FASRC website</a>.</p></li>
+</ul>
 </div>
 <p>Here are the steps to create a Conda environment in the lab directory:</p>
 <ul class="simple">
