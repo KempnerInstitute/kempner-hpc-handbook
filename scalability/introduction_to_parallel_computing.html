@@ -74,7 +74,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'scalability/introduction_to_parallel_computing';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4.2. Distributed Computing" href="distributed_computing.html" />
+    <link rel="next" title="4.2. GPU Computing" href="gpu_computing.html" />
     <link rel="prev" title="4. Scalability" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -221,11 +221,11 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">4. Scalability</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Parallel Computing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="distributed_computing.html">4.2. Distributed Computing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parallel_io.html">4.3. Parallel I/O</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gpu_computing.html">4.4. GPU Computing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="using_multiple_gpus.html">4.5. Using Multiple GPUs</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Intro to Parallel Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu_computing.html">4.2. GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu_profiling.html">4.3. GPU Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_gpu_computing.html">4.4. Distributed GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel_io.html">4.5. Parallel I/O</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../storage_and_data_transfer/README.html">5. Storage and Data Transfer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -495,21 +495,21 @@ document.write(`
 <p>Parallel programming models are frameworks or paradigms that guide the development of parallel software.</p>
 <p><strong>Message Passing Interface (MPI)</strong>: A standard for passing messages between processes in a distributed memory system. Ideal for high scalability across multiple nodes.</p>
 <figure class="align-default" id="mpi-workflow-diagram">
-<a class="reference internal image-reference" href="../_images/mpi.png"><img alt="../_images/mpi.png" src="../_images/mpi.png" style="height: 250px;" /></a>
+<a class="reference internal image-reference" href="../_images/mpi.png"><img alt="../_images/mpi.png" src="../_images/mpi.png" style="height: 300px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">MPI Workflow Diagram (<em>Credit: <a class="reference external" href="https://hpc.nmsu.edu/discovery/mpi/introduction/">hpc.nmsu.edu</a></em>)</span><a class="headerlink" href="#mpi-workflow-diagram" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p><strong>OpenMP (Open Multi-Processing)</strong>: A model for shared-memory parallelism, suitable for multi-threading within a single node. It simplifies parallelism by allowing the addition of parallel directives into existing code.</p>
 <figure class="align-default" id="openmp-architecture-diagram">
-<a class="reference internal image-reference" href="../_images/openmp.png"><img alt="../_images/openmp.png" src="../_images/openmp.png" style="height: 200px;" /></a>
+<a class="reference internal image-reference" href="../_images/openmp.png"><img alt="../_images/openmp.png" src="../_images/openmp.png" style="height: 300px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.2 </span><span class="caption-text">OpenMP Architecture Diagram (<em>Credit: <a class="reference external" href="https://docs.nersc.gov/development/programming-models/openmp/">nersc.gov</a></em>)</span><a class="headerlink" href="#openmp-architecture-diagram" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p><strong>CUDA (Compute Unified Device Architecture)</strong>: A parallel computing platform and application programming interface (API) model created by NVIDIA. It allows software developers to use a CUDA-enabled graphics processing unit (GPU) for general purpose processing.</p>
 <figure class="align-default" id="cuda-programming-model-diagram">
-<a class="reference internal image-reference" href="../_images/gpu.png"><img alt="../_images/gpu.png" src="../_images/gpu.png" style="height: 450px;" /></a>
+<a class="reference internal image-reference" href="../_images/gpu.png"><img alt="../_images/gpu.png" src="../_images/gpu.png" style="height: 650px;" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 4.3 </span><span class="caption-text">CUDA Programming Model Diagram (<em>Credit: <a class="reference external" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">nvidia.com</a></em>)</span><a class="headerlink" href="#cuda-programming-model-diagram" title="Link to this image">#</a></p>
 </figcaption>
@@ -558,11 +558,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="distributed_computing.html"
+       href="gpu_computing.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4.2. </span>Distributed Computing</p>
+        <p class="prev-next-title"><span class="section-number">4.2. </span>GPU Computing</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

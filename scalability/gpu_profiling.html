@@ -1,0 +1,984 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.3. GPU Profiling &#8212; Kempner Institute HPC Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=76190965" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-QFZEXWFW26"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-QFZEXWFW26');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-QFZEXWFW26');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'scalability/gpu_profiling';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.4. Distributed GPU Computing" href="distributed_gpu_computing.html" />
+    <link rel="prev" title="4.2. GPU Computing" href="gpu_computing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Kempner-logo_Full-Color-Full-Name-Harvard.svg" class="logo__image only-light" alt="Kempner Institute HPC Handbook - Home"/>
+    <script>document.write(`<img src="../_static/Kempner-logo_Full-Color-Full-Name-Harvard.svg" class="logo__image only-dark" alt="Kempner Institute HPC Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Kempner Institute HPC Handbook
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/README.html">1. Getting Started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/introduction_and_cluster_basics.html">1.1. Introduction and Cluster Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/overview_of_kempner_cluster.html">1.2. Overview of Kempner Institute HPC Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/kempner_policies_for_responsible_use.html">1.3. Kempner Policies for Responsible Use of the Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/accessing_and_navigating_the_cluster.html">1.4. Accessing and Navigating the Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/accessing_gpu_by_fasrc_users.html">1.5. Accessing Kempner GPUs by All FASRC Users</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../resource_management/README.html">2. Resource Management</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/understanding_slurm.html">2.1. Understanding SLURM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/job_submission_basics.html">2.2. Job Submission Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/open_ondemand.html">2.3. Open OnDemand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/array_jobs.html">2.4. Array Jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/job_dependencies.html">2.5. Job Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/advanced_slurm_features.html">2.6. Advanced SLURM Features</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development_and_runtime_envs/README.html">3. Dev and Runtime Environments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/software_module_and_environment_management.html">3.1. Software Module and Environment Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/containerization.html">3.2. Containerization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/using_vscode_for_remote_development.html">3.3. Using VSCode for Remote Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/using_conda_env.html">3.4. Using Conda Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/handling_dependencies_with_spack.html">3.5. Handling Dependencies with Spack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/customizing_bashrc.html">3.6. Customizing Shell Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">4. Scalability</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction_to_parallel_computing.html">4.1. Intro to Parallel Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu_computing.html">4.2. GPU Computing</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.3. GPU Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_gpu_computing.html">4.4. Distributed GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel_io.html">4.5. Parallel I/O</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../storage_and_data_transfer/README.html">5. Storage and Data Transfer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/understanding_storage_options.html">5.1. Understanding Storage Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/data_transfer.html">5.2. Data Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/shared_data_repository.html">5.3. Shared Data Repository</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../performance_monitoring/README.html">6. Performance Monitoring</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/intro_to_performance_monitoring.html">6.1. Introduction to Performance Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/monitoring_tools.html">6.2. Monitoring Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/performance_analysis_techniques.html">6.3. Performance Analysis Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/benchmarking_your_application.html">6.4. Benchmarking Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/optimizing_io_performance.html">6.5. Optimizing I/O Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/parallel_performance_tuning.html">6.6. Parallel Performance Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/advanced_monitoring_and_tuning_tools.html">6.7. Advanced Monitoring and Tuning Tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/README.html">7. Advanced Topics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_interconnect.html">7.1. GPU Architecture and Interconnect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_libraries_and_frameworks.html">7.2. GPU Libraries and Frameworks</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../efficient_use_of_resources/README.html">8. Efficient Use of Resources</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../efficient_use_of_resources/best_practices_for_hpc_efficiency.html">8.1. Best Practices for HPC Efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../efficient_use_of_resources/fair_use_and_prioritization_policies.html">8.2. Fair Use and Prioritization Policies</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc_application_scenarios/README.html">9. HPC Application Scenarios</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../workshops_and_trainings/README.html">10. Workshops and Trainings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workshops_and_trainings/intro_to_hpc/content_file.html">10.1. Intro to HPC</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../support/README.html">11. Support and Troubleshooting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/faq.html">11.1. FAQ</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/KempnerInstitute/kempner-hpc-handbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/KempnerInstitute/kempner-hpc-handbook/issues/new?title=Issue%20on%20page%20%2Fscalability/gpu_profiling.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/scalability/gpu_profiling.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>GPU Profiling</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-using-pytorch-profiler">4.3.1. Profiling using Pytorch Profiler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#holistic-trace-analysis-hta">4.3.2. Holistic Trace Analysis (HTA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-nsight-tools">4.3.3. Nvidia Nsight Tools</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alexnet-toy-example">4.3.3.1. Alexnet Toy Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-experimental-environment-on-the-cluster">4.3.3.2. Prepare The Experimental Environment on the Cluster</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system-level-profiling-using-nsight-system">4.3.3.3. System-Level Profiling Using Nsight System</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-specific-profiling-using-nisht-compute">4.3.3.4. Kernel-Specific Profiling Using Nisht Compute</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="gpu-profiling">
+<h1><span class="section-number">4.3. </span>GPU Profiling<a class="headerlink" href="#gpu-profiling" title="Link to this heading">#</a></h1>
+<p>This section explains how to profile GPUs to design a better performent code. GPU profiling helps to get some insights of GPUs behavior to identify and fix performance bottlenecks. The following steps are performed iteratively until achieving the desired performance:</p>
+<ul class="simple">
+<li><p>Profile the code</p></li>
+<li><p>Analyze the traces to identify the possible performance bottlenecks</p></li>
+<li><p>Fix the bottlenecks and optimize the code.</p></li>
+</ul>
+<figure class="align-default" id="profiling-loop">
+<a class="reference internal image-reference" href="../_images/profiling_loop.png"><img alt="../_images/profiling_loop.png" src="../_images/profiling_loop.png" style="height: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.5 </span><span class="caption-text">Profiling Loop to Optimize Code</span><a class="headerlink" href="#profiling-loop" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="profiling-using-pytorch-profiler">
+<h2><span class="section-number">4.3.1. </span>Profiling using Pytorch Profiler<a class="headerlink" href="#profiling-using-pytorch-profiler" title="Link to this heading">#</a></h2>
+<p>PyTorch profiler is a tool that facilitates collecting different performance metrics at runtime to better understand what happens behind the scene. For example, during training of a ML model, torch profiler can be used for understanding the most expensive model operators, their impact and studying device kernel activity. More particularly to answer the following questions:</p>
+<ul class="simple">
+<li><p>How much GPU run time contirbutes to Computation, Communication or Memory related kernels.</p></li>
+<li><p>How much these different categories overlap one another (non-blocking kernel calls or multiple parallel cuda streams can be used to provide overlapping).</p></li>
+<li><p>What kernels are the most expensive ones within the above categories (breakdown).</p></li>
+</ul>
+<p>Following shows how we can wrap the training loop to be performed in the context of the torch profiler using <code class="docutils literal notranslate"><span class="pre">with</span></code> statement.</p>
+<div class="literal-block-wrapper docutils container" id="torch-profiler-code">
+<div class="code-block-caption"><span class="caption-number">Listing 4.1 </span><span class="caption-text">A example of applying PyTorch Profiler to profile the traing loop for the specific iterations using torch profiler scheduler.</span><a class="headerlink" href="#torch-profiler-code" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.profiler</span> <span class="kn">import</span> <span class="n">profile</span><span class="p">,</span> <span class="n">schedule</span><span class="p">,</span> <span class="n">tensorboard_trace_handler</span>
+
+<span class="n">tracing_schedule</span> <span class="o">=</span> <span class="n">schedule</span><span class="p">(</span><span class="n">skip_first</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">warmup</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">trace_handler</span> <span class="o">=</span> <span class="n">tensorboard_trace_handler</span><span class="p">(</span><span class="n">dir_name</span><span class="o">=/</span><span class="n">output</span><span class="o">/</span><span class="n">folder</span><span class="p">,</span> <span class="n">use_gzip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">profile</span><span class="p">(</span>
+  <span class="n">activities</span> <span class="o">=</span> <span class="p">[</span><span class="n">ProfilerActivity</span><span class="o">.</span><span class="n">CPU</span><span class="p">,</span> <span class="n">ProfilerActivity</span><span class="o">.</span><span class="n">CUDA</span><span class="p">],</span>
+  <span class="n">schedule</span> <span class="o">=</span> <span class="n">tracing_schedule</span><span class="p">,</span>
+  <span class="n">on_trace_ready</span> <span class="o">=</span> <span class="n">trace_handler</span><span class="p">,</span>
+  <span class="n">profile_memory</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+  <span class="n">record_shapes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+  <span class="n">with_stack</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
+
+    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">batch_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
+        <span class="n">train</span><span class="p">(</span><span class="n">batch_data</span><span class="p">)</span>
+        <span class="n">prof</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Brief Introduction on Profile Arguments</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Using the <code class="docutils literal notranslate"><span class="pre">schedule</span></code>, here we skip the first 5 steps/iterations, wait another 5 steps/iterations, warmup during the next two steps/iterations and then do the active recording during the next 2 steps/iteration. Using the <code class="docutils literal notranslate"><span class="pre">trace_handler</span></code>, we output the profiling traces into a <code class="docutils literal notranslate"><span class="pre">JSON</span></code> file to be analyzed later using Holistic Trace Analysis.</p>
+<ul class="simple">
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">activities</span> <span class="pre">(iterable)</span></code> - list of activity groups (CPU, CUDA) to use in profiling.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">schedule</span> <span class="pre">(callable)</span></code> - callable that takes step (int) as a single parameter and returns ProfilerAction value that specifies the profiler action to perform at each step.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">on_trace_ready</span> <span class="pre">(Callable)</span></code> - callable that is called at each step when schedule returns</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">profile_memory</span> <span class="pre">(bool)</span></code> - track tensor memory allocation/deallocation.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">record_shapes</span> <span class="pre">(bool)</span></code> - save information about operator’s input shapes.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">with_stack</span> <span class="pre">(bool)</span></code> - record source information (file and line number) for the ops.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p class="sd-card-text">For more information about <code class="docutils literal notranslate"><span class="pre">torch.profiler</span></code> refer to:
+<a class="reference external" href="https://pytorch.org/docs/stable/profiler.html">https://pytorch.org/docs/stable/profiler.html</a></p>
+</div>
+</div>
+</details></section>
+<section id="holistic-trace-analysis-hta">
+<h2><span class="section-number">4.3.2. </span>Holistic Trace Analysis (HTA)<a class="headerlink" href="#holistic-trace-analysis-hta" title="Link to this heading">#</a></h2>
+<p>Holistic Trace Analysis (HTA) is an open source performance analysis and visualization Python library for PyTorch users. HTA takes as input Kineto traces collected by the PyTorch Profiler and up-levels the performance information contained in the traces. Kineto Traces are outputted by the torch profiler when using the <code class="docutils literal notranslate"><span class="pre">tensorboard_trace_handler</span></code> as the <code class="docutils literal notranslate"><span class="pre">on_trace_ready</span></code> callable (Please see <a class="reference internal" href="#torch-profiler-code"><span class="std std-numref">Listing 4.1</span></a>).</p>
+<p>Following are some of the features HTA provides however one can use the library to write their own analysis functions if needed.</p>
+<ul class="simple">
+<li><p>Breakdown of the GPU time in terms of active time (Computation, Communication and Memory) versus idle time.</p></li>
+<li><p>Idle time breakdown to understand whether the idle time is caused by waiting for the host, waiting for another kernel or other.</p></li>
+<li><p>Kernel Breakdown to find kernels with the longest execution time.</p></li>
+<li><p>Communication Computation overlap in distributed environments.</p></li>
+</ul>
+<p>The HTA library can be installed using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>HolisticTraceAnalysis
+</pre></div>
+</div>
+<p>As an example, the following shows how to use HTA to get the Kernel Breakdown from the <code class="docutils literal notranslate"><span class="pre">torch.profiler</span></code> trace files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hta.trace_analysis</span> <span class="kn">import</span> <span class="n">TraceAnalysis</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">TraceAnalysis</span><span class="p">(</span><span class="n">trace_dir</span> <span class="o">=</span> <span class="s2">&quot;/trace/folder/path&quot;</span><span class="p">)</span>
+<span class="n">kernel_type_metrics_df</span><span class="p">,</span> <span class="n">kernel_metrics_df</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">get_gpu_kernel_breakdown</span><span class="p">(</span><span class="n">num_kernels</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">visualize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The function returns two dataframes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kernel_type_metrics_df</span></code> contains the raw values of percentage time spent for each kernel type and is used to generate a pie chart if you pass <code class="docutils literal notranslate"><span class="pre">visualize=True</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kernel_metrics_df</span></code> contains more details on duration summary statistics for each kernel. It shows the top 5 computation, communication and memory kernels by passing <code class="docutils literal notranslate"><span class="pre">num_kernels=5</span></code>.</p></li>
+</ul>
+<p>Output example of tthe first dataframe from traces collected during training of a model could be as follows:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>kernel_type</p></th>
+<th class="head"><p>sum</p></th>
+<th class="head"><p>percentage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>COMPUTATION</p></td>
+<td><p>149238335</p></td>
+<td><p>95.3</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>COMPUTATION overlapping COMMUNICATION</p></td>
+<td><p>6732172</p></td>
+<td><p>4.3</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>COMMUNICATION</p></td>
+<td><p>292556</p></td>
+<td><p>0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>MEMORY</p></td>
+<td><p>252060</p></td>
+<td><p>0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>COMMUNICATION overlapping MEMORY</p></td>
+<td><p>1389</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>COMPUTATION overlapping MEMORY</p></td>
+<td><p>232</p></td>
+<td><p>0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>To explore more about the features HTA provides refer to:
+<a class="reference external" href="https://hta.readthedocs.io/en/latest/source/intro/using_hta.html">https://hta.readthedocs.io/en/latest/source/intro/using_hta.html</a></p>
+</div>
+</section>
+<section id="nvidia-nsight-tools">
+<h2><span class="section-number">4.3.3. </span>Nvidia Nsight Tools<a class="headerlink" href="#nvidia-nsight-tools" title="Link to this heading">#</a></h2>
+<p>Alternatively, Nvidia Nsight Systems and Nsight Compute combination can be used to analyze and visualize the insight of application’s algorithms. Nsight Systems (High-Level Profiling) checks our code overall to see if there are any problems (e.g., with host and device communication or GPU kernels) identifying non-performant/top kernel(s) and then Nsight Compute (Kernel-Specific Profiling) dives into the details of the identified kernel(s) to help with optimizing, debugging and fixing the issue.</p>
+<figure class="align-default" id="nvidia-nsight-system-and-compute">
+<a class="reference internal image-reference" href="../_images/nsight_systems_compute.png"><img alt="../_images/nsight_systems_compute.png" src="../_images/nsight_systems_compute.png" style="height: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.6 </span><span class="caption-text">NVIDIA Nsight System and Compute</span><a class="headerlink" href="#nvidia-nsight-system-and-compute" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="alexnet-toy-example">
+<h3><span class="section-number">4.3.3.1. </span>Alexnet Toy Example<a class="headerlink" href="#alexnet-toy-example" title="Link to this heading">#</a></h3>
+<p>The Following code is a toy example of training an Alexnet model. This example is used here to show how Nvidia Nsight Tools work. The <code class="docutils literal notranslate"><span class="pre">torch.cuda.nvtx</span></code> is used to specify what regions of the code to be profiled and when:</p>
+<div class="literal-block-wrapper docutils container" id="nsight-alexnet-example">
+<div class="code-block-caption"><span class="caption-number">Listing 4.2 </span><span class="caption-text">Anotating an Alexnet toy example using <code class="docutils literal notranslate"><span class="pre">torch.cuda.nvtx</span></code> to specify what region in the code and when to profile using Nsight System and Compute.</span><a class="headerlink" href="#nsight-alexnet-example" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision.models</span> <span class="k">as</span> <span class="nn">models</span>
+
+<span class="k">def</span> <span class="nf">train_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">is_profiling</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># 1. Forward pass</span>
+    <span class="k">if</span> <span class="n">is_profiling</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">nvtx</span><span class="o">.</span><span class="n">range_push</span><span class="p">(</span><span class="s1">&#39;forward pass&#39;</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_profiling</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">nvtx</span><span class="o">.</span><span class="n">range_pop</span><span class="p">()</span>
+
+    <span class="c1"># 2. Calculate loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+    <span class="c1"># 3. Optimizer Zero grad</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="c1"># 4. Backward pass</span>
+    <span class="k">if</span> <span class="n">is_profiling</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">nvtx</span><span class="o">.</span><span class="n">range_push</span><span class="p">(</span><span class="s1">&#39;backward pass&#39;</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">is_profiling</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">nvtx</span><span class="o">.</span><span class="n">range_pop</span><span class="p">()</span>
+    
+    <span class="c1"># 5. Optimizer Step</span>
+    <span class="k">if</span> <span class="n">is_profiling</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">nvtx</span><span class="o">.</span><span class="n">range_push</span><span class="p">(</span><span class="s2">&quot;optimizer step&quot;</span><span class="p">)</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">is_profiling</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">nvtx</span><span class="o">.</span><span class="n">range_pop</span><span class="p">()</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s2">&quot;alexnet&quot;</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="n">device</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="p">),</span> <span class="n">device</span> <span class="o">=</span> <span class="n">device</span><span class="p">)</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+<span class="n">max_steps</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">warmup_steps</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">is_profiling</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_steps</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;starting setp </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">max_steps</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="c1"># start profiling after the warmup iterations</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">warmup_steps</span><span class="p">:</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">cudart</span><span class="p">()</span><span class="o">.</span><span class="n">cudaProfilerStart</span><span class="p">()</span>
+        <span class="n">is_profiling</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># add range for current iteration</span>
+    <span class="k">if</span> <span class="n">is_profiling</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">nvtx</span><span class="o">.</span><span class="n">range_push</span><span class="p">(</span><span class="s2">&quot;iteration</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">train_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">is_profiling</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_profiling</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">nvtx</span><span class="o">.</span><span class="n">range_pop</span><span class="p">()</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">cudart</span><span class="p">()</span><span class="o">.</span><span class="n">cudaProfilerStop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="prepare-the-experimental-environment-on-the-cluster">
+<h3><span class="section-number">4.3.3.2. </span>Prepare The Experimental Environment on the Cluster<a class="headerlink" href="#prepare-the-experimental-environment-on-the-cluster" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Following modules needs to be loaded on the cluster using the following command line. These command line is added to the slurm scripts for running Nsight System and Nsight Comput on <a class="reference internal" href="#nsight-system-slurm"><span class="std std-numref">Listing 4.3</span></a> and <a class="reference internal" href="#nsight-compute-slurm"><span class="std std-numref">Listing 4.4</span></a> respectively.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python<span class="w"> </span>nvhpc<span class="w"> </span>cudnn<span class="w"> </span>cuda
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Creating the conda envireonment named <code class="docutils literal notranslate"><span class="pre">profiling</span></code> (one can use their own customized name).</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>profiling<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Activating the conda environment and install the required packages:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>profiling
+pip3<span class="w"> </span>install<span class="w"> </span>torch<span class="w"> </span>torchvision<span class="w"> </span>torchaudio
+</pre></div>
+</div>
+<p>The conda environment activation needs also be added to the slurm scripts.</p>
+</section>
+<section id="system-level-profiling-using-nsight-system">
+<h3><span class="section-number">4.3.3.3. </span>System-Level Profiling Using Nsight System<a class="headerlink" href="#system-level-profiling-using-nsight-system" title="Link to this heading">#</a></h3>
+<p>To use Nsight Systems one can profile the training process for 3 epochs after a 5-epoch warmup. Usually it is a good practice to skip a few iterations since it might add overhead training due to memory allocations, <code class="docutils literal notranslate"><span class="pre">cudnn</span></code> benchmarking etc. A slurm script to run it on the cluster could be as follows:</p>
+<div class="literal-block-wrapper docutils container" id="nsight-system-slurm">
+<div class="code-block-caption"><span class="caption-number">Listing 4.3 </span><span class="caption-text">Slurm script to run Alexnet example of <a class="reference internal" href="#nsight-alexnet-example"><span class="std std-numref">Listing 4.2</span></a> and Using Nsight System for Profiling.</span><a class="headerlink" href="#nsight-system-slurm" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#! /bin/bash</span>
+<span class="c1">#SBATCH --job-name=profiling_nsys_alexnet</span>
+<span class="c1">#SBATCH --time=1:00:00</span>
+<span class="c1">#SBATCH --partition=kempner</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --cpus-per-task=4</span>
+<span class="c1">#SBATCH --mem=128G</span>
+<span class="c1">#SBATCH --output=torchvision_prof.out</span>
+<span class="c1">#SBATCH --error=torchvision_prof.err</span>
+<span class="c1">#SBATCH --account=kempner_dev</span>
+<span class="c1">#SBATCH --gres=gpu:1</span>
+
+module<span class="w"> </span>load<span class="w"> </span>python<span class="w"> </span>nvhpc<span class="w"> </span>cudnn<span class="w"> </span>cuda
+conda<span class="w"> </span>activate<span class="w"> </span>profiling
+
+nsys<span class="w"> </span>profile<span class="w"> </span>--gpu-metrics-device<span class="o">=</span><span class="m">0</span><span class="w"> </span>--force-overwrite<span class="o">=</span><span class="nb">true</span><span class="w"> </span>--trace<span class="o">=</span>cuda,cudnn,opengl,osrt<span class="w"> </span>--capture-range<span class="o">=</span>cudaProfilerApi<span class="w"> </span>--capture-range-end<span class="o">=</span>stop<span class="w"> </span>--cudabacktrace<span class="o">=</span><span class="nb">true</span><span class="w"> </span>-x<span class="w"> </span><span class="nb">true</span><span class="w"> </span>-o<span class="w"> </span>report-file<span class="w"> </span>python3<span class="w"> </span>alexnet.py
+</pre></div>
+</div>
+</div>
+<p>After profiling using the above command line (<code class="docutils literal notranslate"><span class="pre">nsys</span> <span class="pre">profile</span></code>), it will generate the output file named <code class="docutils literal notranslate"><span class="pre">report_file.nsys-rep</span></code>. Then, <code class="docutils literal notranslate"><span class="pre">nsys</span> <span class="pre">stats</span></code> command line can be used to extract the reports. For example the following command will generate the GPU kernels breakdown report:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nsys<span class="w"> </span>stats<span class="w"> </span>--report<span class="w"> </span>cuda_gpu_kern_sum<span class="w"> </span>report_file.nsys-rep
+</pre></div>
+</div>
+<p>The following report is the output of the above command when profiling Alexnet example in <a class="reference internal" href="#nsight-alexnet-example"><span class="std std-numref">Listing 4.2</span></a>:</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">GPU Kernels Breakdown Report</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>**<span class="w"> </span>CUDA<span class="w"> </span>GPU<span class="w"> </span>Kernel<span class="w"> </span>Summary<span class="w"> </span><span class="o">(</span>cuda_gpu_kern_sum<span class="o">)</span>:
+
+<span class="w"> </span>Time<span class="w"> </span><span class="o">(</span>%<span class="o">)</span><span class="w">  </span>Total<span class="w"> </span>Time<span class="w"> </span><span class="o">(</span>ns<span class="o">)</span><span class="w">  </span>Instances<span class="w">   </span>Avg<span class="w"> </span><span class="o">(</span>ns<span class="o">)</span><span class="w">     </span>Med<span class="w"> </span><span class="o">(</span>ns<span class="o">)</span><span class="w">    </span>Min<span class="w"> </span><span class="o">(</span>ns<span class="o">)</span><span class="w">   </span>Max<span class="w"> </span><span class="o">(</span>ns<span class="o">)</span><span class="w">   </span>StdDev<span class="w"> </span><span class="o">(</span>ns<span class="o">)</span><span class="w">                                                  </span>Name<span class="w">                                                </span>
+<span class="w"> </span>--------<span class="w">  </span>---------------<span class="w">  </span>---------<span class="w">  </span>-----------<span class="w">  </span>-----------<span class="w">  </span>---------<span class="w">  </span>---------<span class="w">  </span>-----------<span class="w">  </span>----------------------------------------------------------------------------------------------------
+<span class="w">     </span><span class="m">13</span>.6<span class="w">        </span><span class="m">5</span>,021,606<span class="w">          </span><span class="m">8</span><span class="w">    </span><span class="m">627</span>,700.8<span class="w">    </span><span class="m">628</span>,364.5<span class="w">    </span><span class="m">609</span>,981<span class="w">    </span><span class="m">648</span>,285<span class="w">     </span><span class="m">12</span>,686.9<span class="w">  </span>ampere_gcgemm_64x64_nt<span class="w">                                                                              </span>
+<span class="w">      </span><span class="m">7</span>.1<span class="w">        </span><span class="m">2</span>,607,507<span class="w">          </span><span class="m">1</span><span class="w">  </span><span class="m">2</span>,607,507.0<span class="w">  </span><span class="m">2</span>,607,507.0<span class="w">  </span><span class="m">2</span>,607,507<span class="w">  </span><span class="m">2</span>,607,507<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>cudnn_infer_ampere_scudnn_128x64_relu_xregs_large_nn_v1<span class="w">                                             </span>
+<span class="w">      </span><span class="m">6</span>.0<span class="w">        </span><span class="m">2</span>,207,701<span class="w">          </span><span class="m">1</span><span class="w">  </span><span class="m">2</span>,207,701.0<span class="w">  </span><span class="m">2</span>,207,701.0<span class="w">  </span><span class="m">2</span>,207,701<span class="w">  </span><span class="m">2</span>,207,701<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>ampere_gcgemm_64x64_tn<span class="w">                                                                              </span>
+<span class="w">      </span><span class="m">5</span>.4<span class="w">        </span><span class="m">1</span>,982,389<span class="w">          </span><span class="m">3</span><span class="w">    </span><span class="m">660</span>,796.3<span class="w">    </span><span class="m">421</span>,182.0<span class="w">    </span><span class="m">304</span>,958<span class="w">  </span><span class="m">1</span>,256,249<span class="w">    </span><span class="m">518</span>,941.1<span class="w">  </span>void<span class="w"> </span>internal::region_transform_ABC_val&lt;int,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">32</span>,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">32</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span>internal::TransformParamsAB…
+<span class="w">      </span><span class="m">5</span>.3<span class="w">        </span><span class="m">1</span>,949,718<span class="w">          </span><span class="m">2</span><span class="w">    </span><span class="m">974</span>,859.0<span class="w">    </span><span class="m">974</span>,859.0<span class="w">    </span><span class="m">603</span>,741<span class="w">  </span><span class="m">1</span>,345,977<span class="w">    </span><span class="m">524</span>,840.1<span class="w">  </span>ampere_sgemm_64x32_sliced1x4_tn<span class="w">                                                                     </span>
+<span class="w">      </span><span class="m">4</span>.8<span class="w">        </span><span class="m">1</span>,778,231<span class="w">          </span><span class="m">2</span><span class="w">    </span><span class="m">889</span>,115.5<span class="w">    </span><span class="m">889</span>,115.5<span class="w">    </span><span class="m">787</span>,484<span class="w">    </span><span class="m">990</span>,747<span class="w">    </span><span class="m">143</span>,728.6<span class="w">  </span>sm80_xmma_wgrad_implicit_gemm_indexed_tf32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x128x16_stage4_w…
+<span class="w">      </span><span class="m">4</span>.5<span class="w">        </span><span class="m">1</span>,656,471<span class="w">          </span><span class="m">8</span><span class="w">    </span><span class="m">207</span>,058.9<span class="w">    </span><span class="m">197</span>,486.5<span class="w">     </span><span class="m">80</span>,928<span class="w">    </span><span class="m">415</span>,262<span class="w">    </span><span class="m">114</span>,380.9<span class="w">  </span>void<span class="w"> </span>fft2d_c2r_32x32&lt;float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>unsigned<span class="w"> </span>int<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>&gt;<span class="o">(</span>T1<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>float2…
+<span class="w">      </span><span class="m">4</span>.3<span class="w">        </span><span class="m">1</span>,572,407<span class="w">          </span><span class="m">8</span><span class="w">    </span><span class="m">196</span>,550.9<span class="w">    </span><span class="m">181</span>,774.5<span class="w">     </span><span class="m">84</span>,256<span class="w">    </span><span class="m">332</span>,735<span class="w">    </span><span class="m">104</span>,094.2<span class="w">  </span>void<span class="w"> </span>fft2d_r2c_32x32&lt;float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>unsigned<span class="w"> </span>int<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>&gt;<span class="o">(</span>float2<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,…
+<span class="w">      </span><span class="m">4</span>.1<span class="w">        </span><span class="m">1</span>,496,410<span class="w">          </span><span class="m">2</span><span class="w">    </span><span class="m">748</span>,205.0<span class="w">    </span><span class="m">748</span>,205.0<span class="w">    </span><span class="m">371</span>,199<span class="w">  </span><span class="m">1</span>,125,211<span class="w">    </span><span class="m">533</span>,167.0<span class="w">  </span>void<span class="w"> </span>at::native::&lt;unnamed&gt;::max_pool_backward_nchw&lt;float,<span class="w"> </span>float&gt;<span class="o">(</span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>long<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>lon…
+<span class="w">      </span><span class="m">4</span>.0<span class="w">        </span><span class="m">1</span>,495,223<span class="w">          </span><span class="m">2</span><span class="w">    </span><span class="m">747</span>,611.5<span class="w">    </span><span class="m">747</span>,611.5<span class="w">    </span><span class="m">461</span>,469<span class="w">  </span><span class="m">1</span>,033,754<span class="w">    </span><span class="m">404</span>,666.6<span class="w">  </span>ampere_sgemm_128x64_nt<span class="w">                                                                              </span>
+<span class="w">      </span><span class="m">3</span>.4<span class="w">        </span><span class="m">1</span>,260,825<span class="w">         </span><span class="m">18</span><span class="w">     </span><span class="m">70</span>,045.8<span class="w">     </span><span class="m">88</span>,687.5<span class="w">      </span><span class="m">8</span>,800<span class="w">    </span><span class="m">135</span>,968<span class="w">     </span><span class="m">48</span>,294.9<span class="w">  </span>void<span class="w"> </span>cudnn::ops::nchwToNhwcKernel&lt;float,<span class="w"> </span>float,<span class="w"> </span>float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>,<span class="w"> </span><span class="o">(</span>cudnnKernelDataType_t<span class="o">)</span><span class="m">2</span>&gt;<span class="o">(</span>…
+<span class="w">      </span><span class="m">3</span>.4<span class="w">        </span><span class="m">1</span>,256,153<span class="w">          </span><span class="m">2</span><span class="w">    </span><span class="m">628</span>,076.5<span class="w">    </span><span class="m">628</span>,076.5<span class="w">    </span><span class="m">508</span>,413<span class="w">    </span><span class="m">747</span>,740<span class="w">    </span><span class="m">169</span>,229.7<span class="w">  </span>void<span class="w"> </span>cutlass_cudnn_infer::Kernel&lt;cutlass_tensorop_s1688fprop_optimized_tf32_128x128_16x4_nhwc_align…
+<span class="w">      </span><span class="m">3</span>.4<span class="w">        </span><span class="m">1</span>,254,010<span class="w">          </span><span class="m">2</span><span class="w">    </span><span class="m">627</span>,005.0<span class="w">    </span><span class="m">627</span>,005.0<span class="w">    </span><span class="m">514</span>,654<span class="w">    </span><span class="m">739</span>,356<span class="w">    </span><span class="m">158</span>,888.3<span class="w">  </span>sm80_xmma_dgrad_implicit_gemm_tf32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x128x16_stage4_warpsize2…
+<span class="w">      </span><span class="m">3</span>.1<span class="w">        </span><span class="m">1</span>,158,938<span class="w">          </span><span class="m">1</span><span class="w">  </span><span class="m">1</span>,158,938.0<span class="w">  </span><span class="m">1</span>,158,938.0<span class="w">  </span><span class="m">1</span>,158,938<span class="w">  </span><span class="m">1</span>,158,938<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>ampere_sgemm_128x32_sliced1x4_nn<span class="w">                                                                    </span>
+<span class="w">      </span><span class="m">3</span>.1<span class="w">        </span><span class="m">1</span>,153,497<span class="w">          </span><span class="m">2</span><span class="w">    </span><span class="m">576</span>,748.5<span class="w">    </span><span class="m">576</span>,748.5<span class="w">    </span><span class="m">298</span>,558<span class="w">    </span><span class="m">854</span>,939<span class="w">    </span><span class="m">393</span>,420.8<span class="w">  </span>void<span class="w"> </span>fft2d_r2c_64x64&lt;float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>&gt;<span class="o">(</span>float2<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int<span class="o">)</span><span class="w">  </span>
+<span class="w">      </span><span class="m">2</span>.7<span class="w">          </span><span class="m">986</span>,458<span class="w">          </span><span class="m">5</span><span class="w">    </span><span class="m">197</span>,291.6<span class="w">    </span><span class="m">136</span>,095.0<span class="w">     </span><span class="m">90</span>,591<span class="w">    </span><span class="m">389</span>,662<span class="w">    </span><span class="m">132</span>,520.3<span class="w">  </span>void<span class="w"> </span>at::native::elementwise_kernel&lt;<span class="o">(</span>int<span class="o">)</span><span class="m">128</span>,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">2</span>,<span class="w"> </span>void<span class="w"> </span>at::native::gpu_kernel_impl_nocast&lt;at::n…
+<span class="w">      </span><span class="m">2</span>.6<span class="w">          </span><span class="m">976</span>,603<span class="w">          </span><span class="m">1</span><span class="w">    </span><span class="m">976</span>,603.0<span class="w">    </span><span class="m">976</span>,603.0<span class="w">    </span><span class="m">976</span>,603<span class="w">    </span><span class="m">976</span>,603<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>flip_filter&lt;float,<span class="w"> </span>float&gt;<span class="o">(</span>T2<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int<span class="o">)</span><span class="w">                                </span>
+<span class="w">      </span><span class="m">2</span>.6<span class="w">          </span><span class="m">966</span>,009<span class="w">          </span><span class="m">7</span><span class="w">    </span><span class="m">138</span>,001.3<span class="w">     </span><span class="m">86</span>,623.0<span class="w">      </span><span class="m">5</span>,440<span class="w">    </span><span class="m">377</span>,822<span class="w">    </span><span class="m">139</span>,440.0<span class="w">  </span>void<span class="w"> </span>at::native::vectorized_elementwise_kernel&lt;<span class="o">(</span>int<span class="o">)</span><span class="m">4</span>,<span class="w"> </span>at::native::&lt;unnamed&gt;::launch_clamp_scalar<span class="o">(</span>a…
+<span class="w">      </span><span class="m">2</span>.3<span class="w">          </span><span class="m">864</span>,924<span class="w">          </span><span class="m">6</span><span class="w">    </span><span class="m">144</span>,154.0<span class="w">    </span><span class="m">124</span>,592.0<span class="w">      </span><span class="m">5</span>,120<span class="w">    </span><span class="m">418</span>,109<span class="w">    </span><span class="m">151</span>,839.4<span class="w">  </span>void<span class="w"> </span>at::native::vectorized_elementwise_kernel&lt;<span class="o">(</span>int<span class="o">)</span><span class="m">4</span>,<span class="w"> </span>at::native::BinaryFunctor&lt;float,<span class="w"> </span>float,<span class="w"> </span>floa…
+<span class="w">      </span><span class="m">2</span>.2<span class="w">          </span><span class="m">820</span>,571<span class="w">          </span><span class="m">3</span><span class="w">    </span><span class="m">273</span>,523.7<span class="w">    </span><span class="m">299</span>,582.0<span class="w">    </span><span class="m">111</span>,807<span class="w">    </span><span class="m">409</span>,182<span class="w">    </span><span class="m">150</span>,390.3<span class="w">  </span>void<span class="w"> </span>at::native::&lt;unnamed&gt;::max_pool_forward_nchw&lt;float,<span class="w"> </span>float&gt;<span class="o">(</span>int,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>long,<span class="w"> </span>long,<span class="w"> </span>long,<span class="w"> </span>…
+<span class="w">      </span><span class="m">1</span>.9<span class="w">          </span><span class="m">697</span>,981<span class="w">          </span><span class="m">1</span><span class="w">    </span><span class="m">697</span>,981.0<span class="w">    </span><span class="m">697</span>,981.0<span class="w">    </span><span class="m">697</span>,981<span class="w">    </span><span class="m">697</span>,981<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>sm80_xmma_dgrad_implicit_gemm_tf32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize256x64x32_stage3_warpsize4x…
+<span class="w">      </span><span class="m">1</span>.6<span class="w">          </span><span class="m">603</span>,261<span class="w">          </span><span class="m">1</span><span class="w">    </span><span class="m">603</span>,261.0<span class="w">    </span><span class="m">603</span>,261.0<span class="w">    </span><span class="m">603</span>,261<span class="w">    </span><span class="m">603</span>,261<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>sm80_xmma_fprop_implicit_gemm_indexed_tf32f32_tf32f32_f32_nhwckrsc_nchw_tilesize128x128x16_stage4_w…
+<span class="w">      </span><span class="m">1</span>.5<span class="w">          </span><span class="m">547</span>,422<span class="w">          </span><span class="m">1</span><span class="w">    </span><span class="m">547</span>,422.0<span class="w">    </span><span class="m">547</span>,422.0<span class="w">    </span><span class="m">547</span>,422<span class="w">    </span><span class="m">547</span>,422<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>cutlass_cudnn_train::Kernel&lt;cutlass_tensorop_s1688wgrad_optimized_tf32_256x128_16x3_nhwc_align…
+<span class="w">      </span><span class="m">1</span>.3<span class="w">          </span><span class="m">473</span>,278<span class="w">          </span><span class="m">1</span><span class="w">    </span><span class="m">473</span>,278.0<span class="w">    </span><span class="m">473</span>,278.0<span class="w">    </span><span class="m">473</span>,278<span class="w">    </span><span class="m">473</span>,278<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>ampere_sgemm_128x64_nn<span class="w">                                                                              </span>
+<span class="w">      </span><span class="m">1</span>.3<span class="w">          </span><span class="m">472</span>,797<span class="w">          </span><span class="m">8</span><span class="w">     </span><span class="m">59</span>,099.6<span class="w">     </span><span class="m">72</span>,783.0<span class="w">      </span><span class="m">7</span>,552<span class="w">    </span><span class="m">128</span>,256<span class="w">     </span><span class="m">45</span>,835.8<span class="w">  </span>void<span class="w"> </span>cudnn::ops::nhwcToNchwKernel&lt;float,<span class="w"> </span>float,<span class="w"> </span>float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>cudnnKernelDataType_t<span class="o">)</span><span class="m">0</span>&gt;<span class="o">(</span>…
+<span class="w">      </span><span class="m">1</span>.0<span class="w">          </span><span class="m">375</span>,168<span class="w">          </span><span class="m">4</span><span class="w">     </span><span class="m">93</span>,792.0<span class="w">     </span><span class="m">72</span>,704.0<span class="w">     </span><span class="m">59</span>,712<span class="w">    </span><span class="m">170</span>,048<span class="w">     </span><span class="m">51</span>,425.3<span class="w">  </span>void<span class="w"> </span>at::native::reduce_kernel&lt;<span class="o">(</span>int<span class="o">)</span><span class="m">512</span>,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">1</span>,<span class="w"> </span>at::native::ReduceOp&lt;float,<span class="w"> </span>at::native::func_wrapp…
+<span class="w">      </span><span class="m">0</span>.9<span class="w">          </span><span class="m">333</span>,662<span class="w">          </span><span class="m">1</span><span class="w">    </span><span class="m">333</span>,662.0<span class="w">    </span><span class="m">333</span>,662.0<span class="w">    </span><span class="m">333</span>,662<span class="w">    </span><span class="m">333</span>,662<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>at::native::&lt;unnamed&gt;::adaptive_average_pool&lt;float&gt;<span class="o">(</span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>long…
+<span class="w">      </span><span class="m">0</span>.8<span class="w">          </span><span class="m">277</span>,758<span class="w">          </span><span class="m">1</span><span class="w">    </span><span class="m">277</span>,758.0<span class="w">    </span><span class="m">277</span>,758.0<span class="w">    </span><span class="m">277</span>,758<span class="w">    </span><span class="m">277</span>,758<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>at::native::&lt;unnamed&gt;::atomic_adaptive_average_gradinput&lt;float&gt;<span class="o">(</span>T1<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span><span class="k">in</span>…
+<span class="w">      </span><span class="m">0</span>.5<span class="w">          </span><span class="m">180</span>,575<span class="w">          </span><span class="m">1</span><span class="w">    </span><span class="m">180</span>,575.0<span class="w">    </span><span class="m">180</span>,575.0<span class="w">    </span><span class="m">180</span>,575<span class="w">    </span><span class="m">180</span>,575<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>fft2d_c2r_64x64&lt;float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>&gt;<span class="o">(</span>T1<span class="w"> </span>*,<span class="w"> </span>float2<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span><span class="k">in</span>…
+<span class="w">      </span><span class="m">0</span>.5<span class="w">          </span><span class="m">171</span>,262<span class="w">          </span><span class="m">5</span><span class="w">     </span><span class="m">34</span>,252.4<span class="w">      </span><span class="m">7</span>,232.0<span class="w">      </span><span class="m">1</span>,696<span class="w">    </span><span class="m">121</span>,663<span class="w">     </span><span class="m">51</span>,260.5<span class="w">  </span>void<span class="w"> </span>at::native::vectorized_elementwise_kernel&lt;<span class="o">(</span>int<span class="o">)</span><span class="m">4</span>,<span class="w"> </span>at::native::FillFunctor&lt;float&gt;,<span class="w"> </span>at::detail::…
+<span class="w">      </span><span class="m">0</span>.2<span class="w">           </span><span class="m">70</span>,655<span class="w">          </span><span class="m">1</span><span class="w">     </span><span class="m">70</span>,655.0<span class="w">     </span><span class="m">70</span>,655.0<span class="w">     </span><span class="m">70</span>,655<span class="w">     </span><span class="m">70</span>,655<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>fft2d_r2c_32x32&lt;float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>unsigned<span class="w"> </span>int<span class="o">)</span><span class="m">5</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>&gt;<span class="o">(</span>float2<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,…
+<span class="w">      </span><span class="m">0</span>.2<span class="w">           </span><span class="m">59</span>,840<span class="w">          </span><span class="m">1</span><span class="w">     </span><span class="m">59</span>,840.0<span class="w">     </span><span class="m">59</span>,840.0<span class="w">     </span><span class="m">59</span>,840<span class="w">     </span><span class="m">59</span>,840<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>fft2d_r2c_32x32&lt;float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>unsigned<span class="w"> </span>int<span class="o">)</span><span class="m">5</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>&gt;<span class="o">(</span>float2<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>int,<span class="w"> </span>int,<span class="w"> </span>int,…
+<span class="w">      </span><span class="m">0</span>.1<span class="w">           </span><span class="m">40</span>,096<span class="w">          </span><span class="m">1</span><span class="w">     </span><span class="m">40</span>,096.0<span class="w">     </span><span class="m">40</span>,096.0<span class="w">     </span><span class="m">40</span>,096<span class="w">     </span><span class="m">40</span>,096<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>ampere_sgemm_32x32_sliced1x4_tn<span class="w">                                                                     </span>
+<span class="w">      </span><span class="m">0</span>.1<span class="w">           </span><span class="m">36</span>,992<span class="w">          </span><span class="m">3</span><span class="w">     </span><span class="m">12</span>,330.7<span class="w">     </span><span class="m">12</span>,096.0<span class="w">      </span><span class="m">8</span>,000<span class="w">     </span><span class="m">16</span>,896<span class="w">      </span><span class="m">4</span>,452.6<span class="w">  </span>void<span class="w"> </span>at::native::reduce_kernel&lt;<span class="o">(</span>int<span class="o">)</span><span class="m">128</span>,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">4</span>,<span class="w"> </span>at::native::ReduceOp&lt;float,<span class="w"> </span>at::native::func_wrapp…
+<span class="w">      </span><span class="m">0</span>.1<span class="w">           </span><span class="m">25</span>,888<span class="w">          </span><span class="m">2</span><span class="w">     </span><span class="m">12</span>,944.0<span class="w">     </span><span class="m">12</span>,944.0<span class="w">      </span><span class="m">8</span>,256<span class="w">     </span><span class="m">17</span>,632<span class="w">      </span><span class="m">6</span>,629.8<span class="w">  </span>void<span class="w"> </span>at::native::vectorized_elementwise_kernel&lt;<span class="o">(</span>int<span class="o">)</span><span class="m">4</span>,<span class="w"> </span>void<span class="w"> </span>at::native::&lt;unnamed&gt;::masked_scale_ker…
+<span class="w">      </span><span class="m">0</span>.1<span class="w">           </span><span class="m">23</span>,104<span class="w">          </span><span class="m">1</span><span class="w">     </span><span class="m">23</span>,104.0<span class="w">     </span><span class="m">23</span>,104.0<span class="w">     </span><span class="m">23</span>,104<span class="w">     </span><span class="m">23</span>,104<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>ampere_sgemm_32x32_sliced1x4_nt<span class="w">                                                                     </span>
+<span class="w">      </span><span class="m">0</span>.1<span class="w">           </span><span class="m">20</span>,928<span class="w">          </span><span class="m">2</span><span class="w">     </span><span class="m">10</span>,464.0<span class="w">     </span><span class="m">10</span>,464.0<span class="w">      </span><span class="m">6</span>,176<span class="w">     </span><span class="m">14</span>,752<span class="w">      </span><span class="m">6</span>,064.1<span class="w">  </span>sm80_xmma_wgrad_implicit_gemm_indexed_tf32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x128x16_stage4_w…
+<span class="w">      </span><span class="m">0</span>.1<span class="w">           </span><span class="m">20</span>,543<span class="w">          </span><span class="m">1</span><span class="w">     </span><span class="m">20</span>,543.0<span class="w">     </span><span class="m">20</span>,543.0<span class="w">     </span><span class="m">20</span>,543<span class="w">     </span><span class="m">20</span>,543<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>ampere_sgemm_128x32_nn<span class="w">                                                                              </span>
+<span class="w">      </span><span class="m">0</span>.1<span class="w">           </span><span class="m">19</span>,168<span class="w">          </span><span class="m">2</span><span class="w">      </span><span class="m">9</span>,584.0<span class="w">      </span><span class="m">9</span>,584.0<span class="w">      </span><span class="m">7</span>,520<span class="w">     </span><span class="m">11</span>,648<span class="w">      </span><span class="m">2</span>,918.9<span class="w">  </span>void<span class="w"> </span>at::native::&lt;unnamed&gt;::fused_dropout_kernel_vec&lt;float,<span class="w"> </span>float,<span class="w"> </span>unsigned<span class="w"> </span>int,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">1</span>,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">4</span>,<span class="w"> </span>bo…
+<span class="w">      </span><span class="m">0</span>.0<span class="w">            </span><span class="m">8</span>,800<span class="w">          </span><span class="m">1</span><span class="w">      </span><span class="m">8</span>,800.0<span class="w">      </span><span class="m">8</span>,800.0<span class="w">      </span><span class="m">8</span>,800<span class="w">      </span><span class="m">8</span>,800<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>at::native::&lt;unnamed&gt;::nll_loss_forward_reduce_cuda_kernel_2d&lt;float,<span class="w"> </span>float,<span class="w"> </span>long&gt;<span class="o">(</span>T1<span class="w"> </span>*,<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>…
+<span class="w">      </span><span class="m">0</span>.0<span class="w">            </span><span class="m">4</span>,768<span class="w">          </span><span class="m">1</span><span class="w">      </span><span class="m">4</span>,768.0<span class="w">      </span><span class="m">4</span>,768.0<span class="w">      </span><span class="m">4</span>,768<span class="w">      </span><span class="m">4</span>,768<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>at::native::&lt;unnamed&gt;::nll_loss_backward_reduce_cuda_kernel_2d&lt;float,<span class="w"> </span>long&gt;<span class="o">(</span>T1<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>*,<span class="w"> </span>…
+<span class="w">      </span><span class="m">0</span>.0<span class="w">            </span><span class="m">3</span>,393<span class="w">          </span><span class="m">1</span><span class="w">      </span><span class="m">3</span>,393.0<span class="w">      </span><span class="m">3</span>,393.0<span class="w">      </span><span class="m">3</span>,393<span class="w">      </span><span class="m">3</span>,393<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>splitKreduce_kernel&lt;<span class="o">(</span>int<span class="o">)</span><span class="m">32</span>,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">16</span>,<span class="w"> </span>int,<span class="w"> </span>float,<span class="w"> </span>float,<span class="w"> </span>float,<span class="w"> </span>float,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>,<span class="w"> </span><span class="o">(</span>bool…
+<span class="w">      </span><span class="m">0</span>.0<span class="w">            </span><span class="m">2</span>,753<span class="w">          </span><span class="m">1</span><span class="w">      </span><span class="m">2</span>,753.0<span class="w">      </span><span class="m">2</span>,753.0<span class="w">      </span><span class="m">2</span>,753<span class="w">      </span><span class="m">2</span>,753<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>&lt;unnamed&gt;::softmax_warp_backward&lt;float,<span class="w"> </span>float,<span class="w"> </span>float,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">7</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>&gt;<span class="o">(</span>T2<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1…
+<span class="w">      </span><span class="m">0</span>.0<span class="w">            </span><span class="m">2</span>,688<span class="w">          </span><span class="m">1</span><span class="w">      </span><span class="m">2</span>,688.0<span class="w">      </span><span class="m">2</span>,688.0<span class="w">      </span><span class="m">2</span>,688<span class="w">      </span><span class="m">2</span>,688<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>&lt;unnamed&gt;::softmax_warp_forward&lt;float,<span class="w"> </span>float,<span class="w"> </span>float,<span class="w"> </span><span class="o">(</span>int<span class="o">)</span><span class="m">7</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">1</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>&gt;<span class="o">(</span>T2<span class="w"> </span>*,<span class="w"> </span>const<span class="w"> </span>T1<span class="w"> </span>…
+<span class="w">      </span><span class="m">0</span>.0<span class="w">            </span><span class="m">2</span>,496<span class="w">          </span><span class="m">1</span><span class="w">      </span><span class="m">2</span>,496.0<span class="w">      </span><span class="m">2</span>,496.0<span class="w">      </span><span class="m">2</span>,496<span class="w">      </span><span class="m">2</span>,496<span class="w">          </span><span class="m">0</span>.0<span class="w">  </span>void<span class="w"> </span>cask_cudnn_infer::computeOffsetsKernel&lt;<span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>,<span class="w"> </span><span class="o">(</span>bool<span class="o">)</span><span class="m">0</span>&gt;<span class="o">(</span>cask_cudnn_infer::ComputeOffsetsParam…
+</pre></div>
+</div>
+</div>
+</details><p>Alternatively one can use the Nsight Systems GUI to visualize the output timelines. To do that download the trace file form the HPC to your local machine where the Nsight System GUI is installed and open the trace file with the GUI.</p>
+<figure class="align-default" id="nsight-system-gui">
+<img alt="../_images/nsight_systems_gui.png" src="../_images/nsight_systems_gui.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 4.7 </span><span class="caption-text">Nsight System GUI for Visualizing the Profiling of 3 Steps of Above Example.</span><a class="headerlink" href="#nsight-system-gui" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><code class="docutils literal notranslate"><span class="pre">nsys</span> <span class="pre">stats</span></code> will generate another file in <code class="docutils literal notranslate"><span class="pre">sqlite</span></code> format (<code class="docutils literal notranslate"><span class="pre">report_file.sqlite</span></code>) that you can query on for more information (you can use the <code class="docutils literal notranslate"><span class="pre">--stats=true</span></code> in the main nsys command in <a class="reference internal" href="#nsight-system-slurm"><span class="std std-numref">Listing 4.3</span></a> to generate this file directly along with the profiling output). For example, the following query reports back the average SM utilization of profiling samples throughout the profile time (default frequency from GPU metrics sampling is 10000 Hz meaning every 100 us) which is <code class="docutils literal notranslate"><span class="pre">89.5233739837398</span></code> in the above case.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sqlite3<span class="w"> </span>report_file.sqlite<span class="w"> </span><span class="s2">&quot;SELECT AVG(value) FROM GPU_Metrics WHERE metricId = (SELECT metricId from TARGET_INFO_GPU_METRICS where metricName LIKE &#39;%SM Active%&#39;)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="kernel-specific-profiling-using-nisht-compute">
+<h3><span class="section-number">4.3.3.4. </span>Kernel-Specific Profiling Using Nisht Compute<a class="headerlink" href="#kernel-specific-profiling-using-nisht-compute" title="Link to this heading">#</a></h3>
+<p>Now for example one can pick the <code class="docutils literal notranslate"><span class="pre">ampere_gcgemm_64x64_nt</span></code> kernel and get more detail about this specific kernel (it takes 13.6% of the gpu time) using Nsight Compute. We can use the following slurm script.</p>
+<div class="literal-block-wrapper docutils container" id="nsight-compute-slurm">
+<div class="code-block-caption"><span class="caption-number">Listing 4.4 </span><span class="caption-text">Slurm script to run Alexnet example of <a class="reference internal" href="#nsight-alexnet-example"><span class="std std-numref">Listing 4.2</span></a> and Using Nsight Compute to profile the <code class="docutils literal notranslate"><span class="pre">ampere_gcgemm_64x64_nt</span></code> kernel.</span><a class="headerlink" href="#nsight-compute-slurm" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#! /bin/bash</span>
+<span class="c1">#SBATCH --job-name=profiling_ncu_alexnet</span>
+<span class="c1">#SBATCH --time=1:00:00</span>
+<span class="c1">#SBATCH --partition=kempner</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --cpus-per-task=4</span>
+<span class="c1">#SBATCH --mem=128G</span>
+<span class="c1">#SBATCH --output=torchvision_prof.out</span>
+<span class="c1">#SBATCH --error=torchvision_prof.err</span>
+<span class="c1">#SBATCH --account=kempner_dev</span>
+<span class="c1">#SBATCH --gres=gpu:1</span>
+
+module<span class="w"> </span>load<span class="w"> </span>python<span class="w"> </span>nvhpc<span class="w"> </span>cudnn<span class="w"> </span>cuda
+conda<span class="w"> </span>activate<span class="w"> </span>profiling
+
+<span class="c1">### Profiling the kernel `ampere_gcgemm_64x64_nt` (identified by Nisght Systems) </span>
+ncu<span class="w"> </span>--nvtx<span class="w"> </span>--nvtx-include<span class="w"> </span><span class="s2">&quot;forward pass/&quot;</span><span class="w"> </span>--nvtx-include<span class="w"> </span><span class="s2">&quot;backward pass/&quot;</span><span class="w"> </span>--nvtx-include<span class="w"> </span><span class="s2">&quot;optimizer step/&quot;</span><span class="w"> </span>--launch-count<span class="w"> </span><span class="m">8</span><span class="w"> </span>-k<span class="w"> </span>--regex:ampere_gcgemm_64x64_nt<span class="w"> </span>-f<span class="w"> </span>-o<span class="w"> </span>outfile-profile<span class="w"> </span>--set<span class="w"> </span>full<span class="w"> </span>python3<span class="w"> </span>alexnet.py
+</pre></div>
+</div>
+</div>
+<p>It will generate the outfile-profiling.ncu_rep that one can move it to their local machine and open it with the Nsight Compute GUI. Following you can see the SM and Memory throughput of the above kernel.</p>
+<figure class="align-default" id="nsight-compute-throughput">
+<img alt="../_images/nsight_compute_throughput.png" src="../_images/nsight_compute_throughput.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 4.8 </span><span class="caption-text">Nsigt Compute GUI for Visualizing the SM and Memory throughput of the <code class="docutils literal notranslate"><span class="pre">ampere_gcgemm_64x64_nt</span></code> kernel.</span><a class="headerlink" href="#nsight-compute-throughput" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In addition to the above GPU throughput, Nsight Compute provides very detailed insight of each kernel and suggests optimization recommendations on other metrics. For example <code class="docutils literal notranslate"><span class="pre">Inspect</span> <span class="pre">Memory</span> <span class="pre">Workload</span></code> section builds a visualization of memory transfer sizes and throughput on the profiled architecture, as well as a guide for improving performance.</p>
+<figure class="align-default" id="nsight-compute-memory">
+<img alt="../_images/nsight_compute_memory.png" src="../_images/nsight_compute_memory.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 4.9 </span><span class="caption-text">Nsight Compute GUI for Visualizing Transfer Sizes and Throughput on the Memory Hierarchy.</span><a class="headerlink" href="#nsight-compute-memory" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>To see other analysis Nsight Compute provides refer to <a class="reference external" href="https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#id11">https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#id11</a></p>
+<p>To download the Nsight System and Nsight Compute GUIs on your local machine please follow the instructions <a class="reference external" href="https://developer.nvidia.com/nsight-systems/get-started">here</a> and <a class="reference external" href="https://developer.nvidia.com/tools-overview/nsight-compute/get-started">here</a> respectively.</p>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./scalability"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="gpu_computing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4.2. </span>GPU Computing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="distributed_gpu_computing.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.4. </span>Distributed GPU Computing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-using-pytorch-profiler">4.3.1. Profiling using Pytorch Profiler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#holistic-trace-analysis-hta">4.3.2. Holistic Trace Analysis (HTA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-nsight-tools">4.3.3. Nvidia Nsight Tools</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alexnet-toy-example">4.3.3.1. Alexnet Toy Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-experimental-environment-on-the-cluster">4.3.3.2. Prepare The Experimental Environment on the Cluster</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system-level-profiling-using-nsight-system">4.3.3.3. System-Level Profiling Using Nsight System</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-specific-profiling-using-nisht-compute">4.3.3.4. Kernel-Specific Profiling Using Nisht Compute</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kempner Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright  2024, The President and Fellows of Harvard College.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

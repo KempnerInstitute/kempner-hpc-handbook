@@ -1,0 +1,1287 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.4. Distributed GPU Computing &#8212; Kempner Institute HPC Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=76190965" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-QFZEXWFW26"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-QFZEXWFW26');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-QFZEXWFW26');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'scalability/distributed_gpu_computing';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.5. Parallel I/O" href="parallel_io.html" />
+    <link rel="prev" title="4.3. GPU Profiling" href="gpu_profiling.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Kempner-logo_Full-Color-Full-Name-Harvard.svg" class="logo__image only-light" alt="Kempner Institute HPC Handbook - Home"/>
+    <script>document.write(`<img src="../_static/Kempner-logo_Full-Color-Full-Name-Harvard.svg" class="logo__image only-dark" alt="Kempner Institute HPC Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Kempner Institute HPC Handbook
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/README.html">1. Getting Started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/introduction_and_cluster_basics.html">1.1. Introduction and Cluster Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/overview_of_kempner_cluster.html">1.2. Overview of Kempner Institute HPC Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/kempner_policies_for_responsible_use.html">1.3. Kempner Policies for Responsible Use of the Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/accessing_and_navigating_the_cluster.html">1.4. Accessing and Navigating the Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/accessing_gpu_by_fasrc_users.html">1.5. Accessing Kempner GPUs by All FASRC Users</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../resource_management/README.html">2. Resource Management</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/understanding_slurm.html">2.1. Understanding SLURM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/job_submission_basics.html">2.2. Job Submission Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/open_ondemand.html">2.3. Open OnDemand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/array_jobs.html">2.4. Array Jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/job_dependencies.html">2.5. Job Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_management/advanced_slurm_features.html">2.6. Advanced SLURM Features</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development_and_runtime_envs/README.html">3. Dev and Runtime Environments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/software_module_and_environment_management.html">3.1. Software Module and Environment Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/containerization.html">3.2. Containerization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/using_vscode_for_remote_development.html">3.3. Using VSCode for Remote Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/using_conda_env.html">3.4. Using Conda Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/handling_dependencies_with_spack.html">3.5. Handling Dependencies with Spack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development_and_runtime_envs/customizing_bashrc.html">3.6. Customizing Shell Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">4. Scalability</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction_to_parallel_computing.html">4.1. Intro to Parallel Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu_computing.html">4.2. GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu_profiling.html">4.3. GPU Profiling</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.4. Distributed GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel_io.html">4.5. Parallel I/O</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../storage_and_data_transfer/README.html">5. Storage and Data Transfer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/understanding_storage_options.html">5.1. Understanding Storage Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/data_transfer.html">5.2. Data Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage_and_data_transfer/shared_data_repository.html">5.3. Shared Data Repository</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../performance_monitoring/README.html">6. Performance Monitoring</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/intro_to_performance_monitoring.html">6.1. Introduction to Performance Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/monitoring_tools.html">6.2. Monitoring Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/performance_analysis_techniques.html">6.3. Performance Analysis Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/benchmarking_your_application.html">6.4. Benchmarking Your Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/optimizing_io_performance.html">6.5. Optimizing I/O Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/parallel_performance_tuning.html">6.6. Parallel Performance Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../performance_monitoring/advanced_monitoring_and_tuning_tools.html">6.7. Advanced Monitoring and Tuning Tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced_topics/README.html">7. Advanced Topics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_interconnect.html">7.1. GPU Architecture and Interconnect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced_topics/gpu_libraries_and_frameworks.html">7.2. GPU Libraries and Frameworks</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../efficient_use_of_resources/README.html">8. Efficient Use of Resources</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../efficient_use_of_resources/best_practices_for_hpc_efficiency.html">8.1. Best Practices for HPC Efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../efficient_use_of_resources/fair_use_and_prioritization_policies.html">8.2. Fair Use and Prioritization Policies</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../hpc_application_scenarios/README.html">9. HPC Application Scenarios</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../workshops_and_trainings/README.html">10. Workshops and Trainings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workshops_and_trainings/intro_to_hpc/content_file.html">10.1. Intro to HPC</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../support/README.html">11. Support and Troubleshooting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/faq.html">11.1. FAQ</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/KempnerInstitute/kempner-hpc-handbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/KempnerInstitute/kempner-hpc-handbook/issues/new?title=Issue%20on%20page%20%2Fscalability/distributed_gpu_computing.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/scalability/distributed_gpu_computing.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Distributed GPU Computing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inter-gpu-communication">4.4.1. Inter GPU Communication</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-collective-communication-library-nccl">4.4.1.1. NVIDIA Collective Communication Library (NCCL)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distributed-training-strategies">4.4.2. Distributed Training Strategies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-mlp-network">4.4.2.1. Simple MLP Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distributed-data-parallelism-ddp">4.4.2.2. Distributed Data Parallelism (DDP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-parallelism-mp">4.4.2.3. Model Parallelism (MP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-parallelism-pp">4.4.2.4. Pipeline Parallelism (PP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-parallelism-tp">4.4.2.5. Tensor Parallelism (TP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fully-sharded-data-parallelism-fsdp">4.4.2.6. Fully Sharded Data Parallelism (FSDP)</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="distributed-gpu-computing">
+<h1><span class="section-number">4.4. </span>Distributed GPU Computing<a class="headerlink" href="#distributed-gpu-computing" title="Link to this heading">#</a></h1>
+<p>The scaling of machine learning (ML) workloads in HPC environments can be achieved through various parallelism approaches. This section outlines the primary methods for parallelizing ML computations.</p>
+<p>One can decide to use multiple GPUs on their AI/ML applications for different reasons including but not limited to:</p>
+<ul class="simple">
+<li><p>Handling large-scale datasets</p></li>
+<li><p>Hyperparameter tuning</p></li>
+<li><p>Train/inferece large-scale Model that does not fit into the memory of a single GPU.</p></li>
+</ul>
+<section id="inter-gpu-communication">
+<h2><span class="section-number">4.4.1. </span>Inter GPU Communication<a class="headerlink" href="#inter-gpu-communication" title="Link to this heading">#</a></h2>
+<p>In majority of use-cases of multi-GPU computation there is the need for different GPU to communicate and send their partail computation to one another to sync. NCCL libarary from NVIDIA is widely in use for NIVIDA based GPU communication.</p>
+<section id="nvidia-collective-communication-library-nccl">
+<span id="sec-nccl"></span><h3><span class="section-number">4.4.1.1. </span>NVIDIA Collective Communication Library (NCCL)<a class="headerlink" href="#nvidia-collective-communication-library-nccl" title="Link to this heading">#</a></h3>
+<p>For multi-GPU and multi-node communication, NVIDIA Collective Communication Library (NCCL, pronounced “Nickel”) is being used as backend in distributed strategies for Nvidia GPUs such as Distributed Data Parallel (DDP) and Fully Sharded Data Parallel (FSDP). Following are some of the most related NCCL collective communication primitives :</p>
+<ul class="simple">
+<li><p>Scatter: From one rank, data will be distributed across all rank, with each rank receiving a subpart of the data.</p></li>
+<li><p>Gather: One rank will receive the aggregation of data from all ranks.</p></li>
+<li><p>AllGather: Each rank receives the aggregation of data from all ranks in the order of the ranks.</p></li>
+<li><p>Reduce: One rank receives the reduction of input values across ranks.</p></li>
+<li><p>AllReduce: Each rank receives the reduction of input values across ranks.</p></li>
+<li><p>ReduceScatter: Input values are reduced across ranks, with each rank receiving a subpart of the result.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For more information about the different NCCL collective operations refer to:
+<a class="reference external" href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html">https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each process in the multi-process applications is called a rank. Usually each process has its own exclusive device. Therefore you can think of each rank as one GPU in the following diagrams.</p>
+</div>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-number">Table 4.1 </span><span class="caption-text">Inter-GPU Collective Communication Primitives.</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="" src="../_images/nccl_scatter.png" /></p></td>
+<td><p><img alt="" src="../_images/nccl_gather.png" /></p></td>
+</tr>
+<tr class="row-even"><td><p><img alt="" src="../_images/nccl_reduce.png" /></p></td>
+<td><p><img alt="" src="../_images/nccl_all_gather.png" /></p></td>
+</tr>
+<tr class="row-odd"><td><p><img alt="" src="../_images/nccl_all_reduce.png" /></p></td>
+<td><p><img alt="" src="../_images/nccl_reduce_scatter.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="distributed-training-strategies">
+<h2><span class="section-number">4.4.2. </span>Distributed Training Strategies<a class="headerlink" href="#distributed-training-strategies" title="Link to this heading">#</a></h2>
+<section id="simple-mlp-network">
+<h3><span class="section-number">4.4.2.1. </span>Simple MLP Network<a class="headerlink" href="#simple-mlp-network" title="Link to this heading">#</a></h3>
+<p>To go over the different distributed computing strategies that have been used widely in AI/ML community, let’s consider the following simple example.</p>
+<figure class="align-default" id="mlp-network">
+<a class="reference internal image-reference" href="../_images/mlp_network.png"><img alt="../_images/mlp_network.png" src="../_images/mlp_network.png" style="width: 50%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.10 </span><span class="caption-text">A 2-Layer MLP Network.</span><a class="headerlink" href="#mlp-network" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#mlp-matrices"><span class="std std-numref">Fig. 4.11</span></a> shows the input, output of the above network as well as the weight and bias tensors of each layer in <a class="reference internal" href="#mlp-network"><span class="std std-numref">Fig. 4.10</span></a></p>
+<figure class="align-default" id="mlp-matrices">
+<a class="reference internal image-reference" href="../_images/mlp_matrices.png"><img alt="../_images/mlp_matrices.png" src="../_images/mlp_matrices.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.11 </span><span class="caption-text">Input, output, weight and bias matrices of the mlp model in <a class="reference internal" href="#mlp-network"><span class="std std-numref">Fig. 4.10</span></a>.</span><a class="headerlink" href="#mlp-matrices" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Forward Pass Computations</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="forward-computation">
+<span id="equation-forward-computation"></span><span class="eqno">(4.1)<a class="headerlink" href="#forward-computation" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}h = xW_1 + b_1\\y' = hW_2 + b_2\end{aligned}\end{align} \]</div>
+<ul class="simple">
+<li><p>Loss Calculation</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="loss-computation">
+<span id="equation-loss-computation"></span><span class="eqno">(4.2)<a class="headerlink" href="#loss-computation" title="Link to this equation">#</a></span>\[L = \frac{1}{2} (y' - y)^2\]</div>
+<ul class="simple">
+<li><p>Backward Pass Computations</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="backward-computation-dy">
+<span id="equation-backward-computation-dy"></span><span class="eqno">(4.3)<a class="headerlink" href="#backward-computation-dy" title="Link to this equation">#</a></span>\[\frac{dL}{dy'} = y' - y\]</div>
+<div class="math notranslate nohighlight" id="backward-computation-layer2">
+<span id="equation-backward-computation-layer2"></span><span class="eqno">(4.4)<a class="headerlink" href="#backward-computation-layer2" title="Link to this equation">#</a></span>\[\begin{split}&amp;W_2.grad = \frac{dL}{dW_2} = \frac{dL}{dy'} . \frac{dy'}{dW_2} = (y' - y) . h^T \\
+&amp;b_2.grad = \frac{dL}{db_2} = \frac{dL}{dy'} . \frac{dy'}{db_2} = (y' - y)\end{split}\]</div>
+<div class="math notranslate nohighlight" id="backward-computation-dh">
+<span id="equation-backward-computation-dh"></span><span class="eqno">(4.5)<a class="headerlink" href="#backward-computation-dh" title="Link to this equation">#</a></span>\[\frac{dL}{dh} = \frac{dL}{dy'} . \frac{dy'}{dh} = (y' - y) . W_2\]</div>
+<div class="math notranslate nohighlight" id="backward-computation-layer1">
+<span id="equation-backward-computation-layer1"></span><span class="eqno">(4.6)<a class="headerlink" href="#backward-computation-layer1" title="Link to this equation">#</a></span>\[\begin{split}&amp;W_1.grad = \frac{dL}{dW_1} = \frac{dL}{dh} . \frac{dh}{dW_1} = [(y' - y) . W_2] . x^T \\
+&amp;b_1.grad = \frac{dL}{db_1} = \frac{dL}{dh} . \frac{dh}{db_1} = [(y' - y) . W_2] \end{split}\]</div>
+<ul class="simple">
+<li><p>Updating the Model</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="update-computation">
+<span id="equation-update-computation"></span><span class="eqno">(4.7)<a class="headerlink" href="#update-computation" title="Link to this equation">#</a></span>\[\begin{split}&amp;W_i = W_i - \alpha . W_i.grad \\
+&amp;b_i = b_i - \alpha . b_i.grad \end{split}\]</div>
+<p>Corresponding single-GPU pytorch code for the above example would be the following code:</p>
+<div class="literal-block-wrapper docutils container" id="mlp-single-gpu">
+<div class="code-block-caption"><span class="caption-number">Listing 4.5 </span><span class="caption-text">mlp_single_gpu.py - Simple MLP example training loop. Note that it uses a random dataset with size of 1024 and batch size of 32.</span><a class="headerlink" href="#mlp-single-gpu" title="Link to this code">#</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">random_dataset</span> <span class="kn">import</span> <span class="n">RandomTensorDataset</span>
+
+<span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_feature</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">,</span> <span class="n">out_feature</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_feature</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_units</span><span class="p">,</span> <span class="n">out_feature</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Using single GPU (GPU 0)</span>
+
+<span class="c1"># model construction</span>
+<span class="n">layer_1_units</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">layer_2_units</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">layer_3_units</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span>
+  <span class="n">in_feature</span><span class="o">=</span><span class="n">layer_1_units</span><span class="p">,</span>
+  <span class="n">hidden_units</span><span class="o">=</span><span class="n">layer_2_units</span><span class="p">,</span>
+  <span class="n">out_feature</span><span class="o">=</span><span class="n">layer_3_units</span>
+  <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># dataset construction</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">batch_size</span>  <span class="o">=</span> <span class="mi">32</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">RandomTensorDataset</span><span class="p">(</span>
+  <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+  <span class="n">in_shape</span><span class="o">=</span><span class="n">layer_1_units</span><span class="p">,</span>
+  <span class="n">out_shape</span><span class="o">=</span><span class="n">layer_3_units</span>
+  <span class="p">)</span>
+
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">dataset</span><span class="p">,</span>
+  <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+  <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+  <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span>
+  <span class="p">)</span>
+
+<span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_epochs</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GPU</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">] Epoch </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> | Batchsize: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2"> | Steps: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="c1"># Forward Pass </span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Calculate loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># Zero grad</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="n">set_to_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Backward Pass</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># Update Model</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">RandomTensorDataset</span></code> will generate random tensors for the input as well as output label.</p>
+<div class="literal-block-wrapper docutils container" id="random-dataset">
+<div class="code-block-caption"><span class="caption-number">Listing 4.6 </span><span class="caption-text">random_dataset.py - Simple Random Dataset</span><a class="headerlink" href="#random-dataset" title="Link to this code">#</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+
+<span class="k">class</span> <span class="nc">RandomTensorDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">out_shape</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">num_samples</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">in_shape</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">out_shape</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)]</span>
+  
+  <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span>
+
+  <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Run the above code on the HPC cluster</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">If you don’t have a conda environment already in which PyTorch is installed, you need to create one.</p>
+<div class="literal-block-wrapper docutils container" id="conda-setup">
+<div class="code-block-caption"><span class="caption-number">Listing 4.7 </span><span class="caption-text">Conda Environment Setup</span><a class="headerlink" href="#conda-setup" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creating the conda envireonment named `dist_computing` (one can use their own customized name).</span>
+conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>dist_computing<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+
+<span class="c1"># Activating the conda environment and install PyTorch:</span>
+conda<span class="w"> </span>activate<span class="w"> </span>dist_computing
+pip3<span class="w"> </span>install<span class="w"> </span>torch
+</pre></div>
+</div>
+</div>
+<p class="sd-card-text">The conda environment activation needs also be added to the slurm scripts.</p>
+<p class="sd-card-text">Now create <code class="docutils literal notranslate"><span class="pre">mlp_single_gpu.py</span></code> and <code class="docutils literal notranslate"><span class="pre">random_dataset.py</span></code> from <a class="reference internal" href="#mlp-single-gpu"><span class="std std-numref">Listing 4.5</span></a> and <a class="reference internal" href="#random-dataset"><span class="std std-numref">Listing 4.6</span></a> respectively and use the following slurm script to run it on the HPC cluster.</p>
+<div class="literal-block-wrapper docutils container" id="single-gpu-slurm">
+<div class="code-block-caption"><span class="caption-number">Listing 4.8 </span><span class="caption-text">Slurm script skeleton to run the single-GPU mlp example.</span><a class="headerlink" href="#single-gpu-slurm" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#! /bin/bash</span>
+<span class="c1">#SBATCH --job-name=mlp-single-gpu</span>
+<span class="c1">#SBATCH --output=mlp.out</span>
+<span class="c1">#SBATCH --error=mlp.err</span>
+<span class="c1">#SBATCH --time=00:10:00</span>
+<span class="c1">#SBATCH --partition=kempner</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --cpus-per-task=4</span>
+<span class="c1">#SBATCH --mem=64G</span>
+<span class="c1">#SBATCH --account=kempner_dev # Add your own account here</span>
+<span class="c1">#SBATCH --gres=gpu:1</span>
+
+module<span class="w"> </span>load<span class="w"> </span>python
+conda<span class="w"> </span>activate<span class="w"> </span>dist_computing
+
+python<span class="w"> </span>mlp_single_gpu.py
+</pre></div>
+</div>
+</div>
+</div>
+</details></section>
+<section id="distributed-data-parallelism-ddp">
+<h3><span class="section-number">4.4.2.2. </span>Distributed Data Parallelism (DDP)<a class="headerlink" href="#distributed-data-parallelism-ddp" title="Link to this heading">#</a></h3>
+<p>Distributed Data Parallelism facilitates training a model on high-volume datasets by distributing the computation across multiple devices. It involves splitting the dataset into smaller batches that are processed in parallel across different GPUs. Each GPU trains a copy of the model on its subset of the data, and the results are aggregated to update the model.</p>
+<p>Particularly, in each training step, GPUs perform forward and backward passes locally and compute the parameter gradients corresponding to their current data batch. Then before updating the model weights, GPUs communicate to sum the parameter gradients across GPUs. This guarantees the model replicas being kept consistent across GPUs before starting the next training step. This inter-GPU communication are optimized by All-Reduce collective communication primitive from NCCL library for Nvidia GPUs, see <a class="reference internal" href="#sec-nccl"><span class="std std-numref">Section 4.4.1.1</span></a>.</p>
+<p><a class="reference internal" href="#ddp"><span class="std std-numref">Fig. 4.12</span></a> shows a high-level overview of how DDP works.</p>
+<figure class="align-default" id="ddp">
+<a class="reference internal image-reference" href="../_images/DDP.png"><img alt="../_images/DDP.png" src="../_images/DDP.png" style="height: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.12 </span><span class="caption-text">Schematic Diagram of DDP Computation, Communication and Their Potential Overlapp.</span><a class="headerlink" href="#ddp" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The limitation is that DDP requires all model parameters, gradients, and optimizer states to fit into the memory of a single GPU device.</p>
+</div>
+<p>Now let’s see how DDP applies on the above simple MLP example in <a class="reference internal" href="#mlp-single-gpu"><span class="std std-numref">Listing 4.5</span></a>.</p>
+<figure class="align-default" id="mlp-ddp-figure">
+<a class="reference internal image-reference" href="../_images/mlp_ddp.png"><img alt="../_images/mlp_ddp.png" src="../_images/mlp_ddp.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.13 </span><span class="caption-text">DDP for the simple MLP example. For simplicity it does not show communication overlap.</span><a class="headerlink" href="#mlp-ddp-figure" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#mlp-ddp-figure"><span class="std std-numref">Fig. 4.13</span></a> shows that each GPU take a copy of the model, both has the whole <span class="math notranslate nohighlight">\(W_1\)</span>, <span class="math notranslate nohighlight">\(b_1\)</span>, <span class="math notranslate nohighlight">\(W_2\)</span> and <span class="math notranslate nohighlight">\(b_2\)</span>. It shows the dataset is divided into two parts and each GPU sees only its own batches of the data perform the forward and backward passes locally. After each backward pass and before updating model, the GPUs needs to sync on gradients since each GPU compute their own gradiens for the model parameters based on the data batches that they process. The average of the parameter garaients across the GPUs are computed and synced across all GPUs using All-Reduce commpunication primitive, see <a class="reference internal" href="#sec-nccl"><span class="std std-numref">Section 4.4.1.1</span></a>. it guarantees the model on all GPUs are consistent before starting the next iteration.</p>
+<p>Next, we can take the single-GPU code of our simple mlp example from <a class="reference internal" href="#mlp-single-gpu"><span class="std std-numref">Listing 4.5</span></a> and modify to use two GPUs using DDP.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Using DDP To Run The Simple MLP Example On Two GPUs</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="literal-block-wrapper docutils container" id="mlp-ddp-code">
+<div class="code-block-caption"><span class="caption-number">Listing 4.9 </span><span class="caption-text">mlp_ddp.py - Modifying the simple mlp example, <a class="reference internal" href="#mlp-single-gpu"><span class="std std-numref">Listing 4.5</span></a>, to run on multiple GPUs using DDP</span><a class="headerlink" href="#mlp-ddp-code" title="Link to this code">#</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="kn">from</span> <span class="nn">torch.utils.data.distributed</span> <span class="kn">import</span> <span class="n">DistributedSampler</span>
+<span class="kn">from</span> <span class="nn">torch.nn.parallel</span> <span class="kn">import</span> <span class="n">DistributedDataParallel</span> <span class="k">as</span> <span class="n">DDP</span>
+<span class="kn">from</span> <span class="nn">torch.distributed</span> <span class="kn">import</span> <span class="n">init_process_group</span><span class="p">,</span> <span class="n">destroy_process_group</span><span class="p">,</span> <span class="n">is_initialized</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">gethostname</span>
+
+<span class="kn">from</span> <span class="nn">random_dataset</span> <span class="kn">import</span> <span class="n">RandomTensorDataset</span>
+
+<span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_feature</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">,</span> <span class="n">out_feature</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_feature</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_units</span><span class="p">,</span> <span class="n">out_feature</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">rank</span>          <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SLURM_PROCID&quot;</span><span class="p">])</span>
+<span class="n">world_size</span>    <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;WORLD_SIZE&quot;</span><span class="p">])</span>
+<span class="n">gpus_per_node</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SLURM_GPUS_ON_NODE&quot;</span><span class="p">])</span>
+
+<span class="k">assert</span> <span class="p">(</span>
+  <span class="n">gpus_per_node</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span>
+<span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;SLURM_GPUS_ON_NODE=</span><span class="si">{</span><span class="n">gpus_per_node</span><span class="si">}</span><span class="s1"> vs torch.cuda.device_count=</span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span>
+  <span class="sa">f</span><span class="s2">&quot;Hello from rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">world_size</span><span class="si">}</span><span class="s2"> on </span><span class="si">{</span><span class="n">gethostname</span><span class="p">()</span><span class="si">}</span><span class="s2"> where there are&quot;</span> \
+  <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">gpus_per_node</span><span class="si">}</span><span class="s2"> allocated GPUs per node.&quot;</span> \
+  <span class="sa">f</span><span class="s2">&quot; | (CUDA_VISIBLE_DEVICES=</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Using NCCl for inter-GPU communication</span>
+<span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;nccl&quot;</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="n">world_size</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Group initialized? </span><span class="si">{</span><span class="n">is_initialized</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">rank</span> <span class="o">-</span> <span class="n">gpus_per_node</span> <span class="o">*</span> <span class="p">(</span><span class="n">rank</span> <span class="o">//</span> <span class="n">gpus_per_node</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Using GPU</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s1"> on Machine </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">uname</span><span class="p">()</span><span class="o">.</span><span class="n">nodename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> (Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="c1"># model construction</span>
+<span class="n">layer_1_units</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">layer_2_units</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">layer_3_units</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span>
+  <span class="n">in_feature</span><span class="o">=</span><span class="n">layer_1_units</span><span class="p">,</span>
+  <span class="n">hidden_units</span><span class="o">=</span><span class="n">layer_2_units</span><span class="p">,</span>
+  <span class="n">out_feature</span><span class="o">=</span><span class="n">layer_3_units</span>
+  <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">DDP</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="n">device</span><span class="p">])</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># dataset construction</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">batch_size</span>  <span class="o">=</span> <span class="mi">32</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">RandomTensorDataset</span><span class="p">(</span>
+  <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+  <span class="n">in_shape</span><span class="o">=</span><span class="n">layer_1_units</span><span class="p">,</span>
+  <span class="n">out_shape</span><span class="o">=</span><span class="n">layer_3_units</span>
+  <span class="p">)</span>
+
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">dataset</span><span class="p">,</span>
+  <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="c1"># Global batch size is equal to batch_size multiply by the number of GPUs (world_size). batch_size=(batch_size//worldsize) to maintain the global batch size as batch_size</span>
+  <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+  <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+  <span class="n">num_workers</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SLURM_CPUS_PER_TASK&quot;</span><span class="p">]),</span>
+  <span class="n">sampler</span><span class="o">=</span><span class="n">DistributedSampler</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">num_replicas</span><span class="o">=</span><span class="n">world_size</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">)</span>
+  <span class="p">)</span>
+
+<span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_epochs</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GPU</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">] Epoch </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> | Batchsize: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2"> | Steps: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="n">dataloader</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">set_epoch</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="c1"># Forward Pass </span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Calculate loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># Zero grad</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="n">set_to_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Backward Pass</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># Update Model</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="n">destroy_process_group</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p class="sd-card-text">To run this code we need the <code class="docutils literal notranslate"><span class="pre">random_sataset.py</span></code> from <a class="reference internal" href="#random-dataset"><span class="std std-numref">Listing 4.6</span></a> and a conda environment in which PyTorch is installed, refer to <a class="reference internal" href="#conda-setup"><span class="std std-numref">Listing 4.7</span></a> to create one if you don’t have one already.</p>
+<p class="sd-card-text">Now use the following slurm script skeleton to run the <code class="docutils literal notranslate"><span class="pre">mlp_ddp.py</span></code> from <a class="reference internal" href="#mlp-ddp-code"><span class="std std-numref">Listing 4.9</span></a>. Note that we need to add environment variables to specify the Master node info, rank, local rank, etc.</p>
+<div class="literal-block-wrapper docutils container" id="multi-gpu-slurm">
+<div class="code-block-caption"><span class="caption-number">Listing 4.10 </span><span class="caption-text">Slurm script skeleton to run <a class="reference internal" href="#mlp-ddp-code"><span class="std std-numref">Listing 4.9</span></a> on multiple GPUs. Here, it requests for two nodes, one GPU on each node, a total of two GPUs.</span><a class="headerlink" href="#multi-gpu-slurm" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#! /bin/bash</span>
+<span class="c1">#SBATCH --job-name=mlp_tp</span>
+<span class="c1">#SBATCH --output=tp.out</span>
+<span class="c1">#SBATCH --error=tp.err</span>
+
+<span class="c1">#SBATCH --nodes=2</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --cpus-per-task=4</span>
+<span class="c1">#SBATCH --gpus-per-node=1</span>
+
+<span class="c1">#SBATCH --time=00:10:00</span>
+<span class="c1">#SBATCH --mem=64G</span>
+<span class="c1">#SBATCH --partition=kempner</span>
+<span class="c1">#SBATCH --account=kempner_dev</span>
+
+module<span class="w"> </span>load<span class="w"> </span>python<span class="w"> </span>cuda<span class="w"> </span>cudnn
+conda<span class="w"> </span>activate<span class="w"> </span>dist_computing
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_ADDR</span><span class="o">=</span><span class="k">$(</span>scontrol<span class="w"> </span>show<span class="w"> </span>hostnames<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_PORT</span><span class="o">=</span><span class="m">39591</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">RANK</span><span class="o">=</span><span class="nv">$SLURM_PROCID</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LOCAL_RANK</span><span class="o">=</span><span class="nv">$SLURM_LOCALID</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">WORLD_SIZE</span><span class="o">=</span><span class="k">$((</span><span class="nv">$SLURM_NNODES</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nv">$SLURM_NTASKS_PER_NODE</span><span class="k">))</span>
+
+srun<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="nv">$SLURM_NTASKS_PER_NODE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>python<span class="w"> </span>-u<span class="w"> </span>mlp_ddp.py
+</pre></div>
+</div>
+</div>
+</div>
+</details></section>
+<section id="model-parallelism-mp">
+<h3><span class="section-number">4.4.2.3. </span>Model Parallelism (MP)<a class="headerlink" href="#model-parallelism-mp" title="Link to this heading">#</a></h3>
+<p>Although DDP can significantly accelerate the training process, it does not work for some use cases where the model is too large to fit into a single GPU. Unlike DDP, Model Parallelism focuses on parallelizing the model itself, rather than the data to support training the larger models.</p>
+<p>A naive implementation could be dividing the model vertically meaning that the layers of the model are divided into multiple groups consisting of one or more layers. Each GPU will hold one group. The forward and backward phase will be performed sequentially.</p>
+<p><a class="reference internal" href="#mlp-mp-figure"><span class="std std-numref">Fig. 4.14</span></a> shows the model parallelism of our simple mlp example.</p>
+<figure class="align-default" id="mlp-mp-figure">
+<a class="reference internal image-reference" href="../_images/mlp_mp.png"><img alt="../_images/mlp_mp.png" src="../_images/mlp_mp.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.14 </span><span class="caption-text">Model Parallelism for the simple MLP example. Note since the output of one GPU is used as input of the next one, it results in a high GPU idle time.</span><a class="headerlink" href="#mlp-mp-figure" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Using MP To Run The Simple MLP Example On Two GPUs</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><a class="reference internal" href="#mlp-mp-code"><span class="std std-numref">Listing 4.11</span></a> shows how to send each layer into different GPUs using <code class="docutils literal notranslate"><span class="pre">.to</span></code> method from <code class="docutils literal notranslate"><span class="pre">torch</span></code> module while defining different layers of the model. Note that the input data (<code class="docutils literal notranslate"><span class="pre">x</span></code>) should also be sent to proper devices accordingly in the forward function.</p>
+<div class="literal-block-wrapper docutils container" id="mlp-mp-code">
+<div class="code-block-caption"><span class="caption-number">Listing 4.11 </span><span class="caption-text">mlp_model_parallel.py - Modifying the simple mlp example, <a class="reference internal" href="#mlp-single-gpu"><span class="std std-numref">Listing 4.5</span></a>, to run on two GPUs on the same node using MP</span><a class="headerlink" href="#mlp-mp-code" title="Link to this code">#</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">random_dataset</span> <span class="kn">import</span> <span class="n">RandomTensorDataset</span>
+
+<span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_feature</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">,</span> <span class="n">out_feature</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_feature</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_units</span><span class="p">,</span> <span class="n">out_feature</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_layer</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="c1"># model construction</span>
+<span class="n">layer_1_units</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">layer_2_units</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">layer_3_units</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span>
+  <span class="n">in_feature</span><span class="o">=</span><span class="n">layer_1_units</span><span class="p">,</span>
+  <span class="n">hidden_units</span><span class="o">=</span><span class="n">layer_2_units</span><span class="p">,</span>
+  <span class="n">out_feature</span><span class="o">=</span><span class="n">layer_3_units</span>
+<span class="p">)</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># dataset construction</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">RandomTensorDataset</span><span class="p">(</span>
+  <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+  <span class="n">in_shape</span><span class="o">=</span><span class="n">layer_1_units</span><span class="p">,</span>
+  <span class="n">out_shape</span><span class="o">=</span><span class="n">layer_3_units</span>
+  <span class="p">)</span>
+
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">dataset</span><span class="p">,</span>
+  <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+  <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+  <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span>
+  <span class="p">)</span>
+
+<span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_epochs</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> | Batchsize: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2"> | Steps: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Forward Pass </span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Calculate loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># Zero grad</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="n">set_to_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Backward Pass</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># Update Model</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p class="sd-card-text">To run it you can just follow the same steps when running the single GPU <a class="reference internal" href="#mlp-single-gpu"><span class="std std-numref">Listing 4.5</span></a>. Note that it requires two available GPUs on the same node.</p>
+</div>
+</details><p>As you see in <a class="reference internal" href="#mlp-mp-figure"><span class="std std-numref">Fig. 4.14</span></a>, the main drawback of this method is that at any given time only one of the GPUs are active and the other GPUs are idle leading to underutilization of the compute resources. Tensor Parallelism (sharding model horizontally) and Pipeline Parallelism are other forms of Model parallelism that aim to mitigate this drawback.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id2">
+<caption><span class="caption-number">Table 4.2 </span><span class="caption-text">Model Partitioned Into Two GPUs Using Pipeline Parallelism (left) vs Tensor Prallelism (right).</span><a class="headerlink" href="#id2" title="Link to this table">#</a></caption>
+<tbody>
+<tr class="row-odd"><td><p><img alt="" src="../_images/mlp_network_mp.png" /></p></td>
+<td><p><img alt="" src="../_images/mlp_network_tp.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="pipeline-parallelism-pp">
+<h3><span class="section-number">4.4.2.4. </span>Pipeline Parallelism (PP)<a class="headerlink" href="#pipeline-parallelism-pp" title="Link to this heading">#</a></h3>
+<p>It is very similar to the naive model parallelism while it combines aspects of data and model parallelism by splitting the model into stages that are processed in a pipeline fashion to mitigate the GPU idle time issue in model prallelism. Each stage of the model is processed on different GPU, allowing for efficient parallel processing of large models and datasets.</p>
+</section>
+<section id="tensor-parallelism-tp">
+<h3><span class="section-number">4.4.2.5. </span>Tensor Parallelism (TP)<a class="headerlink" href="#tensor-parallelism-tp" title="Link to this heading">#</a></h3>
+<p>Tensor Parallelism is a form of Model Parallelism in which we divide the parameter tensors of each layer into slices and each GPU will hold one slice instead of putting the entire layer in one GPU. In this way each GPU participates in computation of every layer equally and does not have to be idle and waiting for other GPUs to perform previous layers’ computation.</p>
+<p><a class="reference internal" href="#mlp-tp-figure"><span class="std std-numref">Fig. 4.15</span></a> shows the model parallelism of our simple mlp example.</p>
+<figure class="align-default" id="mlp-tp-figure">
+<a class="reference internal image-reference" href="../_images/mlp_tp.png"><img alt="../_images/mlp_tp.png" src="../_images/mlp_tp.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.15 </span><span class="caption-text">Tensor Parallelism for the simple MLP example. In this example each tensor is divided into two slices column-wise. Each GPU computing a part of the output and then communication needed to gather the partail compuation across GPUs.</span><a class="headerlink" href="#mlp-tp-figure" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Using TP To Run The Simple MLP Example On Two GPUs</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="literal-block-wrapper docutils container" id="mlp-tp-code">
+<div class="code-block-caption"><span class="caption-number">Listing 4.12 </span><span class="caption-text">mlp_tensor_parallel.py - Modifying the simple mlp example, <a class="reference internal" href="#mlp-single-gpu"><span class="std std-numref">Listing 4.5</span></a>, to run on multiple GPUs using TP</span><a class="headerlink" href="#mlp-tp-code" title="Link to this code">#</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="kn">from</span> <span class="nn">torch.distributed.tensor.parallel</span> <span class="kn">import</span> <span class="p">(</span>
+  <span class="n">parallelize_module</span><span class="p">,</span>
+  <span class="n">ColwiseParallel</span><span class="p">,</span>
+  <span class="n">RowwiseParallel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch.distributed._tensor.device_mesh</span> <span class="kn">import</span> <span class="n">init_device_mesh</span>
+<span class="kn">from</span> <span class="nn">torch.distributed</span> <span class="kn">import</span> <span class="n">init_process_group</span><span class="p">,</span> <span class="n">destroy_process_group</span><span class="p">,</span> <span class="n">is_initialized</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">gethostname</span>
+
+<span class="kn">from</span> <span class="nn">random_dataset</span> <span class="kn">import</span> <span class="n">RandomTensorDataset</span>
+
+<span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_feature</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">,</span> <span class="n">out_feature</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_feature</span><span class="p">,</span> <span class="n">hidden_units</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_units</span><span class="p">,</span> <span class="n">out_feature</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">rank</span>          <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SLURM_PROCID&quot;</span><span class="p">])</span>
+<span class="n">world_size</span>    <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;WORLD_SIZE&quot;</span><span class="p">])</span>
+<span class="n">gpus_per_node</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SLURM_GPUS_ON_NODE&quot;</span><span class="p">])</span>
+
+<span class="k">assert</span> <span class="p">(</span>
+  <span class="n">gpus_per_node</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span>
+<span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;SLURM_GPUS_ON_NODE=</span><span class="si">{</span><span class="n">gpus_per_node</span><span class="si">}</span><span class="s1"> vs torch.cuda.device_count=</span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span>
+  <span class="sa">f</span><span class="s2">&quot;Hello from rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">world_size</span><span class="si">}</span><span class="s2"> on </span><span class="si">{</span><span class="n">gethostname</span><span class="p">()</span><span class="si">}</span><span class="s2"> where there are&quot;</span> \
+  <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">gpus_per_node</span><span class="si">}</span><span class="s2"> allocated GPUs per node.&quot;</span> \
+  <span class="sa">f</span><span class="s2">&quot; | (CUDA_VISIBLE_DEVICES=</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Using NCCl for inter-GPU communication</span>
+<span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;nccl&quot;</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="n">world_size</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Group initialized? </span><span class="si">{</span><span class="n">is_initialized</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">device_mesh</span> <span class="o">=</span> <span class="n">init_device_mesh</span><span class="p">(</span><span class="n">device_type</span><span class="o">=</span><span class="s2">&quot;cuda&quot;</span><span class="p">,</span> <span class="n">mesh_shape</span><span class="o">=</span><span class="p">(</span><span class="n">world_size</span><span class="p">,))</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="n">device_mesh</span><span class="o">.</span><span class="n">get_rank</span><span class="p">())</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">rank</span> <span class="o">-</span> <span class="n">gpus_per_node</span> <span class="o">*</span> <span class="p">(</span><span class="n">rank</span> <span class="o">//</span> <span class="n">gpus_per_node</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Using GPU</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s1"> on Machine </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">uname</span><span class="p">()</span><span class="o">.</span><span class="n">nodename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> (Rank </span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="c1"># model construction</span>
+<span class="n">layer_1_units</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">layer_2_units</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">layer_3_units</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span>
+  <span class="n">in_feature</span><span class="o">=</span><span class="n">layer_1_units</span><span class="p">,</span>
+  <span class="n">hidden_units</span><span class="o">=</span><span class="n">layer_2_units</span><span class="p">,</span>
+  <span class="n">out_feature</span><span class="o">=</span><span class="n">layer_3_units</span>
+  <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">parallelize_module</span><span class="p">(</span>
+  <span class="n">module</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+  <span class="n">device_mesh</span><span class="o">=</span><span class="n">device_mesh</span><span class="p">,</span>
+  <span class="n">parallelize_plan</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;hidden_layer&quot;</span><span class="p">:</span> <span class="n">ColwiseParallel</span><span class="p">(),</span>
+    <span class="s2">&quot;output_layer&quot;</span><span class="p">:</span> <span class="n">RowwiseParallel</span><span class="p">(),</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># dataset construction</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">batch_size</span>  <span class="o">=</span> <span class="mi">32</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">RandomTensorDataset</span><span class="p">(</span>
+  <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+  <span class="n">in_shape</span><span class="o">=</span><span class="n">layer_1_units</span><span class="p">,</span>
+  <span class="n">out_shape</span><span class="o">=</span><span class="n">layer_3_units</span>
+  <span class="p">)</span>
+
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">dataset</span><span class="p">,</span>
+  <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+  <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+  <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># GPUs should see the same input in each iteration.</span>
+  <span class="p">)</span>
+
+<span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_epochs</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[GPU</span><span class="si">{</span><span class="n">rank</span><span class="si">}</span><span class="s2">] Epoch </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> | Batchsize: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dataloader</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2"> | Steps: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="c1"># Forward Pass </span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Calculate loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># Zero grad</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="n">set_to_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Backward Pass</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># Update Model</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="n">destroy_process_group</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p class="sd-card-text">To run this code we need the <code class="docutils literal notranslate"><span class="pre">random_sataset.py</span></code> from <a class="reference internal" href="#random-dataset"><span class="std std-numref">Listing 4.6</span></a> and a conda environment in which PyTorch is installed, refer to <a class="reference internal" href="#conda-setup"><span class="std std-numref">Listing 4.7</span></a> to create one if you don’t have one already.</p>
+<p class="sd-card-text">Now use the same slurm script skeleton in <a class="reference internal" href="#multi-gpu-slurm"><span class="std std-numref">Listing 4.10</span></a> to run the <code class="docutils literal notranslate"><span class="pre">mlp_tensor_parallel.py</span></code> from <a class="reference internal" href="#mlp-tp-code"><span class="std std-numref">Listing 4.12</span></a>.</p>
+</div>
+</details></section>
+<section id="fully-sharded-data-parallelism-fsdp">
+<h3><span class="section-number">4.4.2.6. </span>Fully Sharded Data Parallelism (FSDP)<a class="headerlink" href="#fully-sharded-data-parallelism-fsdp" title="Link to this heading">#</a></h3>
+<p>The idea of this strategy is to shards almost everything across GPUs to enable distributed training for very large models. FSDP shards the model (parameters and gradients), data and optimization states across GPUs. It combines Data Parallelism with Model Parallelism (sharding model both Vertically and Horizontally) in a unique way. FSDP breaks down a model instance into smaller units and then flattens and shards all of the parameters within each unit. It allows to train very large models using the combined memory of many GPUs. Before each computation, it requires to first gather all the paramater shards across GPUs (aka, parameter unsharding) using <code class="docutils literal notranslate"><span class="pre">All-Gather</span></code> and <code class="docutils literal notranslate"><span class="pre">Reduce_Scatter</span></code> collective communication primitives, see <a class="reference internal" href="#sec-nccl"><span class="std std-numref">Section 4.4.1.1</span></a>.</p>
+<figure class="align-default" id="fsdp">
+<a class="reference internal image-reference" href="../_images/FSDP.png"><img alt="../_images/FSDP.png" src="../_images/FSDP.png" style="height: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.16 </span><span class="caption-text">Schematic Diagram of FSDP Computation, Communication and Their Potential Overlapp.</span><a class="headerlink" href="#fsdp" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>As <a class="reference internal" href="#fsdp"><span class="std std-numref">Fig. 4.16</span></a> shows - Before performing each Forward or Backward pass for a given FSDP unit, it has to first All-Gather the unit’s parameters from all GPUs and then perform the Forward or Backward pass. Afterward it will release the remote shards to free memory for the next unit <code class="docutils literal notranslate"><span class="pre">All-Gather</span></code>.</p>
+<p>Since each GPU is working with different data batches, after the backward pass and before updating the model parameters, FSDP synchronizes the gradients across GPUs for consistency using <code class="docutils literal notranslate"><span class="pre">Reduce-Scatter</span></code> collective primitive.</p>
+<p>FSDP’s sharding method is optimized for collective communication primitives. For each FSDP unit, it flattens all the parameters into a 1D array format and then equally divides them across GPUs. <a class="reference internal" href="#mlp-fsdp-figure"><span class="std std-numref">Fig. 4.17</span></a> shows how fsdp can be applied on our simple mlp example of <a class="reference internal" href="#mlp-single-gpu"><span class="std std-numref">Listing 4.5</span></a>.</p>
+<p><a class="reference internal" href="#mlp-tp-figure"><span class="std std-numref">Fig. 4.15</span></a> shows the model parallelism of our simple mlp example.</p>
+<figure class="align-default" id="mlp-fsdp-figure">
+<a class="reference internal image-reference" href="../_images/mlp_fsdp.png"><img alt="../_images/mlp_fsdp.png" src="../_images/mlp_fsdp.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.17 </span><span class="caption-text">FSDP implementation for the simple MLP example.</span><a class="headerlink" href="#mlp-fsdp-figure" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./scalability"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="gpu_profiling.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4.3. </span>GPU Profiling</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="parallel_io.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.5. </span>Parallel I/O</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inter-gpu-communication">4.4.1. Inter GPU Communication</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-collective-communication-library-nccl">4.4.1.1. NVIDIA Collective Communication Library (NCCL)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distributed-training-strategies">4.4.2. Distributed Training Strategies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-mlp-network">4.4.2.1. Simple MLP Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distributed-data-parallelism-ddp">4.4.2.2. Distributed Data Parallelism (DDP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-parallelism-mp">4.4.2.3. Model Parallelism (MP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-parallelism-pp">4.4.2.4. Pipeline Parallelism (PP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-parallelism-tp">4.4.2.5. Tensor Parallelism (TP)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fully-sharded-data-parallelism-fsdp">4.4.2.6. Fully Sharded Data Parallelism (FSDP)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kempner Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright  2024, The President and Fellows of Harvard College.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

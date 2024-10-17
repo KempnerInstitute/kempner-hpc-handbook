@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4.4. GPU Computing &#8212; Kempner Institute HPC Handbook</title>
+    <title>4.2. GPU Computing &#8212; Kempner Institute HPC Handbook</title>
   
   
   
@@ -74,8 +74,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'scalability/gpu_computing';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4.5. Using Multiple GPUs" href="using_multiple_gpus.html" />
-    <link rel="prev" title="4.3. Parallel I/O" href="parallel_io.html" />
+    <link rel="next" title="4.3. GPU Profiling" href="gpu_profiling.html" />
+    <link rel="prev" title="4.1. Introduction for Parallel Computing" href="introduction_to_parallel_computing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -221,11 +221,11 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="README.html">4. Scalability</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="introduction_to_parallel_computing.html">4.1. Parallel Computing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="distributed_computing.html">4.2. Distributed Computing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parallel_io.html">4.3. Parallel I/O</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.4. GPU Computing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="using_multiple_gpus.html">4.5. Using Multiple GPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction_to_parallel_computing.html">4.1. Intro to Parallel Computing</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2. GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpu_profiling.html">4.3. GPU Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributed_gpu_computing.html">4.4. Distributed GPU Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel_io.html">4.5. Parallel I/O</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../storage_and_data_transfer/README.html">5. Storage and Data Transfer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -458,12 +458,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-parallelism-approaches-on-gpus">4.4.1. Machine Learning Parallelism Approaches on GPUs</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-parallelism">4.4.1.1. Data Parallelism</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-parallelism">4.4.1.2. Model Parallelism</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-parallelism">4.4.1.3. Pipeline Parallelism</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybrid-parallelism">4.4.1.4. Hybrid Parallelism</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-table">4.4.1.5. Comparison Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-vs-cpu-computing">4.2.1. GPU vs CPU Computing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-gpus">4.2.2. How to use GPUs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-frameworks-and-libraries">4.2.3. More Frameworks and Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-rapids">4.2.3.1. Nvidia RAPIDS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-lightning">4.2.3.2. Pytorch Lightning</a></li>
 </ul>
 </li>
 </ul>
@@ -478,104 +477,144 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="gpu-computing">
-<h1><span class="section-number">4.4. </span>GPU Computing<a class="headerlink" href="#gpu-computing" title="Link to this heading">#</a></h1>
-<section id="machine-learning-parallelism-approaches-on-gpus">
-<h2><span class="section-number">4.4.1. </span>Machine Learning Parallelism Approaches on GPUs<a class="headerlink" href="#machine-learning-parallelism-approaches-on-gpus" title="Link to this heading">#</a></h2>
-<p>The scaling of machine learning (ML) workloads in HPC environments can be achieved through various parallelism approaches. This section outlines the primary methods for parallelizing ML computations.</p>
-<section id="data-parallelism">
-<h3><span class="section-number">4.4.1.1. </span>Data Parallelism<a class="headerlink" href="#data-parallelism" title="Link to this heading">#</a></h3>
-<p>Involves splitting the dataset into smaller batches that are processed in parallel across different GPUs. Each GPU trains a copy of the model on its subset of the data, and the results are aggregated to update the model.</p>
-<figure class="align-default" id="data-parallelism-diagram">
-<a class="reference internal image-reference" href="../_images/data_parallel.PNG"><img alt="../_images/data_parallel.PNG" src="../_images/data_parallel.PNG" style="height: 450px;" /></a>
+<h1><span class="section-number">4.2. </span>GPU Computing<a class="headerlink" href="#gpu-computing" title="Link to this heading">#</a></h1>
+<section id="gpu-vs-cpu-computing">
+<h2><span class="section-number">4.2.1. </span>GPU vs CPU Computing<a class="headerlink" href="#gpu-vs-cpu-computing" title="Link to this heading">#</a></h2>
+<p>The difference in CPU and GPU computing capabilities comes from their design. CPUs are designed to execute a sequence of instructions (aka thread) as fast as possible and with multicore design to run multiple threads simultaneously, mostly targeting lower response time. While GPU design focuses on providing higher throughput by executing thousands of threads concurrently by providing more computing resources aiming to excel parallel workloads efficiently.</p>
+<figure class="align-default" id="gpu-compute-resources">
+<a class="reference internal image-reference" href="../_images/gpu_vs_cpu.png"><img alt="../_images/gpu_vs_cpu.png" src="../_images/gpu_vs_cpu.png" style="height: 300px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 4.4 </span><span class="caption-text">(<em>Credit: <a class="reference external" href="https://nvidia.com">nvidia.com</a></em>)</span><a class="headerlink" href="#data-parallelism-diagram" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 4.4 </span><span class="caption-text">GPU design provides vastly greater compute resources particularly for parallel workloads</span><a class="headerlink" href="#gpu-compute-resources" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
-<section id="model-parallelism">
-<h3><span class="section-number">4.4.1.2. </span>Model Parallelism<a class="headerlink" href="#model-parallelism" title="Link to this heading">#</a></h3>
-<p>The model’s parameters are divided across multiple GPUs. This approach is useful for training large models that cannot fit into the memory of a single GPU. GPUs work on different parts of the model simultaneously.</p>
-<figure class="align-default" id="model-parallelism-diagram-1">
-<a class="reference internal image-reference" href="../_images/tensor_parallel_1.PNG"><img alt="../_images/tensor_parallel_1.PNG" src="../_images/tensor_parallel_1.PNG" style="height: 300px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 4.5 </span><span class="caption-text">Model Parallelism Diagram (<em>Credit: <a class="reference external" href="https://nvidia.com">nvidia.com</a></em>)</span><a class="headerlink" href="#model-parallelism-diagram-1" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<figure class="align-default" id="model-parallelism-diagram-2">
-<a class="reference internal image-reference" href="../_images/tensor_parallel_2.PNG"><img alt="../_images/tensor_parallel_2.PNG" src="../_images/tensor_parallel_2.PNG" style="height: 350px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 4.6 </span><span class="caption-text">Model Parallelism Diagram (<em>Credit: <a class="reference external" href="https://nvidia.com">nvidia.com</a></em>)</span><a class="headerlink" href="#model-parallelism-diagram-2" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<figure class="align-default" id="model-parallelism-diagram-3">
-<a class="reference internal image-reference" href="../_images/tensor_parallel_3.PNG"><img alt="../_images/tensor_parallel_3.PNG" src="../_images/tensor_parallel_3.PNG" style="height: 350px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 4.7 </span><span class="caption-text">Model Parallelism Diagram (<em>Credit: <a class="reference external" href="https://nvidia.com">nvidia.com</a></em>)</span><a class="headerlink" href="#model-parallelism-diagram-3" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-</section>
-<section id="pipeline-parallelism">
-<h3><span class="section-number">4.4.1.3. </span>Pipeline Parallelism<a class="headerlink" href="#pipeline-parallelism" title="Link to this heading">#</a></h3>
-<p>Combines aspects of data and model parallelism by splitting the model into stages that are processed in a pipeline fashion. Each stage of the model is processed on different GPU, allowing for efficient parallel processing of large models and datasets.</p>
-<figure class="align-default" id="pipeline-parallelism-diagram">
-<a class="reference internal image-reference" href="../_images/pipeline_parallel.PNG"><img alt="../_images/pipeline_parallel.PNG" src="../_images/pipeline_parallel.PNG" style="height: 350px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 4.8 </span><span class="caption-text">Pipeline Parallelism Diagram (<em>Credit: <a class="reference external" href="https://nvidia.com">nvidia.com</a></em>)</span><a class="headerlink" href="#pipeline-parallelism-diagram" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-</section>
-<section id="hybrid-parallelism">
-<h3><span class="section-number">4.4.1.4. </span>Hybrid Parallelism<a class="headerlink" href="#hybrid-parallelism" title="Link to this heading">#</a></h3>
-<p>The hybrid model is a combination of data, model, and pipeline parallelism. It combines these techniques to benefit from the scalability of data parallelism, the memory efficiency of model parallelism, and the throughput efficiency of pipeline parallelism. For instance, a large model can be divided into segments (model parallelism), each segment can be replicated across multiple devices (data parallelism), and different segments can process different batches of data simultaneously (pipeline parallelism).</p>
-<figure class="align-default" id="hybrid-parallelism-diagram-1">
-<a class="reference internal image-reference" href="../_images/hybrid_parallel_1.PNG"><img alt="../_images/hybrid_parallel_1.PNG" src="../_images/hybrid_parallel_1.PNG" style="height: 350px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 4.9 </span><span class="caption-text">Hybrid Parallelism Diagram (<em>Credit: <a class="reference external" href="https://nvidia.com">nvidia.com</a></em>)</span><a class="headerlink" href="#hybrid-parallelism-diagram-1" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<figure class="align-default" id="hybrid-parallelism-diagram-2">
-<a class="reference internal image-reference" href="../_images/hybrid_parallel_2.PNG"><img alt="../_images/hybrid_parallel_2.PNG" src="../_images/hybrid_parallel_2.PNG" style="height: 350px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 4.10 </span><span class="caption-text">Hybrid Parallelism Diagram (<em>Credit: <a class="reference external" href="https://nvidia.com">nvidia.com</a></em>)</span><a class="headerlink" href="#hybrid-parallelism-diagram-2" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>These parallelism approaches leverage the computational power of HPC to tackle the complexities of training and deploying large-scale ML models, ensuring efficient use of resources and reducing computation time.</p>
-</section>
-<section id="comparison-table">
-<h3><span class="section-number">4.4.1.5. </span>Comparison Table<a class="headerlink" href="#comparison-table" title="Link to this heading">#</a></h3>
-<p>The following table highlights the core aspects and trade-offs of using data, model, pipeline, and hybrid parallelism approaches with GPUs for machine learning tasks.</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Approach</p></th>
-<th class="head"><p>Features</p></th>
-<th class="head"><p>Pros</p></th>
-<th class="head"><p>Cons</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><strong>Data Parallelism</strong></p></td>
-<td><p>Splits dataset, processes chunks on different GPUs.</p></td>
-<td><p>- Scalable<br>- Easy to implement</p></td>
-<td><p>- High communication overhead</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Model Parallelism</strong></p></td>
-<td><p>Different parts of the model on multiple GPUs.</p></td>
-<td><p>- Trains large models<br>- Utilizes GPU specialization</p></td>
-<td><p>- Complex dependencies<br>- Resource underutilization</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Pipeline Parallelism</strong></p></td>
-<td><p>Model stages across GPUs, data processed in sequence.</p></td>
-<td><p>- Efficient resource use<br>- Lowers idle times</p></td>
-<td><p>- Scheduling complexity<br>- Data flow management</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Hybrid Parallelism</strong></p></td>
-<td><p>Combines all three methods for optimization.</p></td>
-<td><p>- Minimizes overhead<br>- Maximizes efficiency</p></td>
-<td><p>- High complexity<br>- Advanced infrastructure required</p></td>
-</tr>
-</tbody>
-</table>
+<section id="how-to-use-gpus">
+<h2><span class="section-number">4.2.2. </span>How to use GPUs<a class="headerlink" href="#how-to-use-gpus" title="Link to this heading">#</a></h2>
+<p>Here is how we can utilize the compute power of GPUs for Matrix Multiplication using the CuPy package (equivalent of NumPy for GPUs).</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Matrix Multiplication Using CuPy on GPU vs NumPy on CPU</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cupy</span> <span class="k">as</span> <span class="nn">cp</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># Matrix size</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="c1"># Function to perform matrix multiplication on CPU</span>
+<span class="k">def</span> <span class="nf">matrix_multiplication_cpu</span><span class="p">():</span>
+    <span class="c1"># Initialize matrices with random values</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># Measure time for matrix multiplication</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1"># Return time taken</span>
+    <span class="k">return</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+
+<span class="c1"># Function to perform matrix multiplication on GPU</span>
+<span class="k">def</span> <span class="nf">matrix_multiplication_gpu</span><span class="p">():</span>
+    <span class="c1"># Initialize matrices with random values</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># Measure time for matrix multiplication</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+
+    <span class="c1"># Synchronize to ensure all GPU operations are complete</span>
+    <span class="n">cp</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">Stream</span><span class="o">.</span><span class="n">null</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1"># Return time taken</span>
+    <span class="k">return</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+
+<span class="c1"># Perform on CPU</span>
+<span class="n">cpu_time</span> <span class="o">=</span> <span class="n">matrix_multiplication_cpu</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time taken on CPU: </span><span class="si">{</span><span class="n">cpu_time</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+
+<span class="c1"># Perform on GPU if available</span>
+<span class="n">gpu_time</span> <span class="o">=</span> <span class="n">matrix_multiplication_gpu</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time taken on GPU: </span><span class="si">{</span><span class="n">gpu_time</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
+<p class="sd-card-text">Output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Time taken on CPU: 23.157653 seconds</span>
+<span class="go">Time taken on GPU: 7.113699 seconds</span>
+</pre></div>
+</div>
+</div>
+</details><p>Alternatively PyTorch provides a very efficient built-in function for matrix multiplication.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Matrix Multiplication Using PyTorch on GPU vs CPU</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="c1"># Start timer for the whole script</span>
+<span class="n">start_time_script</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="c1"># Matrix size</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="c1"># Initialize matrices with random values</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># Measure time for CPU operation</span>
+<span class="n">start_time_cpu</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">C_cpu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="n">end_time_cpu</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time taken on CPU: </span><span class="si">{</span><span class="n">end_time_cpu</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time_cpu</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check if a GPU is available</span>
+<span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+    <span class="c1"># Move matrices to GPU</span>
+    <span class="n">A_gpu</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    <span class="n">B_gpu</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Warm-up GPU</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">A_gpu</span><span class="p">,</span> <span class="n">B_gpu</span><span class="p">)</span>
+    
+    <span class="c1"># Synchronize and measure GPU time</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+    <span class="n">start_time_gpu</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">C_gpu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">A_gpu</span><span class="p">,</span> <span class="n">B_gpu</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+    <span class="n">end_time_gpu</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time taken on GPU: </span><span class="si">{</span><span class="n">end_time_gpu</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time_gpu</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No GPU available.&quot;</span><span class="p">)</span>
+
+<span class="c1"># End timer for the whole script</span>
+<span class="n">end_time_script</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total script execution time: </span><span class="si">{</span><span class="n">end_time_script</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time_script</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Time taken on CPU: 0.379145 seconds</span>
+<span class="go">Time taken on GPU: 0.000208 seconds</span>
+<span class="go">Total script execution time: 2.112846 seconds</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+<section id="more-frameworks-and-libraries">
+<h2><span class="section-number">4.2.3. </span>More Frameworks and Libraries<a class="headerlink" href="#more-frameworks-and-libraries" title="Link to this heading">#</a></h2>
+<p>In addition to the aforementioned CuPy and PyTorch, there are many more Frameworks and Libraries that enable applications to run computation on GPUs.</p>
+<section id="nvidia-rapids">
+<h3><span class="section-number">4.2.3.1. </span>Nvidia RAPIDS<a class="headerlink" href="#nvidia-rapids" title="Link to this heading">#</a></h3>
+<p>TBD</p>
+</section>
+<section id="pytorch-lightning">
+<h3><span class="section-number">4.2.3.2. </span>Pytorch Lightning<a class="headerlink" href="#pytorch-lightning" title="Link to this heading">#</a></h3>
+<p>TBD</p>
 </section>
 </section>
 </section>
@@ -611,20 +650,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="parallel_io.html"
+       href="introduction_to_parallel_computing.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">4.3. </span>Parallel I/O</p>
+        <p class="prev-next-title"><span class="section-number">4.1. </span>Introduction for Parallel Computing</p>
       </div>
     </a>
     <a class="right-next"
-       href="using_multiple_gpus.html"
+       href="gpu_profiling.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4.5. </span>Using Multiple GPUs</p>
+        <p class="prev-next-title"><span class="section-number">4.3. </span>GPU Profiling</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -644,12 +683,11 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-parallelism-approaches-on-gpus">4.4.1. Machine Learning Parallelism Approaches on GPUs</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-parallelism">4.4.1.1. Data Parallelism</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-parallelism">4.4.1.2. Model Parallelism</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-parallelism">4.4.1.3. Pipeline Parallelism</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hybrid-parallelism">4.4.1.4. Hybrid Parallelism</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-table">4.4.1.5. Comparison Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-vs-cpu-computing">4.2.1. GPU vs CPU Computing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-gpus">4.2.2. How to use GPUs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-frameworks-and-libraries">4.2.3. More Frameworks and Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvidia-rapids">4.2.3.1. Nvidia RAPIDS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-lightning">4.2.3.2. Pytorch Lightning</a></li>
 </ul>
 </li>
 </ul>
